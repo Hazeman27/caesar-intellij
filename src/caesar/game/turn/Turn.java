@@ -8,6 +8,7 @@ import caesar.game.Game;
 import caesar.game.player.ActionPoints;
 import caesar.ui.Message;
 import caesar.ui.Printer;
+import caesar.utility.UserInput;
 
 public class Turn {
 	
@@ -17,36 +18,29 @@ public class Turn {
     private Scanner scanner;
     private int minCostAction;
 
-    public Turn(Game game, Scanner scanner) {
-        
-    	this.game = game;
-    	this.actionPoints = game.getPlayer().actionPoints;
-        this.scanner = scanner;
-    }
-
     public Turn(Game game) {
-    	
-    	this.game = game;
-    	this.actionPoints = game.getPlayer().actionPoints;
-        this.scanner = new Scanner(System.in);
+
+	    this.game = game;
+	    this.actionPoints = game.getPlayer().actionPoints;
+	    this.scanner = new Scanner(System.in);
     }
 
     private int getMinCostAction(List<Action> actions) {
-        
+
     	Optional<Action> min = actions.stream()
     			.reduce((a, b) -> a.getValue() < b.getValue() ? a : b);
-    	
-    	return min.get().getValue();
+
+	    return min.map(Action::getValue).orElse(-1);
     }
 
-    public void printMessage() {
+    private void printMessage() {
 
     	Printer.print(this.type);
     	Printer.print("Action points remaining: " + this.actionPoints.get());
     	Printer.print("Enter your choice: ");
     }
 
-    public Action scanInput() {
+    private Action scanInput() {
 
         String input = this.scanner.nextLine();
         input = input.toLowerCase().trim();
@@ -63,7 +57,7 @@ public class Turn {
         return null;
     }
 
-    public void handleInput(Action action) {
+    private void handleInput(Action action) {
 
         if (action == null)
             Printer.print(Message.UNKNOWN_COMMAND);
@@ -82,7 +76,7 @@ public class Turn {
         }
     }
 
-    public void startInteraction() {
+    private void startInteraction() {
 
         while (this.actionPoints.get() >= this.minCostAction) {
 

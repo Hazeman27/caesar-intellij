@@ -13,51 +13,51 @@ public class Printer {
         int leftFill = lengthDifference / 2;
         int rightFill = lengthDifference - leftFill;
         
-        String border = "+";
+        StringBuilder border = new StringBuilder("+");
 
         for (i = 0; i < leftFill; i++)
-            border += '-';
+            border.append('-');
 
-        border += title;
+        border.append(title);
         
         for (i = 0; i < rightFill; i++)
-        	border += '-';
+        	border.append('-');
 
-        border += "+\n";
-        return border;
+        border.append("+\n");
+        return border.toString();
     }
 
     public static String getBorder(int maxLength) {
 
-        String border = "+";
+        StringBuilder border = new StringBuilder("+");
 
         for (int i = 0; i < maxLength + 5; i++)
-            border += '-';
+            border.append('-');
 
-        border += "+\n";
-        return border;
+        border.append("+\n");
+        return border.toString();
     }
 
     public static String getEmptyLine(int maxLength) {
     	
-    	String line = "|";
+    	StringBuilder line = new StringBuilder("|");
 
         for (int i = 0; i < maxLength + 5; i++)
-            line += ' ';
+            line.append(' ');
 
-        line += "|\n";
-        return line;
+        line.append("|\n");
+        return line.toString();
     }
 
     public static String getFillingSpaces(String string, int maxLength) {
     	
-    	String spaces = "";
+    	StringBuilder spaces = new StringBuilder();
     	
         for (int i = 0; i < maxLength - string.length(); i++)
-            spaces += ' ';
+            spaces.append(' ');
 
-        spaces += " |\n";
-        return spaces;
+        spaces.append(" |\n");
+        return spaces.toString();
     }
     
     public static void printRelief(Map map, int[] coordinates) {

@@ -1,20 +1,16 @@
 package caesar.game.player;
 
+import java.util.Arrays;
+
 public class Location {
 
     private int x;
     private int y;
 
-    public Location(int x, int y) {
+    Location(int x, int y) {
         
         this.x = x;
         this.y = y;
-    }
-
-    public Location() {
-
-        this.x = 0;
-        this.y = 0;
     }
 
     public void change(int deltaX, int deltaY) {
@@ -38,7 +34,7 @@ public class Location {
 
     public static void main(String[] args) {
         
-        Location location = new Location();
-        System.out.println(location.get());
+        Location location = new Location(0, 0);
+        System.out.println(Arrays.toString(location.get()));
     }
 }

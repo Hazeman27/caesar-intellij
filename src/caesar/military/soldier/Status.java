@@ -3,25 +3,24 @@ package caesar.military.soldier;
 public class Status {
     
     private final int maxState = 100;
-	private final int minState = 0;
 	private int state;
 
-	public Status(int state) {
+	Status(int state) {
 		this.state = state;
 	}
 
-	public Status() {
+	Status() {
 		this.state = maxState;
 	}
 
-	public int get() {
+	int get() {
 		return this.state;
 	}
 	
-	public void set(int value) {
+	void set(int value) {
 		this.state = value;
 	}
-    
+
 	public void increase(int amount) {
 		
 		if (this.state == maxState)
@@ -37,7 +36,8 @@ public class Status {
 	}
 	
 	public void decrease(int amount) {
-		
+
+		int minState = 0;
 		if (this.state == minState)
 			return;
 		

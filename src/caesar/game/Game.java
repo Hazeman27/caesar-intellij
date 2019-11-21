@@ -13,8 +13,6 @@ import caesar.utility.RandomEnum;
 
 public class Game {
 
-    private final SecureRandom random;
-    private final Scanner scanner;
     private final Map reliefMap;
     private final Player player;
     private final Turn turn;
@@ -26,10 +24,8 @@ public class Game {
         int playerLocationY,
         int mapSize
     ) {
-       
-    	this.random = new SecureRandom();
-		this.scanner = new Scanner(System.in);
-        this.reliefMap = new Map(mapSize, this.random);
+
+        this.reliefMap = new Map(mapSize);
         
         this.player = new Player(
         	playerActionPointsAmount,
@@ -38,15 +34,12 @@ public class Game {
     		playerLocationY
     	);
         
-        this.turn = new Turn(this, this.scanner);
+        this.turn = new Turn(this);
         this.turn.next(TurnType.MAIN_MENU);
     }
     
     public void start() {
-    	
-    	while (true) {
-    		this.turn.next(RandomEnum.get(TurnType.class));
-    	}
+    	this.turn.next(RandomEnum.get(TurnType.class));
     }
 
     public Map getReliefMap() {

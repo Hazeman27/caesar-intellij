@@ -4,11 +4,11 @@ import caesar.military.troop.Troop;
 
 public class Soldier {
 
-    protected Status morale;
-    protected Status energy;
-    protected Status satiety;
-    protected Status hygiene;
-    protected Status health;
+    private Status morale;
+    private Status energy;
+    private Status satiety;
+    private Status hygiene;
+    private Status health;
 
     protected Troop troop;
 

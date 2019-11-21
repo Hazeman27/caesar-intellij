@@ -2,9 +2,9 @@ package caesar.military.troop;
 
 import caesar.military.romans.*;
 
-public class TroopFactory {
+class TroopFactory {
 
-    public Troop newTroop(String troopType, Troop parentTroop) {
+    Troop newTroop(String troopType, Troop parentTroop) {
 
         if (troopType == null)
             return null;

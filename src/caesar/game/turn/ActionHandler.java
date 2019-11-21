@@ -3,28 +3,29 @@ package caesar.game.turn;
 import caesar.game.Game;
 import caesar.ui.Message;
 import caesar.ui.Printer;
+import org.jetbrains.annotations.NotNull;
 
 public interface ActionHandler {
 	
-    public void handle(Game game);
+    void handle(Game game);
     
-	public static void newGame(Game game) {
+	static void newGame(@NotNull Game game) {
 		game.start();
 	}
 	
-	public static void continueGame(Game game) {
+	static void continueGame(@NotNull Game game) {
 		
 	}
 	
-	public static void exitGame(Game game) {
+	static void exitGame(@NotNull Game game) {
 		game.exit();
 	}
 	
-	public static void advance(Game game) {
+	static void advance(@NotNull Game game) {
 		game.getTurn().next(TurnType.ADVANCE);
 	}
 	
-	public static void lookAround(Game game) {
+	static void lookAround(@NotNull Game game) {
 
 		Printer.print(Message.PLAYER_LOOKED_AROUND);
         Printer.printRelief(
@@ -33,39 +34,39 @@ public interface ActionHandler {
         );
 	}
 	
-	public static void buildCamp(Game game) {
+	static void buildCamp(Game game) {
 		
 	}
 	
-	public static void advanceNorth(Game game) {
+	static void advanceNorth(@NotNull Game game) {
 		game.getPlayer().location.change(0, 1);
 	}
 	
-	public static void advanceNorthwest(Game game) {
+	static void advanceNorthwest(@NotNull Game game) {
 		game.getPlayer().location.change(-1, 1);
 	}
 	
-	public static void advanceNortheast(Game game) {
+	static void advanceNortheast(@NotNull Game game) {
 		game.getPlayer().location.change(1, 1);
 	}
 	
-	public static void advanceWest(Game game) {
+	static void advanceWest(@NotNull Game game) {
 		game.getPlayer().location.change(-1, 0);
 	}
 	
-	public static void advanceEast(Game game) {
+	static void advanceEast(@NotNull Game game) {
 		game.getPlayer().location.change(1, 0);
 	}
 	
-	public static void advanceSouth(Game game) {
+	static void advanceSouth(@NotNull Game game) {
 		game.getPlayer().location.change(0, -1);
 	}
 	
-	public static void advanceSouthwest(Game game) {
+	static void advanceSouthwest(@NotNull Game game) {
 		game.getPlayer().location.change(-1, -1);
 	}
 	
-	public static void advanceSoutheast(Game game) {
+	static void advanceSoutheast(@NotNull Game game) {
 		game.getPlayer().location.change(1, -1);
 	}
 }

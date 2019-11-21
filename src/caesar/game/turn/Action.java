@@ -25,7 +25,7 @@ public enum Action {
 	private final String name;
 	private final ActionHandler handler;
 	
-	private Action(String name, int value, ActionHandler handler) {
+	Action(String name, int value, ActionHandler handler) {
 		
 		this.name = name;
 		this.value = value;

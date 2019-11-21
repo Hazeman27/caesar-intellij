@@ -58,11 +58,8 @@ public enum TurnType {
 		
 		int actionNamesMaxLength = longestActionName.get().length();
 		int titleLength = this.title.length();
-		
-		if (titleLength > actionNamesMaxLength)
-			return titleLength;
-		
-		return actionNamesMaxLength;
+
+		return Math.max(titleLength, actionNamesMaxLength);
 	}
 	
 	public List<Action> getActions() {
@@ -76,24 +73,24 @@ public enum TurnType {
 	@Override
 	public String toString() {
 		
-		String string = Printer.getBorder(this.title, this.actionNamesMaxLength);
-		string += Printer.getEmptyLine(this.actionNamesMaxLength);
+		StringBuilder string = new StringBuilder(Printer.getBorder(this.title, this.actionNamesMaxLength));
+		string.append(Printer.getEmptyLine(this.actionNamesMaxLength));
 		
         for (int i = 0; i < actionNames.size(); i++) {
             
             String actionName = actionNames.get(i);
 
-            string += "| " + (i + 1) + ": " + actionName;
-            string += Printer.getFillingSpaces(
-            	actionName, 
-            	this.actionNamesMaxLength
-            );
+            string.append("| ").append(i + 1).append(": ").append(actionName);
+            string.append(Printer.getFillingSpaces(
+		            actionName,
+		            this.actionNamesMaxLength
+            ));
         }
         
-        string += Printer.getEmptyLine(this.actionNamesMaxLength);
-        string += Printer.getBorder(this.actionNamesMaxLength);
+        string.append(Printer.getEmptyLine(this.actionNamesMaxLength));
+        string.append(Printer.getBorder(this.actionNamesMaxLength));
         
-        return string;
+        return string.toString();
 	}
 	
 	public static void main(String[] args) {

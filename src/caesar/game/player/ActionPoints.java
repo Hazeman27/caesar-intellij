@@ -4,7 +4,7 @@ public class ActionPoints {
 
     private int amount;
 
-    public ActionPoints(int amount) {
+    ActionPoints(int amount) {
         this.amount = amount;
     }
 

@@ -1,7 +1,5 @@
 package caesar.game.map;
 
-import java.util.Random;
-
 import caesar.utility.RandomEnum;
 
 public class Map {
@@ -9,7 +7,7 @@ public class Map {
     private final Relief[][] relief;
     private final int size;
 
-    public Map(int size, Random random) {
+    public Map(int size) {
 
         this.relief = new Relief[size][size];
         this.size = size;
@@ -21,7 +19,7 @@ public class Map {
         }
     }
 
-    public Relief getRelief(int x, int y) {
+    private Relief getRelief(int x, int y) {
 
         if (x >= this.size || x < 0 || y >= this.size || y < 0)
             return null;
@@ -58,22 +56,22 @@ public class Map {
     @Override
     public String toString() {
         
-        String map = "";
+        StringBuilder map = new StringBuilder();
 
         for (int x = 0; x < this.size; x++) {
 
             for (int y = 0; y < this.size; y++)
-                map += this.relief[x][y];
+                map.append(this.relief[x][y]);
 
-            map += "\n";
+            map.append("\n");
         }
 
-        return map;
+        return map.toString();
     }
 
     public static void main(String[] args) {
 
-        Map reliefMap = new Map(20, new Random());
+        Map reliefMap = new Map(20);
         System.out.println(reliefMap);
     }
 }

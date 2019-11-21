@@ -1,5 +1,7 @@
 package caesar.game.map;
 
+import org.jetbrains.annotations.Contract;
+
 public enum Relief {
 	
 	MOUNTAIN("^^"),
@@ -12,11 +14,11 @@ public enum Relief {
     FOREST("ff");
     
     private final String symbol;
-	
-	private Relief(String symbol) {
+
+	Relief(String symbol) {
 		this.symbol = symbol;
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.symbol;

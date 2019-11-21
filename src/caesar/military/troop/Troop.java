@@ -18,10 +18,10 @@ public class Troop {
     protected List<Troop> troops = new ArrayList<Troop>();
     protected List<Soldier> soldiers = new ArrayList<Soldier>();
 
-    protected String type;
-    protected String symbol;
-    protected Soldier officer;
-    protected Troop parentTroop;
+    private String type;
+    private String symbol;
+    private Soldier officer;
+    private Troop parentTroop;
 
     private void initTroops(String type, List<Troop> troops, List<Troop> newTroops, int amount) {
 
@@ -33,12 +33,6 @@ public class Troop {
 
         for (int i = 0; i < amount; i++)
             troops.add(this.troopFactory.newTroop(type, parentTroop));
-    }
-
-    protected static void initSoldiers(List<Soldier> soldiers, List<Soldier> newSoldiers, int amount) {
-
-        for (int i = 0; i < amount; i++)
-            soldiers.set(i, newSoldiers.get(i));
     }
 
     protected static void initSoldiers(List<Soldier> soldiers, int soldiersAmount, Troop troop) {
@@ -207,7 +201,7 @@ public class Troop {
         return Troop.summary(this);
     }
 
-    public static String summary(Troop troop) {
+    private static String summary(Troop troop) {
 
         String summary = "\n::: " + troop.type.toUpperCase() + " summary :::\n";
 
@@ -222,7 +216,7 @@ public class Troop {
         return summary;
     }
 
-    public static String fullSummary(Troop troop) {
+    private static String fullSummary(Troop troop) {
 
         String fullSummary = summary(troop);
         int troopsCount = troop.troops.size();

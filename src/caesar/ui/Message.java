@@ -15,15 +15,14 @@ public enum Message {
 		
 	private final String title;
 	private final String content;
-	private final int borderDefaultLength = 15;
-	
-	private Message(String title, String content) {
+
+	Message(String title, String content) {
 		
 		this.title = title;
 		this.content = content;
 	}
 	
-private Message(String content) {
+	Message(String content) {
 		
 		this.title = null;
 		this.content = content;
@@ -44,7 +43,7 @@ private Message(String content) {
 		String string = "\n";
 		
 		if (this.title == null) {
-			maxLength = this.borderDefaultLength;
+			maxLength = 15;
 			string += Printer.getBorder(maxLength);
 		}
 		
