@@ -1,0 +1,102 @@
+package caesar.game.turn;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import caesar.ui.Printer;
+
+public enum TurnType {
+	
+	MAIN_MENU("Caesar", Arrays.asList(
+		Action.NEW_GAME, 
+		Action.CONTINUE_GAME, 
+		Action.EXIT
+	)),
+	
+	TRAVEL("Travelling", Arrays.asList(
+		Action.ADVANCE, 
+		Action.LOOK_AROUND
+	)),
+	
+	ADVANCE("Advance options", Arrays.asList(
+		Action.NORTH, 
+		Action.NORTHWEST, 
+		Action.NORTHEAST, 
+		Action.WEST, 
+		Action.EAST, 
+		Action.SOUTH, 
+		Action.SOUTHWEST, 
+		Action.SOUTHEAST
+	));
+	
+	private final String title;
+	private final List<Action> actions;
+	private final List<String> actionNames;
+	private final int actionNamesMaxLength;
+	
+	private TurnType(String title, List<Action> actions) {
+		
+		this.title = title;
+		this.actions = actions;
+		this.actionNames = this.getActionNames();
+		this.actionNamesMaxLength = this.getActionNamesMaxLength();
+	}
+	
+	private List<String> getActionNames() {
+		
+		return this.actions.stream()
+				.map(action -> action.toString(true))
+				.collect(Collectors.toList());
+	}
+	
+	private int getActionNamesMaxLength() {
+		
+		Optional<String> longestActionName = this.actionNames.stream()
+				.reduce((a, b) -> a.length() > b.length() ? a : b);
+		
+		int actionNamesMaxLength = longestActionName.get().length();
+		int titleLength = this.title.length();
+		
+		if (titleLength > actionNamesMaxLength)
+			return titleLength;
+		
+		return actionNamesMaxLength;
+	}
+	
+	public List<Action> getActions() {
+		return this.actions;
+	}
+	
+	public Action getAction(int index) {
+		return this.actions.get(index);
+	}
+	
+	@Override
+	public String toString() {
+		
+		String string = Printer.getBorder(this.title, this.actionNamesMaxLength);
+		string += Printer.getEmptyLine(this.actionNamesMaxLength);
+		
+        for (int i = 0; i < actionNames.size(); i++) {
+            
+            String actionName = actionNames.get(i);
+
+            string += "| " + (i + 1) + ": " + actionName;
+            string += Printer.getFillingSpaces(
+            	actionName, 
+            	this.actionNamesMaxLength
+            );
+        }
+        
+        string += Printer.getEmptyLine(this.actionNamesMaxLength);
+        string += Printer.getBorder(this.actionNamesMaxLength);
+        
+        return string;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(Action.ADVANCE);
+	}
+}
