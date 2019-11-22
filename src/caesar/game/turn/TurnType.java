@@ -56,8 +56,13 @@ public enum TurnType {
 		Optional<String> longestActionName = this.actionNames.stream()
 				.reduce((a, b) -> a.length() > b.length() ? a : b);
 		
-		int actionNamesMaxLength = longestActionName.get().length();
+		int actionNamesMaxLength;
 		int titleLength = this.title.length();
+		
+		if (longestActionName.isPresent())
+			actionNamesMaxLength = longestActionName.get().length();
+		
+		else return -1;
 
 		return Math.max(titleLength, actionNamesMaxLength);
 	}

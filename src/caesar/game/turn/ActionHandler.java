@@ -10,7 +10,7 @@ public interface ActionHandler {
     void handle(Game game);
     
 	static void newGame(@NotNull Game game) {
-		game.start();
+		game.getTurn().next(TurnType.TRAVEL);
 	}
 	
 	static void continueGame(@NotNull Game game) {

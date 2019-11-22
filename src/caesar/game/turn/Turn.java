@@ -8,6 +8,7 @@ import caesar.game.Game;
 import caesar.game.player.ActionPoints;
 import caesar.ui.Message;
 import caesar.ui.Printer;
+import caesar.utility.RandomEnum;
 import caesar.utility.UserInput;
 
 public class Turn {
@@ -86,16 +87,33 @@ public class Turn {
             UserInput.awaitInput(this.scanner);
         }
 
-        Printer.print(Message.NOT_ENOUGH_AP);
+        Printer.print(Message.NEXT_TURN);
         UserInput.awaitInput(this.scanner);
+        
+        this.game.incrementTurnsCount();
+        this.nextRandom();
     }
     
     public void next(TurnType type) {
     	
     	this.type = type;
-    	this.minCostAction = this.getMinCostAction(type.getActions());
+    	this.minCostAction = this.getMinCostAction(this.type.getActions());
     	this.startInteraction();
     }
+	
+	public void nextRandom() {
+  
+		this.type = RandomEnum.get(TurnType.class);
+		
+		if (this.type == TurnType.MAIN_MENU) {
+			
+			this.nextRandom();
+			return;
+		}
+		
+		this.minCostAction = this.getMinCostAction(this.type.getActions());
+		this.startInteraction();
+	}
 
     public static void main(String[] args) {
 

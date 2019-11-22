@@ -10,7 +10,7 @@ public enum Message {
     NO_CURRENT_GAME("Error", "No current game found..."),
     UNKNOWN_DIRECTION("Error", "Unknown direction for movement..."),
     UNKNOWN_COMMAND("Error", "Unknown command. Try again..."),
-    NOT_ENOUGH_AP("Error", "Not enough action points. Moving to next turn..."),
+    NEXT_TURN("Error", "Moving to next turn..."),
     LOW_AP("Error", "Not enough action points..."),
 	CANT_REMOVE_TROOP("Error", "Can't remove troop with no parent...");
 		
