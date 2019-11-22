@@ -1,4 +1,4 @@
-package caesar.game.player;
+package caesar.game.entity;
 
 public class ActionPoints {
 

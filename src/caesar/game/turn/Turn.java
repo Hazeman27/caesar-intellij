@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import caesar.game.Game;
-import caesar.game.player.ActionPoints;
+import caesar.game.entity.ActionPoints;
 import caesar.ui.Message;
 import caesar.ui.Printer;
 import caesar.utility.RandomEnum;
@@ -37,6 +37,7 @@ public class Turn {
     private void printMessage() {
 
     	Printer.print(this.type);
+    	Printer.print("Current turn count: " + this.game.getTurnsCount());
     	Printer.print("Action points remaining: " + this.actionPoints.get());
     	Printer.print("Enter your choice: ");
     }
@@ -101,7 +102,7 @@ public class Turn {
     	this.startInteraction();
     }
 	
-	public void nextRandom() {
+	private void nextRandom() {
   
 		this.type = RandomEnum.get(TurnType.class);
 		

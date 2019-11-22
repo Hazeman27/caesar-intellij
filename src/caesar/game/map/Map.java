@@ -52,6 +52,10 @@ public class Map {
             southeast
         };
     }
+    
+    public int getSize() {
+        return this.size;
+    }
 
     @Override
     public String toString() {

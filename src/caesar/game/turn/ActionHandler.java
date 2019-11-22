@@ -29,7 +29,7 @@ public interface ActionHandler {
 
 		Printer.print(Message.PLAYER_LOOKED_AROUND);
         Printer.printRelief(
-        	game.getReliefMap(),
+        	game.getMap(),
         	game.getPlayer().location.get()
         );
 	}

@@ -1,4 +1,4 @@
-package caesar.game.player;
+package caesar.game.entity;
 
 import java.util.Arrays;
 

@@ -4,7 +4,8 @@ import caesar.military.soldier.Rank;
 
 public enum ArmyType {
 	
-	ROMAN(TroopType.LEGION, Rank.GENERAL,"[>R<]");
+	ROMAN(TroopType.LEGION, Rank.GENERAL,"[>R<]"),
+	GALLIC(TroopType.TRIBE, Rank.CHIEF_WARLORD, "[xGx]");
 	
 	protected final String symbol;
 	protected final Rank officerRank;

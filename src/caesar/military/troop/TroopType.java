@@ -5,6 +5,8 @@ import caesar.military.soldier.Rank;
 import java.util.*;
 
 public enum TroopType {
+
+//	Roman army...
 	
 	CONTUBERNIUM(
 		Collections.singletonMap(null, 7),
@@ -35,6 +37,18 @@ public enum TroopType {
 		new HashMap<TroopType, Integer>() {
 			{ put(COHORT, 9); put(COHORT_FIRST, 1); }
 		}, Rank.LEGATE, "[><]"
+	),
+	
+//	Gallic tribes...
+	
+	GAULS_GROUP(
+		Collections.singletonMap(null, 20),
+		Rank.CHIEF, "x"
+	),
+	
+	TRIBE(
+		Collections.singletonMap(GAULS_GROUP, 25),
+		Rank.WARLORD, "X"
 	);
 	
 	protected Map<TroopType, Integer> troops;
