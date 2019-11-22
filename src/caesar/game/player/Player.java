@@ -1,6 +1,6 @@
 package caesar.game.player;
 
-import caesar.military.romans.RomanArmy;
+import caesar.military.troop.ArmyType;
 import caesar.military.troop.Troop;
 
 public class Player {
@@ -13,7 +13,8 @@ public class Player {
     public Player(int actionPointsAmount, int legionsAmount, int x, int y) {
 
         this.actionPoints = new ActionPoints(actionPointsAmount);
-        this.army = new RomanArmy(legionsAmount);
+        this.army = new Troop(ArmyType.ROMAN, legionsAmount);
+        
         this.location = new Location(x, y);
     }
 
@@ -24,10 +25,6 @@ public class Player {
     public static void main(String[] args) {
 
         Player player = new Player(10, 6, 0, 0);
-        Troop.printSummary(player.army);
-
-        player.army.printTroopSymbols();
-        System.out.println(player.location);
-        System.out.println(player.location);
+        Troop.printFullSummary(player.army.getTroops().get(0));
     }
 }

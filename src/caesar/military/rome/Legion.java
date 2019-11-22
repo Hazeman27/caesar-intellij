@@ -1,29 +1,25 @@
-package caesar.military.romans;
+package caesar.military.rome;
 
 import caesar.military.troop.Troop;
+import caesar.military.troop.TroopType;
+import caesar.ui.Printer;
 
 public class Legion extends Troop {
 
     private int number;
-
-    public Legion(Troop parentTroop) {
-        
-        super("Legion", parentTroop, 9);
-
-        this.addFirstCohort();
-        this.number = this.parentTroop.getTroops().size() + 1;
+    
+    public Legion() {
+        super(TroopType.LEGION);
     }
 
-    private void addFirstCohort() {
-
-        CohortFirst cohortFirst = new CohortFirst(this);
-        this.troops.add(cohortFirst);
+    public Legion(Troop parentTroop) {
+        super(TroopType.LEGION, parentTroop);
     }
 
     @Override
     public void printSymbol(boolean addSpace, boolean addNewLine) {
 
-        System.out.print(
+        Printer.print(
             "[>" + (this.number != 0 ? this.number : "") + "<]" + 
             (addSpace ? " " : "") + 
             (addNewLine ? "\n" : "")
@@ -32,8 +28,8 @@ public class Legion extends Troop {
 
     @Override
     public void printSymbol(boolean addSpace) {
-        
-        System.out.print(
+    
+        Printer.print(
             "[>" + (this.number != 0 ? this.number : "") + "<]" + 
             (addSpace ? " " : "")
         );
@@ -41,7 +37,7 @@ public class Legion extends Troop {
 
     @Override
     public void printSymbol() {
-        System.out.println("[>" + (this.number != 0 ? this.number : "") + "<]");
+        Printer.print("[>" + (this.number != 0 ? this.number : "") + "<]");
     }
 
     public int getNumber() {

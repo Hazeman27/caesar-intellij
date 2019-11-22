@@ -4,9 +4,9 @@ import caesar.military.troop.Troop;
 
 public class Officer extends Soldier {
 
-    private Rank rank;
+    private final Rank rank;
 
-    Officer(Troop troop, Rank rank) {
+    public Officer(Rank rank, Troop troop) {
         
         super(troop);
         this.rank = rank;

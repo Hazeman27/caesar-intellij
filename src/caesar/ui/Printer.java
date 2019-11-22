@@ -110,7 +110,11 @@ public class Printer {
     	System.out.println(getFillingSpaces(string, maxLength));
     }
     
+    public static <T> void print(T string, boolean addNewLine) {
+    	System.out.print(string.toString() + (addNewLine ? "\n" : ""));
+    }
+    
     public static <T> void print(T string) {
-    	System.out.println(string.toString());
+        System.out.println(string.toString());
     }
 }
