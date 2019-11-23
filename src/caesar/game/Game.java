@@ -46,6 +46,13 @@ public class Game {
 			playerLocationY
 		);
 		
+		this.player.location.setRelief(
+			this.map.getRelief(
+				playerLocationX,
+				playerLocationY
+			)
+		);
+		
 		this.turn.setActionPoints(
 			this.player.actionPoints
 		);

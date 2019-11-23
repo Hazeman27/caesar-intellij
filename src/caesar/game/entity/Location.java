@@ -22,20 +22,20 @@ public class Location {
         this.y += deltaY;
     }
     
+    Relief getRelief() {
+        return this.relief;
+    }
+    
+    public void setRelief(Relief relief) {
+        this.relief = relief;
+    }
+    
     public int getX() {
         return this.x;
     }
     
     public int getY() {
         return this.y;
-    }
-    
-    public Relief getRelief() {
-        return this.relief;
-    }
-    
-    void setRelief(Relief relief) {
-        this.relief = relief;
     }
 
     @Override

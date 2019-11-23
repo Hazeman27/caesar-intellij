@@ -43,7 +43,7 @@ public class Turn {
     	if (this.game.getPlayer() != null)
     		Printer.print(this.game.getPlayer());
     	
-    	Printer.print("Enter your choice: ");
+    	Printer.print("Enter your choice: ", false);
     }
 
     @Nullable

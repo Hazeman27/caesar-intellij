@@ -82,21 +82,21 @@ public class Printer {
         System.out.println("----------------");
         System.out.println("  NW   N    NE  ");
         System.out.println(
-        	"  " + relief[1] + "   " +
-            relief[0] + "   " +
-            relief[2] + "  " 
+        	"  " + relief[1].toString(true) + "   " +
+            relief[0].toString(true) + "   " +
+            relief[2].toString(true) + "  "
         );
         
         System.out.println(
-            "W " + relief[3] + "   " +
+            "W " + relief[3].toString(true) + "   " +
             "P " + "   " +
-            relief[4] + " E" 
+            relief[4].toString(true) + " E"
         );
         
         System.out.println(
-            "  " + relief[6] + "   " +
-            relief[5] + "   " +
-            relief[7] + "  " 
+            "  " + relief[6].toString(true) + "   " +
+            relief[5].toString(true) + "   " +
+            relief[7].toString(true) + "  "
         );
         
         System.out.println("  SW   S    SE  ");

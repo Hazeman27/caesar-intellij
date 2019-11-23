@@ -115,9 +115,10 @@ public interface ActionHandler {
 			return response;
 		}
 		
+		response.message = Message.PLAYER_MOVED;
 		response.type = ResponseType.SUCCESS;
-		game.getPlayer().move(direction, relief);
 		
+		game.getPlayer().move(direction, relief);
 		return response;
 	}
 	
