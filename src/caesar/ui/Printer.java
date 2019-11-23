@@ -86,16 +86,19 @@ public class Printer {
             relief[0] + "   " +
             relief[2] + "  " 
         );
+        
         System.out.println(
             "W " + relief[3] + "   " +
             "P " + "   " +
             relief[4] + " E" 
         );
+        
         System.out.println(
             "  " + relief[6] + "   " +
             relief[5] + "   " +
             relief[7] + "  " 
         );
+        
         System.out.println("  SW   S    SE  ");
         System.out.println("----------------");
     }

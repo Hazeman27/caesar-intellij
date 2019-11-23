@@ -86,22 +86,6 @@ public class Troop {
             this.soldiers.add(new Soldier(this));
     }
 
-    public Soldier getOfficer() {
-        return this.officer;
-    }
-
-    public Troop getParentTroop() {
-        return this.parentTroop;
-    }
-
-    public List<Troop> getTroops() {
-        return this.troops;
-    }
-
-    public List<Soldier> getSoldiers() {
-        return this.soldiers;
-    }
-
     public void removeTroop(Troop troop) {
         this.troops.remove(troop);
     }
@@ -144,7 +128,7 @@ public class Troop {
                 .printSymbol(i != amount - 1, i == amount - 1);
     }
 
-    private static int countAllSoldiers(@NotNull Troop troop) {
+    public static int countSoldiers(@NotNull Troop troop) {
 
         int total = 0;
         
@@ -152,7 +136,7 @@ public class Troop {
             return troop.soldiers.size() + 1;
         
         for (Troop t: troop.troops)
-            total += countAllSoldiers(t);
+            total += countSoldiers(t);
 
         return total + 1;
     }
@@ -171,7 +155,7 @@ public class Troop {
             .append("\n");
         
         summary.append("Soldiers count: ")
-            .append(countAllSoldiers(troop))
+            .append(countSoldiers(troop))
             .append("\n");
 
         if (troop.troops != null)

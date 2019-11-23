@@ -33,4 +33,18 @@ public abstract class Entity {
 		
 		this.location.setRelief(relief);
 	}
+	
+	@Override
+	public String toString() {
+		
+		return ":: AP: " +
+			this.actionPoints.get() +
+			", POS: " +
+			this.location +
+			", REL: " +
+			this.location.getRelief() +
+			", ARMY: " +
+			Troop.countSoldiers(this.army) +
+			" ::";
+	}
 }

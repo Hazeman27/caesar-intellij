@@ -37,10 +37,12 @@ public class Turn {
     }
 
     private void printMessage() {
-
+		
     	Printer.print(this.type);
-    	Printer.print("Current turn count: " + this.game.getTurnsCount());
-    	Printer.print("Action points remaining: " + this.actionPoints.get());
+    	
+    	if (this.game.getPlayer() != null)
+    		Printer.print(this.game.getPlayer());
+    	
     	Printer.print("Enter your choice: ");
     }
 
@@ -75,20 +77,22 @@ public class Turn {
 
             int actionValue = action.getValue();
 
-            if (this.actionPoints.get() >= actionValue &&
-				action.handle(this.game)) {
-				this.actionPoints.remove(actionValue);
+            if (this.actionPoints.get() >= actionValue) {
+            	
+            	Response response = action.handle(this.game);
+            	
+            	if (response.type == ResponseType.SUCCESS)
+					this.actionPoints.remove(actionValue);
+            	
+            	else if (response.message != null)
+            		Printer.print(response.message);
             }
-
-            else Printer.print(Message.LOW_AP);
         }
     }
 
     private void startInteraction() {
 
         while (this.actionPoints.get() >= this.minCostAction) {
-			
-        	this.previous = this.type;
         	
             this.printMessage();
             this.handleInput(this.scanInput());
@@ -115,6 +119,10 @@ public class Turn {
     
     TurnType getPrevious() {
     	return this.previous;
+	}
+	
+	void setPrevious(TurnType previous) {
+		this.previous = previous;
 	}
 	
 	public void setActionPoints(ActionPoints actionPoints) {

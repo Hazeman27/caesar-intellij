@@ -16,12 +16,12 @@ public enum Relief {
     
     private final String symbol;
 
+	@Contract(pure = true)
 	Relief(String symbol) {
 		this.symbol = symbol;
 	}
-
-	@Override
-	public String toString() {
-		return this.symbol;
+	
+	public String toString(boolean asSymbol) {
+		return asSymbol ? this.symbol : super.toString();
 	}
 }

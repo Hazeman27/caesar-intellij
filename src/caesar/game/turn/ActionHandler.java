@@ -10,120 +10,154 @@ import org.jetbrains.annotations.NotNull;
 
 public interface ActionHandler {
 	
-    boolean handle(Game game);
+    Response handle(Game game);
     
-	static boolean newGame(@NotNull Game game) {
+	@NotNull
+	@Contract("_ -> new")
+	static Response newGame(@NotNull Game game) {
 		
-		Printer.print(Message.NEW_GAME);
 		game.start(10, 6, 0, 0, 100);
-		
-		return true;
+		return new Response(ResponseType.SUCCESS);
 	}
 	
-	static boolean continueGame(@NotNull Game game) {
+	@NotNull
+	static Response continueGame(@NotNull Game game) {
+		
+		Response response = new Response();
 		
 		if (game.getPlayer() != null) {
 			
-			Printer.print(Message.CONTINUE);
+			response.message = Message.CONTINUE;
+			response.type = ResponseType.SUCCESS;
+			
 			game.getTurn().next(TurnType.TRAVEL);
 			
-			return true;
+			return response;
 		}
 		
 		else {
 			
-			Printer.print(Message.NO_CURRENT_GAME);
-			return false;
+			response.message = Message.NO_CURRENT_GAME;
+			response.type = ResponseType.FAILURE;
+			
+			return response;
 		}
 	}
 	
-	static boolean exitGame(@NotNull Game game) {
+	@NotNull
+	@Contract("_ -> new")
+	static Response exitGame(@NotNull Game game) {
 		
 		game.exit();
-		return true;
+		return new Response(ResponseType.SUCCESS);
 	}
 	
-	static boolean advance(@NotNull Game game) {
+	@NotNull
+	@Contract("_ -> new")
+	static Response advance(@NotNull Game game) {
 		
+		game.getTurn().setPrevious(TurnType.TRAVEL);
 		game.getTurn().next(TurnType.ADVANCE);
-		return true;
+		
+		return new Response(ResponseType.SUCCESS);
 	}
 	
-	static boolean lookAround(@NotNull Game game) {
+	@NotNull
+	@Contract("_ -> new")
+	static Response lookAround(@NotNull Game game) {
 
 		Printer.print(Message.PLAYER_LOOKED_AROUND);
         Printer.printRelief(
         	game.getMap(),
         	game.getPlayer().location
         );
-        
-        return true;
+		
+		return new Response(ResponseType.SUCCESS);
 	}
 	
+	@NotNull
 	@Contract(pure = true)
-	static boolean buildCamp(Game game) {
-		return true;
+	static Response buildCamp(Game game) {
+		return new Response(ResponseType.SUCCESS);
 	}
 	
-	static boolean goToMainMenu(@NotNull Game game) {
+	@NotNull
+	@Contract("_ -> new")
+	static Response goToMainMenu(@NotNull Game game) {
 		
 		game.getTurn().next(TurnType.MAIN_MENU);
-		return true;
+		return new Response(ResponseType.SUCCESS);
 	}
 	
-	static boolean goToPreviousTurn(@NotNull Game game) {
+	@NotNull
+	@Contract("_ -> new")
+	static Response goToPreviousTurn(@NotNull Game game) {
 		
 		game.getTurn().next(game.getTurn().getPrevious());
-		return true;
+		return new Response(ResponseType.SUCCESS);
 	}
 	
-	static boolean advance(@NotNull Game game, @NotNull Direction direction) {
+	@NotNull
+	static Response advance(@NotNull Game game, @NotNull Direction direction) {
 		
 		Relief relief = game.getMap().getRelief(
 			direction.getX(),
 			direction.getY()
 		);
 		
+		Response response = new Response();
+		
 		if (relief == Relief.UNKNOWN) {
 			
-			Printer.print(Message.UNKNOWN_DIRECTION);
-			return false;
+			response.message = Message.UNKNOWN_DIRECTION;
+			response.type = ResponseType.FAILURE;
+			
+			return response;
 		}
 		
-		
+		response.type = ResponseType.SUCCESS;
 		game.getPlayer().move(direction, relief);
-		return true;
+		
+		return response;
 	}
 	
-	static boolean advanceNorth(@NotNull Game game) {
+	@NotNull
+	static Response advanceNorth(@NotNull Game game) {
 		return advance(game, Direction.NORTH);
 	}
 	
-	static boolean advanceNorthwest(@NotNull Game game) {
+	@NotNull
+	static Response advanceNorthwest(@NotNull Game game) {
 		return advance(game, Direction.NORTHWEST);
 	}
 	
-	static boolean advanceNortheast(@NotNull Game game) {
+	@NotNull
+	static Response advanceNortheast(@NotNull Game game) {
 		return advance(game, Direction.NORTHEAST);
 	}
 	
-	static boolean advanceWest(@NotNull Game game) {
+	@NotNull
+	static Response advanceWest(@NotNull Game game) {
 		return advance(game, Direction.WEST);
 	}
 	
-	static boolean advanceEast(@NotNull Game game) {
+	@NotNull
+	static Response advanceEast(@NotNull Game game) {
 		return advance(game, Direction.EAST);
 	}
 	
-	static boolean advanceSouth(@NotNull Game game) {
+	@NotNull
+	static Response advanceSouth(@NotNull Game game) {
 		return advance(game, Direction.SOUTH);
 	}
 	
-	static boolean advanceSouthwest(@NotNull Game game) {
+	@NotNull
+	static Response advanceSouthwest(@NotNull Game game) {
 		return advance(game, Direction.SOUTHWEST);
 	}
 	
-	static boolean advanceSoutheast(@NotNull Game game) {
+	@NotNull
+	static Response advanceSoutheast(@NotNull Game game) {
 		return advance(game, Direction.SOUTHEAST);
 	}
 }

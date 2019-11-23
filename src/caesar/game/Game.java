@@ -34,7 +34,8 @@ public class Game {
 		int playerLocationY,
 		int mapSize
 	) {
-	
+		
+    	Printer.print(Message.NEW_GAME);
 		this.map = new Map(mapSize);
 	
 		this.player = new Player(

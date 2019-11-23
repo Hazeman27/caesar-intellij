@@ -1,6 +1,8 @@
 package caesar.game.turn;
 
 import caesar.game.Game;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public enum Action {
 	
@@ -27,6 +29,7 @@ public enum Action {
 	private final String name;
 	private final ActionHandler handler;
 	
+	@Contract(pure = true)
 	Action(String name, int value, ActionHandler handler) {
 		
 		this.name = name;
@@ -34,19 +37,23 @@ public enum Action {
 		this.handler = handler;
 	}
 	
+	@Contract(pure = true)
 	public int getValue() {
 		return this.value;
 	}
 	
-	public boolean handle(Game game) {
+	public Response handle(Game game) {
 		return this.handler.handle(game);
 	}
 	
+	@Contract(pure = true)
 	@Override
 	public String toString() {
 		return this.name;
 	}
 	
+	@NotNull
+	@Contract(pure = true)
 	public String toString(boolean addValue) {
 		return this.name + (addValue ? " [" + this.value + "]" : "");
 	}
