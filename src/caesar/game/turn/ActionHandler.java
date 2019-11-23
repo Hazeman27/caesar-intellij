@@ -98,6 +98,18 @@ public interface ActionHandler {
 	}
 	
 	@NotNull
+	@Contract("_ -> new")
+	static Response goToNextTurn(@NotNull Game game) {
+		
+		game.getTurn().next(TurnType.TRAVEL);
+		
+		return new Response(
+			Message.NEXT_TURN,
+			ResponseType.SUCCESS
+		);
+	}
+	
+	@NotNull
 	static Response advance(@NotNull Game game, @NotNull Direction direction) {
 		
 		Relief relief = game.getMap().getRelief(

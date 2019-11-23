@@ -42,6 +42,10 @@ public class Turn {
     	if (this.game.getPlayer() != null)
     		Printer.print(this.game.getPlayer());
     	
+    	if (this.game.getEnemy() != null)
+    		Printer.print(this.game.getEnemy());
+    	
+    	Printer.print("Turns count: " + this.game.getTurnsCount());
     	Printer.print("Enter your choice: ", false);
     }
 
@@ -100,9 +104,10 @@ public class Turn {
         }
 
         Printer.print(Message.NEXT_TURN);
-        UserInput.awaitInput(this.scanner);
-        
-        this.game.incrementTurnsCount();
+		UserInput.awaitInput(this.scanner);
+	
+		this.game.incrementTurnsCount();
+        Action.NEXT_TURN.handle(this.game);
     }
     
     public void next(TurnType type) {

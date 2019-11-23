@@ -9,9 +9,17 @@ public enum Action {
 	NEW_GAME("New game", 0, ActionHandler::newGame),
 	CONTINUE_GAME("Continue game", 0, ActionHandler::continueGame),
 	EXIT("Exit", 0, ActionHandler::exitGame),
-	TO_MAIN_MENU("Main menu", 0, ActionHandler::goToMainMenu),
 	
-	TO_TRAVEL("Previous", 0, ActionHandler::goToTravelMenu),
+	TO_MAIN_MENU("Main menu", 0,
+		ActionHandler::goToMainMenu
+	),
+	NEXT_TURN("Next turn", 0,
+		ActionHandler::goToNextTurn
+	),
+	TO_TRAVEL("Previous", 0,
+		ActionHandler::goToTravelMenu
+	),
+	
 	ADVANCE("Advance", 0, ActionHandler::advance),
 	LOOK_AROUND("Look around", 3, ActionHandler::lookAround),
 	

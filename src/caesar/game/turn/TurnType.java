@@ -92,24 +92,39 @@ public enum TurnType {
 	@Override
 	public String toString() {
 		
-		StringBuilder string = new StringBuilder(Printer.getBorder(this.title, this.actionNamesMaxLength));
-		string.append(Printer.getEmptyLine(this.actionNamesMaxLength));
+		StringBuilder stringBuilder = new StringBuilder(
+			Printer.getBorder(this.title, this.actionNamesMaxLength, 5)
+		);
+		
+		stringBuilder.append(
+			Printer.getEmptyLine(this.actionNamesMaxLength, 5)
+		);
 		
         for (int i = 0; i < actionNames.size(); i++) {
             
             String actionName = actionNames.get(i);
 
-            string.append("| ").append(i + 1).append(": ").append(actionName);
-            string.append(Printer.getFillingSpaces(
-				actionName,
-				this.actionNamesMaxLength
-            ));
+            stringBuilder.append("| ")
+				.append(i + 1)
+				.append(": ")
+				.append(actionName)
+				.append(
+					Printer.getFillingSpaces(
+						actionName,
+						this.actionNamesMaxLength
+					)
+				);
         }
         
-        string.append(Printer.getEmptyLine(this.actionNamesMaxLength));
-        string.append(Printer.getBorder(this.actionNamesMaxLength));
+        stringBuilder.append(
+        	Printer.getEmptyLine(this.actionNamesMaxLength, 5)
+		);
         
-        return string.toString();
+        stringBuilder.append(
+        	Printer.getBorder(this.actionNamesMaxLength, 5)
+		);
+        
+        return stringBuilder.toString();
 	}
 	
 	public static void main(String[] args) {

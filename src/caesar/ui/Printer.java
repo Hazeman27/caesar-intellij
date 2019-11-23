@@ -8,10 +8,10 @@ import org.jetbrains.annotations.NotNull;
 public class Printer {
 	
     @NotNull
-    public static String getBorder(@NotNull String title, int maxLength) {
+    public static String getBorder(@NotNull String title, int maxLength, int whiteSpace) {
 
         int i;
-        int lengthDifference = maxLength + 5 - title.length();
+        int lengthDifference = maxLength + whiteSpace - title.length();
 
         int leftFill = lengthDifference / 2;
         int rightFill = lengthDifference - leftFill;
@@ -31,11 +31,11 @@ public class Printer {
     }
 
     @NotNull
-    public static String getBorder(int maxLength) {
+    public static String getBorder(int maxLength, int whiteSpace) {
 
         StringBuilder border = new StringBuilder("+");
 
-        for (int i = 0; i < maxLength + 5; i++)
+        for (int i = 0; i < maxLength + whiteSpace; i++)
             border.append('-');
 
         border.append("+\n");
@@ -43,11 +43,11 @@ public class Printer {
     }
 
     @NotNull
-    public static String getEmptyLine(int maxLength) {
+    public static String getEmptyLine(int maxLength, int whiteSpace) {
     	
     	StringBuilder line = new StringBuilder("|");
 
-        for (int i = 0; i < maxLength + 5; i++)
+        for (int i = 0; i < maxLength + whiteSpace; i++)
             line.append(' ');
 
         line.append("|\n");
@@ -103,16 +103,16 @@ public class Printer {
         System.out.println("----------------");
     }
     
-    public static void printBorder(String title, int maxLength) {
-    	System.out.println(getBorder(title, maxLength));
+    public static void printBorder(String title, int maxLength, int whiteSpace) {
+    	System.out.println(getBorder(title, maxLength, whiteSpace));
     }
     
-    public static void printBorder(int maxLength) {
-    	System.out.println(getBorder(maxLength));
+    public static void printBorder(int maxLength, int whiteSpace) {
+    	System.out.println(getBorder(maxLength, whiteSpace));
     }
     
-    public static void printEmptyLine(int maxLength) {
-    	System.out.println(getEmptyLine(maxLength));
+    public static void printEmptyLine(int maxLength, int whiteSpace) {
+    	System.out.println(getEmptyLine(maxLength, whiteSpace));
     }
     
     public static void printFillingSpaces(String string, int maxLength) {
