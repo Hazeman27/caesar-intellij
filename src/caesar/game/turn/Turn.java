@@ -8,28 +8,30 @@ import caesar.game.Game;
 import caesar.game.entity.ActionPoints;
 import caesar.ui.Message;
 import caesar.ui.Printer;
-import caesar.utility.RandomEnum;
 import caesar.utility.UserInput;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Turn {
 	
 	private TurnType type;
+	private TurnType previous;
     private Game game;
     private ActionPoints actionPoints;
     private Scanner scanner;
     private int minCostAction;
 
-    public Turn(Game game) {
+    public Turn(@NotNull Game game) {
 
 	    this.game = game;
-	    this.actionPoints = game.getPlayer().actionPoints;
+	    this.actionPoints = new ActionPoints(0);
 	    this.scanner = new Scanner(System.in);
     }
 
-    private int getMinCostAction(List<Action> actions) {
+    private int getMinCostAction(@NotNull List<Action> actions) {
 
     	Optional<Action> min = actions.stream()
-    			.reduce((a, b) -> a.getValue() < b.getValue() ? a : b);
+			.reduce((a, b) -> a.getValue() < b.getValue() ? a : b);
 
 	    return min.map(Action::getValue).orElse(-1);
     }
@@ -42,13 +44,18 @@ public class Turn {
     	Printer.print("Enter your choice: ");
     }
 
-    private Action scanInput() {
+    @Nullable
+	private Action scanInput() {
 
         String input = this.scanner.nextLine();
         input = input.toLowerCase().trim();
 
-        if (UserInput.isNumeric(input))
-            return this.type.getAction(Integer.parseInt(input) - 1);
+        if (UserInput.isNumeric(input)) {
+        
+			return this.type.getAction(
+				Integer.parseInt(input) - 1
+			);
+		}
 
         for (Action action: this.type.getActions()) {
 
@@ -68,10 +75,9 @@ public class Turn {
 
             int actionValue = action.getValue();
 
-            if (this.actionPoints.get() >= actionValue) {
-                        
-                this.actionPoints.remove(actionValue);
-                action.handle(this.game);
+            if (this.actionPoints.get() >= actionValue &&
+				action.handle(this.game)) {
+				this.actionPoints.remove(actionValue);
             }
 
             else Printer.print(Message.LOW_AP);
@@ -81,7 +87,9 @@ public class Turn {
     private void startInteraction() {
 
         while (this.actionPoints.get() >= this.minCostAction) {
-
+			
+        	this.previous = this.type;
+        	
             this.printMessage();
             this.handleInput(this.scanInput());
             
@@ -92,33 +100,30 @@ public class Turn {
         UserInput.awaitInput(this.scanner);
         
         this.game.incrementTurnsCount();
-        this.nextRandom();
     }
     
     public void next(TurnType type) {
     	
     	this.type = type;
-    	this.minCostAction = this.getMinCostAction(this.type.getActions());
+    	
+    	this.minCostAction = this.getMinCostAction(
+    		this.type.getActions()
+		);
+    	
     	this.startInteraction();
     }
-	
-	private void nextRandom() {
-  
-		this.type = RandomEnum.get(TurnType.class);
-		
-		if (this.type == TurnType.MAIN_MENU) {
-			
-			this.nextRandom();
-			return;
-		}
-		
-		this.minCostAction = this.getMinCostAction(this.type.getActions());
-		this.startInteraction();
+    
+    TurnType getPrevious() {
+    	return this.previous;
 	}
+	
+	public void setActionPoints(ActionPoints actionPoints) {
+		this.actionPoints = actionPoints;
+	}
+	
+	public static void main(String[] args) {
 
-    public static void main(String[] args) {
-
-        Turn turn = new Turn(new Game(15, 6, 0, 0, 50));
+        Turn turn = new Turn(new Game());
         turn.next(TurnType.TRAVEL);
     }
 }

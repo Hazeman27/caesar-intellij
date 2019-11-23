@@ -7,7 +7,9 @@ public enum Action {
 	NEW_GAME("New game", 0, ActionHandler::newGame),
 	CONTINUE_GAME("Continue game", 0, ActionHandler::continueGame),
 	EXIT("Exit", 0, ActionHandler::exitGame),
+	TO_MAIN_MENU("Main menu", 0, ActionHandler::goToMainMenu),
 	
+	PREVIOUS("Previous", 0, ActionHandler::goToPreviousTurn),
 	ADVANCE("Advance", 0, ActionHandler::advance),
 	LOOK_AROUND("Look around", 3, ActionHandler::lookAround),
 	BUILD_CAMP("Build camp", 10, ActionHandler::buildCamp),
@@ -36,8 +38,8 @@ public enum Action {
 		return this.value;
 	}
 	
-	public void handle(Game game) {
-		this.handler.handle(game);
+	public boolean handle(Game game) {
+		return this.handler.handle(game);
 	}
 	
 	@Override

@@ -1,72 +1,129 @@
 package caesar.game.turn;
 
 import caesar.game.Game;
+import caesar.game.map.Direction;
+import caesar.game.map.Relief;
 import caesar.ui.Message;
 import caesar.ui.Printer;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public interface ActionHandler {
 	
-    void handle(Game game);
+    boolean handle(Game game);
     
-	static void newGame(@NotNull Game game) {
-		game.getTurn().next(TurnType.TRAVEL);
-	}
-	
-	static void continueGame(@NotNull Game game) {
+	static boolean newGame(@NotNull Game game) {
 		
+		Printer.print(Message.NEW_GAME);
+		game.start(10, 6, 0, 0, 100);
+		
+		return true;
 	}
 	
-	static void exitGame(@NotNull Game game) {
+	static boolean continueGame(@NotNull Game game) {
+		
+		if (game.getPlayer() != null) {
+			
+			Printer.print(Message.CONTINUE);
+			game.getTurn().next(TurnType.TRAVEL);
+			
+			return true;
+		}
+		
+		else {
+			
+			Printer.print(Message.NO_CURRENT_GAME);
+			return false;
+		}
+	}
+	
+	static boolean exitGame(@NotNull Game game) {
+		
 		game.exit();
+		return true;
 	}
 	
-	static void advance(@NotNull Game game) {
+	static boolean advance(@NotNull Game game) {
+		
 		game.getTurn().next(TurnType.ADVANCE);
+		return true;
 	}
 	
-	static void lookAround(@NotNull Game game) {
+	static boolean lookAround(@NotNull Game game) {
 
 		Printer.print(Message.PLAYER_LOOKED_AROUND);
         Printer.printRelief(
         	game.getMap(),
-        	game.getPlayer().location.get()
+        	game.getPlayer().location
         );
+        
+        return true;
 	}
 	
-	static void buildCamp(Game game) {
+	@Contract(pure = true)
+	static boolean buildCamp(Game game) {
+		return true;
+	}
+	
+	static boolean goToMainMenu(@NotNull Game game) {
 		
+		game.getTurn().next(TurnType.MAIN_MENU);
+		return true;
 	}
 	
-	static void advanceNorth(@NotNull Game game) {
-		game.getPlayer().location.change(0, 1);
+	static boolean goToPreviousTurn(@NotNull Game game) {
+		
+		game.getTurn().next(game.getTurn().getPrevious());
+		return true;
 	}
 	
-	static void advanceNorthwest(@NotNull Game game) {
-		game.getPlayer().location.change(-1, 1);
+	static boolean advance(@NotNull Game game, @NotNull Direction direction) {
+		
+		Relief relief = game.getMap().getRelief(
+			direction.getX(),
+			direction.getY()
+		);
+		
+		if (relief == Relief.UNKNOWN) {
+			
+			Printer.print(Message.UNKNOWN_DIRECTION);
+			return false;
+		}
+		
+		
+		game.getPlayer().move(direction, relief);
+		return true;
 	}
 	
-	static void advanceNortheast(@NotNull Game game) {
-		game.getPlayer().location.change(1, 1);
+	static boolean advanceNorth(@NotNull Game game) {
+		return advance(game, Direction.NORTH);
 	}
 	
-	static void advanceWest(@NotNull Game game) {
-		game.getPlayer().location.change(-1, 0);
+	static boolean advanceNorthwest(@NotNull Game game) {
+		return advance(game, Direction.NORTHWEST);
 	}
 	
-	static void advanceEast(@NotNull Game game) {
-		game.getPlayer().location.change(1, 0);
+	static boolean advanceNortheast(@NotNull Game game) {
+		return advance(game, Direction.NORTHEAST);
 	}
 	
-	static void advanceSouth(@NotNull Game game) {
-		game.getPlayer().location.change(0, -1);
+	static boolean advanceWest(@NotNull Game game) {
+		return advance(game, Direction.WEST);
 	}
 	
-	static void advanceSouthwest(@NotNull Game game) {
-		game.getPlayer().location.change(-1, -1);
+	static boolean advanceEast(@NotNull Game game) {
+		return advance(game, Direction.EAST);
 	}
 	
-	static void advanceSoutheast(@NotNull Game game) {
-		game.getPlayer().location.change(1, -1);
+	static boolean advanceSouth(@NotNull Game game) {
+		return advance(game, Direction.SOUTH);
+	}
+	
+	static boolean advanceSouthwest(@NotNull Game game) {
+		return advance(game, Direction.SOUTHWEST);
+	}
+	
+	static boolean advanceSoutheast(@NotNull Game game) {
+		return advance(game, Direction.SOUTHEAST);
 	}
 }

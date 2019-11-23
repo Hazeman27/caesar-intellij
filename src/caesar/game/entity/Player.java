@@ -1,7 +1,6 @@
 package caesar.game.entity;
 
 import caesar.military.troop.ArmyType;
-import caesar.military.troop.Troop;
 
 public class Player extends Entity {
     

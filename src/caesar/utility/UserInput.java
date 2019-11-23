@@ -1,10 +1,12 @@
 package caesar.utility;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Scanner;
 
 public class UserInput {
 
-    public static void awaitInput(Scanner scanner) {
+    public static void awaitInput(@NotNull Scanner scanner) {
 
         System.out.println("press enter to continue...");
         scanner.nextLine();

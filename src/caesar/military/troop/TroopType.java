@@ -1,6 +1,7 @@
 package caesar.military.troop;
 
 import caesar.military.soldier.Rank;
+import org.jetbrains.annotations.Contract;
 
 import java.util.*;
 
@@ -48,13 +49,14 @@ public enum TroopType {
 	
 	TRIBE(
 		Collections.singletonMap(GAULS_GROUP, 25),
-		Rank.WARLORD, "X"
+		Rank.WARLORD, "[xx]"
 	);
 	
 	protected Map<TroopType, Integer> troops;
 	protected final Rank officerRank;
 	protected final String symbol;
 
+	@Contract(pure = true)
 	TroopType(Map<TroopType, Integer> troops, Rank officerRank, String symbol) {
 		
 		this.troops = troops;

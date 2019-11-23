@@ -1,10 +1,14 @@
 package caesar.ui;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 public enum Message {
 	
 	PLAYER_MOVED("You have moved"),
     PLAYER_LOOKED_AROUND("You have looked around you and here is what you see:"),
     PRELUDE("Prelude", "Story is under development..."),
+	NEW_GAME("Starting new game..."),
     CONTINUE("Continuing game..."),
     EXIT("Exiting Caesar..."),
     NO_CURRENT_GAME("Error", "No current game found..."),
@@ -17,26 +21,31 @@ public enum Message {
 	private final String title;
 	private final String content;
 
+	@Contract(pure = true)
 	Message(String title, String content) {
 		
 		this.title = title;
 		this.content = content;
 	}
 	
+	@Contract(pure = true)
 	Message(String content) {
 		
 		this.title = null;
 		this.content = content;
 	}
 	
+	@Contract(pure = true)
 	public String getContent() {
 		return this.content;
 	}
 	
+	@Contract(pure = true)
 	public String getTitle() {
 		return this.title;
 	}
 	
+	@NotNull
 	@Override
 	public String toString() {
 		

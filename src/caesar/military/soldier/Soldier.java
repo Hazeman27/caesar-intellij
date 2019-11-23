@@ -1,6 +1,8 @@
 package caesar.military.soldier;
 
 import caesar.military.troop.Troop;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class Soldier {
 
@@ -12,6 +14,7 @@ public class Soldier {
 
     protected Troop troop;
 
+    @Contract(pure = true)
     public Soldier(
         Status morale,
         Status energy,
@@ -30,7 +33,8 @@ public class Soldier {
         this.troop = troop;
     }
 
-    public Soldier(Status[] status, Troop troop) {
+    @Contract(pure = true)
+    public Soldier(@NotNull Status[] status, Troop troop) {
 
         this.morale = status[0];
         this.energy = status[1];

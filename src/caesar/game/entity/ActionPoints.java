@@ -1,15 +1,14 @@
 package caesar.game.entity;
 
+import org.jetbrains.annotations.Contract;
+
 public class ActionPoints {
 
     private int amount;
 
-    ActionPoints(int amount) {
+    @Contract(pure = true)
+	public ActionPoints(int amount) {
         this.amount = amount;
-    }
-
-    public ActionPoints() {
-        this.amount = 0;
     }
 
     public int get() {

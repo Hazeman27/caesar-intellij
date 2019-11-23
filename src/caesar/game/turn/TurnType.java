@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import caesar.ui.Printer;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public enum TurnType {
 	
@@ -17,18 +19,20 @@ public enum TurnType {
 	
 	TRAVEL("Travelling", Arrays.asList(
 		Action.ADVANCE, 
-		Action.LOOK_AROUND
+		Action.LOOK_AROUND,
+		Action.TO_MAIN_MENU
 	)),
 	
 	ADVANCE("Advance options", Arrays.asList(
-		Action.NORTH, 
+		Action.NORTH,
 		Action.NORTHWEST, 
 		Action.NORTHEAST, 
 		Action.WEST, 
 		Action.EAST, 
 		Action.SOUTH, 
 		Action.SOUTHWEST, 
-		Action.SOUTHEAST
+		Action.SOUTHEAST,
+		Action.PREVIOUS
 	));
 	
 	private final String title;
@@ -36,7 +40,7 @@ public enum TurnType {
 	private final List<String> actionNames;
 	private final int actionNamesMaxLength;
 	
-	private TurnType(String title, List<Action> actions) {
+	TurnType(String title, List<Action> actions) {
 		
 		this.title = title;
 		this.actions = actions;
@@ -54,7 +58,7 @@ public enum TurnType {
 	private int getActionNamesMaxLength() {
 		
 		Optional<String> longestActionName = this.actionNames.stream()
-				.reduce((a, b) -> a.length() > b.length() ? a : b);
+			.reduce((a, b) -> a.length() > b.length() ? a : b);
 		
 		int actionNamesMaxLength;
 		int titleLength = this.title.length();
@@ -67,14 +71,17 @@ public enum TurnType {
 		return Math.max(titleLength, actionNamesMaxLength);
 	}
 	
+	@Contract(pure = true)
 	public List<Action> getActions() {
 		return this.actions;
 	}
 	
+	@Contract(pure = true)
 	public Action getAction(int index) {
 		return this.actions.get(index);
 	}
 	
+	@NotNull
 	@Override
 	public String toString() {
 		
@@ -87,8 +94,8 @@ public enum TurnType {
 
             string.append("| ").append(i + 1).append(": ").append(actionName);
             string.append(Printer.getFillingSpaces(
-		            actionName,
-		            this.actionNamesMaxLength
+				actionName,
+				this.actionNamesMaxLength
             ));
         }
         

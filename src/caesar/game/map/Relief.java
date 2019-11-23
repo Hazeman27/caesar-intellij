@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Contract;
 
 public enum Relief {
 	
+	UNKNOWN(".."),
 	MOUNTAIN("^^"),
     MARSH("mm"),
     VALLEY("vv"),

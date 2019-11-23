@@ -1,14 +1,18 @@
 package caesar.military.soldier;
 
+import org.jetbrains.annotations.Contract;
+
 public class Status {
     
     private final int maxState = 100;
 	private int state;
 
+	@Contract(pure = true)
 	Status(int state) {
 		this.state = state;
 	}
 
+	@Contract(pure = true)
 	Status() {
 		this.state = maxState;
 	}

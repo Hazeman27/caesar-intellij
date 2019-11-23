@@ -1,11 +1,14 @@
 package caesar.ui;
 
+import caesar.game.entity.Location;
 import caesar.game.map.Map;
 import caesar.game.map.Relief;
+import org.jetbrains.annotations.NotNull;
 
 public class Printer {
 	
-    public static String getBorder(String title, int maxLength) {
+    @NotNull
+    public static String getBorder(@NotNull String title, int maxLength) {
 
         int i;
         int lengthDifference = maxLength + 5 - title.length();
@@ -27,6 +30,7 @@ public class Printer {
         return border.toString();
     }
 
+    @NotNull
     public static String getBorder(int maxLength) {
 
         StringBuilder border = new StringBuilder("+");
@@ -38,6 +42,7 @@ public class Printer {
         return border.toString();
     }
 
+    @NotNull
     public static String getEmptyLine(int maxLength) {
     	
     	StringBuilder line = new StringBuilder("|");
@@ -49,7 +54,8 @@ public class Printer {
         return line.toString();
     }
 
-    public static String getFillingSpaces(String string, int maxLength) {
+    @NotNull
+    public static String getFillingSpaces(@NotNull String string, int maxLength) {
     	
     	StringBuilder spaces = new StringBuilder();
     	
@@ -60,18 +66,18 @@ public class Printer {
         return spaces.toString();
     }
     
-    public static void printRelief(Map map, int[] coordinates) {
+    public static void printRelief(@NotNull Map map, Location location) {
     	
-    	Relief[] relief = map.getReliefAround(coordinates);
+    	Relief[] relief = map.getReliefAround(location);
 
-        System.out.println("north       - " + relief[0] + ";");
-        System.out.println("northwest   - " + relief[1] + ";");
-        System.out.println("northeast   - " + relief[2] + ";");
-        System.out.println("west        - " + relief[3] + ";");
-        System.out.println("east        - " + relief[4] + ";");
-        System.out.println("south       - " + relief[5] + ";");
-        System.out.println("southwest   - " + relief[6] + ";");
-        System.out.println("southeast   - " + relief[7] + ".");
+        System.out.println("North       - " + relief[0] + ";");
+        System.out.println("Northwest   - " + relief[1] + ";");
+        System.out.println("Northeast   - " + relief[2] + ";");
+        System.out.println("West        - " + relief[3] + ";");
+        System.out.println("East        - " + relief[4] + ";");
+        System.out.println("South       - " + relief[5] + ";");
+        System.out.println("Southwest   - " + relief[6] + ";");
+        System.out.println("Southeast   - " + relief[7] + ".");
 
         System.out.println("----------------");
         System.out.println("  NW   N    NE  ");
@@ -110,11 +116,11 @@ public class Printer {
     	System.out.println(getFillingSpaces(string, maxLength));
     }
     
-    public static <T> void print(T string, boolean addNewLine) {
+    public static <T> void print(@NotNull T string, boolean addNewLine) {
     	System.out.print(string.toString() + (addNewLine ? "\n" : ""));
     }
     
-    public static <T> void print(T string) {
+    public static <T> void print(@NotNull T string) {
         System.out.println(string.toString());
     }
 }

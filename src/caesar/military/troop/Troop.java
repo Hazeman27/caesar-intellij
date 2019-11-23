@@ -4,6 +4,7 @@ import caesar.military.soldier.Officer;
 import caesar.military.soldier.Soldier;
 import caesar.ui.Message;
 import caesar.ui.Printer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class Troop {
     private Soldier officer;
     private Troop parentTroop;
     
-    public Troop(TroopType troopType, Troop parentTroop) {
+    public Troop(@NotNull TroopType troopType, Troop parentTroop) {
         
         this.officer = new Officer(troopType.officerRank, this);
         this.type = troopType.toString();
@@ -31,7 +32,7 @@ public class Troop {
         this.initTroops(troopType.troops);
     }
 
-    public Troop(TroopType troopType) {
+    public Troop(@NotNull TroopType troopType) {
      
     	this.officer = new Officer(troopType.officerRank, this);
         this.type = troopType.toString();
@@ -40,7 +41,7 @@ public class Troop {
         this.initTroops(troopType.troops);
     }
     
-    public Troop(ArmyType armyType, int troopsAmount) {
+    public Troop(@NotNull ArmyType armyType, int troopsAmount) {
         
         this.officer = new Officer(armyType.officerRank, this);
         this.type = armyType.toString();
@@ -49,7 +50,7 @@ public class Troop {
         this.initTroops(armyType.troopsType, troopsAmount);
     }
     
-    private void initTroops(Map<TroopType, Integer> troopsMap) {
+    private void initTroops(@NotNull Map<TroopType, Integer> troopsMap) {
         
         if (troopsMap.containsKey(null)) {
             
@@ -143,7 +144,7 @@ public class Troop {
                 .printSymbol(i != amount - 1, i == amount - 1);
     }
 
-    private static int countAllSoldiers(Troop troop) {
+    private static int countAllSoldiers(@NotNull Troop troop) {
 
         int total = 0;
         
@@ -156,7 +157,8 @@ public class Troop {
         return total + 1;
     }
 
-    private static String getSummary(Troop troop) {
+    @NotNull
+    private static String getSummary(@NotNull Troop troop) {
 
         StringBuilder summary = new StringBuilder();
         
@@ -182,6 +184,7 @@ public class Troop {
         return summary.toString();
     }
 
+    @NotNull
     private static String getFullSummary(Troop troop) {
 
         StringBuilder fullSummary = new StringBuilder(getSummary(troop));

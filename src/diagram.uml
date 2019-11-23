@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="215.0" y="808.0">caesar.game.entity.Enemy</node>
+    <node x="223.41246693121684" y="472.0">caesar.game.entity.ActionPoints</node>
+    <node x="1667.4276195838695" y="808.0">caesar.game.turn.Turn</node>
+    <node x="1554.8026195838695" y="650.0">caesar.game.turn.Action</node>
+    <node x="1189.71509992135" y="314.0">caesar.military.soldier.Officer</node>
+    <node x="1272.40259992135" y="88.0">caesar.military.soldier.Status</node>
+    <node x="798.8517267267266" y="472.0">caesar.military.troop.Troop</node>
+    <node x="1578.3988095238096" y="1054.0">caesar.app.App</node>
+    <node x="1166.3648478835978" y="650.0">caesar.military.rome.Legion</node>
+    <node x="682.6017267267266" y="88.0">caesar.military.soldier.Rank</node>
+    <node x="56.08806931931963" y="808.0">caesar.game.entity.Player</node>
+    <node x="1446.2398478835978" y="176.0">caesar.ui.Printer</node>
+    <node x="1665.2696097883597" y="314.0">caesar.game.turn.TurnType</node>
+    <node x="1692.0526195838695" y="650.0">caesar.utility.UserInput</node>
+    <node x="1403.5526195838695" y="314.0">caesar.ui.Message</node>
+    <node x="86.41246693121684" y="472.0">caesar.game.entity.Location</node>
+    <node x="535.3648478835978" y="650.0">caesar.military.rome.CohortFirst</node>
+    <node x="33.38781728156732" y="314.0">caesar.military.troop.ArmyType</node>
+    <node x="1473.0526195838695" y="472.0">caesar.game.turn.ActionHandler</node>
+    <node x="1815.7705553768053" y="88.0">caesar.game.map.Map</node>
+    <node x="1737.330628843129" y="0.0">caesar.game.map.Relief</node>
+    <node x="942.3648478835978" y="650.0">caesar.military.rome.CenturyFirstCohort</node>
+    <node x="697.3648478835978" y="650.0">caesar.military.rome.Cohort</node>
+    <node x="815.3648478835978" y="650.0">caesar.military.rome.Century</node>
+    <node x="166.25000000000023" y="650.0">caesar.game.entity.Entity</node>
+    <node x="1573.8988095238096" y="976.0">caesar.game.Game</node>
+    <node x="1876.12134992135" y="0.0">caesar.utility.RandomEnum</node>
+    <node x="364.3648478835978" y="650.0">caesar.military.rome.Contubernium</node>
+    <node x="1267.90259992135" y="176.0">caesar.military.soldier.Soldier</node>
+    <node x="660.6017267267266" y="176.0">caesar.military.troop.TroopType</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="caesar.military.rome.Legion" target="caesar.military.troop.Troop">
+      <point x="-36.75" y="-14.0" />
+      <point x="1178.6148478835978" y="590.0" />
+      <point x="879.2088695838695" y="590.0" />
+      <point x="35.35714285714289" y="14.0" />
+    </edge>
+    <edge source="caesar.game.turn.Turn" target="caesar.game.Game">
+      <point x="33.75" y="14.0" />
+      <point x="1741.6776195838695" y="916.0" />
+      <point x="1637.5416666666667" y="916.0" />
+      <point x="23.142857142857167" y="-14.0" />
+    </edge>
+    <edge source="caesar.game.turn.Action" target="caesar.game.turn.ActionHandler">
+      <point x="-36.75" y="-14.0" />
+      <point x="1567.0526195838695" y="630.0" />
+      <point x="1553.0526195838695" y="630.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="caesar.game.Game" target="caesar.game.entity.Enemy">
+      <point x="-19.285714285714278" y="-14.0" />
+      <point x="1595.1130952380954" y="906.0" />
+      <point x="260.0" y="906.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="caesar.game.turn.ActionHandler" target="caesar.ui.Printer">
+      <point x="0.0" y="-14.0" />
+      <point x="1553.0526195838695" y="294.0" />
+      <point x="1515.025562169312" y="294.0" />
+      <point x="15.285714285714278" y="14.0" />
+    </edge>
+    <edge source="caesar.military.troop.Troop" target="caesar.military.soldier.Soldier">
+      <point x="18.75" y="-14.0" />
+      <point x="862.6017267267266" y="422.0" />
+      <point x="1337.21509992135" y="422.0" />
+      <point x="1337.21509992135" y="244.0" />
+      <point x="1354.84009992135" y="244.0" />
+      <point x="33.4375" y="14.0" />
+    </edge>
+    <edge source="caesar.military.troop.ArmyType" target="caesar.military.troop.TroopType">
+      <point x="43.5" y="-14.0" />
+      <point x="134.88781728156732" y="274.0" />
+      <point x="681.4350600600599" y="274.0" />
+      <point x="-41.66666666666674" y="14.0" />
+    </edge>
+    <edge source="caesar.game.turn.Turn" target="caesar.utility.RandomEnum">
+      <point x="35.4375" y="-14.0" />
+      <point x="1743.3651195838695" y="788.0" />
+      <point x="1976.62134992135" y="788.0" />
+      <point x="33.5" y="14.0" />
+    </edge>
+    <edge source="caesar.game.entity.Entity" target="caesar.military.troop.ArmyType">
+      <point x="-14.0" y="-14.0" />
+      <point x="201.25000000000023" y="520.0" />
+      <point x="212.91246693121684" y="520.0" />
+      <point x="212.91246693121684" y="452.0" />
+      <point x="114.58781728156737" y="452.0" />
+      <point x="23.200000000000045" y="14.0" />
+    </edge>
+    <edge source="caesar.military.rome.Legion" target="caesar.military.troop.TroopType">
+      <point x="12.25" y="-14.0" />
+      <point x="1227.6148478835978" y="570.0" />
+      <point x="1179.21509992135" y="570.0" />
+      <point x="1179.21509992135" y="264.0" />
+      <point x="778.657282282282" y="264.0" />
+      <point x="55.55555555555543" y="14.0" />
+    </edge>
+    <edge source="caesar.military.rome.Legion" target="caesar.ui.Printer">
+      <point x="36.75" y="-14.0" />
+      <point x="1252.1148478835978" y="630.0" />
+      <point x="1371.0838695838695" y="630.0" />
+      <point x="1371.0838695838695" y="274.0" />
+      <point x="1469.1684193121691" y="274.0" />
+      <point x="-30.571428571428555" y="14.0" />
+    </edge>
+    <edge source="caesar.game.turn.ActionHandler" target="caesar.game.turn.TurnType">
+      <point x="53.33333333333334" y="-14.0" />
+      <point x="1606.3859529172028" y="412.0" />
+      <point x="1674.9362764550265" y="412.0" />
+      <point x="-48.333333333333314" y="14.0" />
+    </edge>
+    <edge source="caesar.game.turn.Turn" target="caesar.game.entity.ActionPoints">
+      <point x="-35.4375" y="-14.0" />
+      <point x="1672.4901195838695" y="738.0" />
+      <point x="274.75" y="738.0" />
+      <point x="274.75" y="550.0" />
+      <point x="349.2458002645501" y="550.0" />
+      <point x="50.33333333333326" y="14.0" />
+    </edge>
+    <edge source="caesar.game.map.Map" target="caesar.utility.RandomEnum">
+      <point x="27.0" y="-14.0" />
+      <point x="1878.7705553768053" y="68.0" />
+      <point x="1909.62134992135" y="68.0" />
+      <point x="-33.5" y="14.0" />
+    </edge>
+    <edge source="caesar.military.rome.CohortFirst" target="caesar.military.troop.TroopType">
+      <point x="-47.33333333333337" y="-14.0" />
+      <point x="559.0315145502644" y="550.0" />
+      <point x="570.6255362505362" y="550.0" />
+      <point x="570.6255362505362" y="294.0" />
+      <point x="709.2128378378377" y="294.0" />
+      <point x="-13.888888888888914" y="14.0" />
+    </edge>
+    <edge source="caesar.game.Game" target="caesar.ui.Printer">
+      <point x="-11.571428571428555" y="-14.0" />
+      <point x="1602.8273809523812" y="886.0" />
+      <point x="1387.9588695838695" y="886.0" />
+      <point x="1387.9588695838695" y="284.0" />
+      <point x="1484.4541335978836" y="284.0" />
+      <point x="-15.285714285714278" y="14.0" />
+    </edge>
+    <edge source="caesar.game.Game" target="caesar.game.turn.TurnType">
+      <point x="27.0" y="-14.0" />
+      <point x="1641.3988095238096" y="926.0" />
+      <point x="1827.5526195838695" y="926.0" />
+      <point x="1827.5526195838695" y="452.0" />
+      <point x="1771.602943121693" y="452.0" />
+      <point x="48.33333333333326" y="14.0" />
+    </edge>
+    <edge source="caesar.ui.Printer" target="caesar.game.map.Map">
+      <point x="26.75" y="-14.0" />
+      <point x="1526.4898478835978" y="156.0" />
+      <point x="1824.7705553768053" y="156.0" />
+      <point x="-27.0" y="14.0" />
+    </edge>
+    <edge source="caesar.military.rome.Century" target="caesar.military.troop.Troop">
+      <point x="35.66666666666674" y="-14.0" />
+      <point x="904.5315145502645" y="620.0" />
+      <point x="859.9231552981553" y="620.0" />
+      <point x="16.07142857142867" y="14.0" />
+    </edge>
+    <edge source="caesar.game.turn.TurnType" target="caesar.game.turn.Action">
+      <point x="-29.0" y="14.0" />
+      <point x="1694.2696097883597" y="422.0" />
+      <point x="1643.5526195838695" y="422.0" />
+      <point x="1643.5526195838695" y="620.0" />
+      <point x="1616.0526195838695" y="620.0" />
+      <point x="12.25" y="-14.0" />
+    </edge>
+    <edge source="caesar.military.rome.Contubernium" target="caesar.military.troop.TroopType">
+      <point x="-50.33333333333326" y="-14.0" />
+      <point x="389.53151455026455" y="550.0" />
+      <point x="401.12553625053624" y="550.0" />
+      <point x="401.12553625053624" y="284.0" />
+      <point x="695.3239489489488" y="284.0" />
+      <point x="-27.77777777777783" y="14.0" />
+    </edge>
+    <edge source="caesar.military.soldier.Officer" target="caesar.military.soldier.Rank">
+      <point x="-13.375" y="-14.0" />
+      <point x="1229.8338695838695" y="136.0" />
+      <point x="756.8517267267266" y="136.0" />
+      <point x="33.75" y="14.0" />
+    </edge>
+    <edge source="caesar.game.turn.Turn" target="caesar.ui.Printer">
+      <point x="25.3125" y="-14.0" />
+      <point x="1733.2401195838695" y="778.0" />
+      <point x="1842.341983948234" y="778.0" />
+      <point x="1842.341983948234" y="274.0" />
+      <point x="1545.5969907407407" y="274.0" />
+      <point x="45.85714285714289" y="14.0" />
+    </edge>
+    <edge source="caesar.game.turn.Action" target="caesar.game.Game">
+      <point x="-24.5" y="14.0" />
+      <point x="1579.3026195838695" y="856.0" />
+      <point x="1614.3988095238096" y="856.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="caesar.game.turn.ActionHandler" target="caesar.game.Game">
+      <point x="-53.33333333333337" y="14.0" />
+      <point x="1499.7192862505362" y="630.0" />
+      <point x="1515.9276195838695" y="630.0" />
+      <point x="1515.9276195838695" y="866.0" />
+      <point x="1610.5416666666667" y="866.0" />
+      <point x="-3.857142857142833" y="-14.0" />
+    </edge>
+    <edge source="caesar.military.troop.Troop" target="caesar.military.soldier.Officer">
+      <point x="-26.25" y="-14.0" />
+      <point x="817.6017267267266" y="362.0" />
+      <point x="1216.46509992135" y="362.0" />
+      <point x="-26.75" y="14.0" />
+    </edge>
+    <edge source="caesar.game.turn.Turn" target="caesar.ui.Message">
+      <point x="-25.3125" y="-14.0" />
+      <point x="1682.6151195838695" y="728.0" />
+      <point x="1462.5526195838695" y="728.0" />
+      <point x="1462.5526195838695" y="452.0" />
+      <point x="1470.4276195838695" y="452.0" />
+      <point x="13.375" y="14.0" />
+    </edge>
+    <edge source="caesar.game.Game" target="caesar.military.troop.ArmyType">
+      <point x="-38.571428571428555" y="-14.0" />
+      <point x="1575.8273809523812" y="956.0" />
+      <point x="0.0" y="956.0" />
+      <point x="0.0" y="442.0" />
+      <point x="44.98781728156723" y="442.0" />
+      <point x="-46.40000000000009" y="14.0" />
+    </edge>
+    <edge source="caesar.military.troop.Troop" target="caesar.ui.Printer">
+      <point x="33.75" y="-14.0" />
+      <point x="877.6017267267266" y="442.0" />
+      <point x="1360.0838695838695" y="442.0" />
+      <point x="1360.0838695838695" y="264.0" />
+      <point x="1453.882705026455" y="264.0" />
+      <point x="-45.85714285714289" y="14.0" />
+    </edge>
+    <edge source="caesar.military.soldier.Soldier" target="caesar.military.troop.Troop">
+      <point x="20.0625" y="14.0" />
+      <point x="1341.46509992135" y="234.0" />
+      <point x="1329.71509992135" y="234.0" />
+      <point x="1329.71509992135" y="412.0" />
+      <point x="855.1017267267266" y="412.0" />
+      <point x="11.25" y="-14.0" />
+    </edge>
+    <edge source="caesar.game.entity.Player" target="caesar.military.troop.ArmyType">
+      <point x="-32.66666666666674" y="-14.0" />
+      <point x="72.42140265265289" y="788.0" />
+      <point x="12.079133597883583" y="788.0" />
+      <point x="12.079133597883583" y="452.0" />
+      <point x="68.18781728156728" y="452.0" />
+      <point x="-23.200000000000045" y="14.0" />
+    </edge>
+    <edge source="caesar.game.turn.ActionHandler" target="caesar.ui.Message">
+      <point x="-53.33333333333334" y="-14.0" />
+      <point x="1499.7192862505362" y="452.0" />
+      <point x="1497.1776195838695" y="452.0" />
+      <point x="40.125" y="14.0" />
+    </edge>
+    <edge source="caesar.game.entity.Enemy" target="caesar.military.troop.ArmyType">
+      <point x="-30.0" y="-14.0" />
+      <point x="230.0" y="768.0" />
+      <point x="75.91246693121684" y="768.0" />
+      <point x="75.91246693121684" y="452.0" />
+      <point x="91.38781728156732" y="452.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="caesar.military.soldier.Officer" target="caesar.military.soldier.Soldier">
+      <point x="40.125" y="-14.0" />
+      <point x="1283.34009992135" y="294.0" />
+      <point x="1287.96509992135" y="294.0" />
+      <point x="-33.4375" y="14.0" />
+    </edge>
+    <edge source="caesar.ui.Printer" target="caesar.game.map.Relief">
+      <point x="-26.75" y="-14.0" />
+      <point x="1472.9898478835978" y="68.0" />
+      <point x="1749.580628843129" y="68.0" />
+      <point x="-36.75" y="14.0" />
+    </edge>
+    <edge source="caesar.game.map.Map" target="caesar.game.map.Relief">
+      <point x="-9.0" y="-14.0" />
+      <point x="1842.7705553768053" y="58.0" />
+      <point x="1798.580628843129" y="58.0" />
+      <point x="12.25" y="14.0" />
+    </edge>
+    <edge source="caesar.game.turn.TurnType" target="caesar.ui.Printer">
+      <point x="0.0" y="-14.0" />
+      <point x="1723.2696097883597" y="284.0" />
+      <point x="1530.3112764550265" y="284.0" />
+      <point x="30.571428571428555" y="14.0" />
+    </edge>
+    <edge source="caesar.game.entity.Entity" target="caesar.game.entity.Location">
+      <point x="-28.0" y="-14.0" />
+      <point x="187.25000000000023" y="620.0" />
+      <point x="173.41246693121684" y="620.0" />
+      <point x="29.0" y="14.0" />
+    </edge>
+    <edge source="caesar.military.soldier.Soldier" target="caesar.military.soldier.Status">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="caesar.military.troop.Troop" target="caesar.military.troop.ArmyType">
+      <point x="-41.25" y="-14.0" />
+      <point x="802.6017267267266" y="442.0" />
+      <point x="137.7878172815674" y="442.0" />
+      <point x="46.40000000000009" y="14.0" />
+    </edge>
+    <edge source="caesar.military.troop.ArmyType" target="caesar.military.soldier.Rank">
+      <point x="-43.5" y="-14.0" />
+      <point x="47.88781728156732" y="294.0" />
+      <point x="65.60000000000014" y="294.0" />
+      <point x="65.60000000000014" y="136.0" />
+      <point x="689.3517267267266" y="136.0" />
+      <point x="-33.75" y="14.0" />
+    </edge>
+    <edge source="caesar.game.Game" target="caesar.game.turn.Turn">
+      <point x="3.857142857142833" y="-14.0" />
+      <point x="1618.2559523809525" y="866.0" />
+      <point x="1674.1776195838695" y="866.0" />
+      <point x="-33.75" y="14.0" />
+    </edge>
+    <edge source="caesar.military.rome.CenturyFirstCohort" target="caesar.military.troop.TroopType">
+      <point x="68.0" y="-14.0" />
+      <point x="1112.3648478835978" y="630.0" />
+      <point x="1118.4461506149005" y="630.0" />
+      <point x="1118.4461506149005" y="274.0" />
+      <point x="764.7683933933934" y="274.0" />
+      <point x="41.66666666666674" y="14.0" />
+    </edge>
+    <edge source="caesar.military.rome.CohortFirst" target="caesar.military.troop.Troop">
+      <point x="47.33333333333337" y="-14.0" />
+      <point x="653.6981812169312" y="610.0" />
+      <point x="834.2088695838695" y="610.0" />
+      <point x="-9.64285714285711" y="14.0" />
+    </edge>
+    <edge source="caesar.ui.Message" target="caesar.ui.Printer">
+      <point x="0.0" y="-14.0" />
+      <point x="1457.0526195838695" y="294.0" />
+      <point x="1499.7398478835978" y="294.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="caesar.military.troop.Troop" target="caesar.ui.Message">
+      <point x="41.25" y="-14.0" />
+      <point x="885.1017267267266" y="452.0" />
+      <point x="1416.9276195838695" y="452.0" />
+      <point x="-40.125" y="14.0" />
+    </edge>
+    <edge source="caesar.military.rome.CenturyFirstCohort" target="caesar.military.troop.Troop">
+      <point x="-68.0" y="-14.0" />
+      <point x="976.3648478835978" y="610.0" />
+      <point x="866.3517267267266" y="610.0" />
+      <point x="22.5" y="14.0" />
+    </edge>
+    <edge source="caesar.military.rome.Contubernium" target="caesar.military.troop.Troop">
+      <point x="0.0" y="-14.0" />
+      <point x="439.8648478835978" y="580.0" />
+      <point x="814.9231552981553" y="580.0" />
+      <point x="-28.92857142857133" y="14.0" />
+    </edge>
+    <edge source="caesar.game.entity.Player" target="caesar.game.entity.Entity">
+      <point x="0.0" y="-14.0" />
+      <point x="105.08806931931963" y="778.0" />
+      <point x="178.50000000000023" y="778.0" />
+      <point x="-36.75" y="14.0" />
+    </edge>
+    <edge source="caesar.military.rome.Cohort" target="caesar.military.troop.TroopType">
+      <point x="-32.66666666666674" y="-14.0" />
+      <point x="713.6981812169311" y="550.0" />
+      <point x="723.1017267267266" y="550.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="caesar.game.Game" target="caesar.game.map.Map">
+      <point x="34.71428571428572" y="-14.0" />
+      <point x="1649.1130952380954" y="946.0" />
+      <point x="1860.7705553768055" y="946.0" />
+      <point x="9.0" y="14.0" />
+    </edge>
+    <edge source="caesar.game.turn.Turn" target="caesar.game.turn.Action">
+      <point x="-15.1875" y="-14.0" />
+      <point x="1692.7401195838695" y="718.0" />
+      <point x="1628.3026195838695" y="718.0" />
+      <point x="24.5" y="14.0" />
+    </edge>
+    <edge source="caesar.military.rome.Cohort" target="caesar.military.troop.Troop">
+      <point x="32.66666666666674" y="-14.0" />
+      <point x="779.0315145502645" y="630.0" />
+      <point x="847.0660124410124" y="630.0" />
+      <point x="3.2142857142857792" y="14.0" />
+    </edge>
+    <edge source="caesar.game.Game" target="caesar.ui.Message">
+      <point x="-7.714285714285722" y="-14.0" />
+      <point x="1606.6845238095239" y="876.0" />
+      <point x="1451.5526195838695" y="876.0" />
+      <point x="1451.5526195838695" y="452.0" />
+      <point x="1443.6776195838695" y="452.0" />
+      <point x="-13.375" y="14.0" />
+    </edge>
+    <edge source="caesar.game.Game" target="caesar.game.entity.Player">
+      <point x="-30.857142857142833" y="-14.0" />
+      <point x="1583.5416666666667" y="936.0" />
+      <point x="105.08806931931963" y="936.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="caesar.game.turn.Turn" target="caesar.utility.UserInput">
+      <point x="15.1875" y="-14.0" />
+      <point x="1723.1151195838695" y="768.0" />
+      <point x="1754.5526195838695" y="768.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="caesar.game.entity.Entity" target="caesar.game.entity.ActionPoints">
+      <point x="0.0" y="-14.0" />
+      <point x="215.25000000000023" y="530.0" />
+      <point x="248.57913359788358" y="530.0" />
+      <point x="-50.33333333333326" y="14.0" />
+    </edge>
+    <edge source="caesar.game.turn.Turn" target="caesar.game.turn.TurnType">
+      <point x="-5.0625" y="-14.0" />
+      <point x="1702.8651195838695" y="708.0" />
+      <point x="1671.4276195838695" y="708.0" />
+      <point x="1671.4276195838695" y="442.0" />
+      <point x="1732.9362764550265" y="442.0" />
+      <point x="9.666666666666686" y="14.0" />
+    </edge>
+    <edge source="caesar.game.entity.Enemy" target="caesar.game.entity.Entity">
+      <point x="30.0" y="-14.0" />
+      <point x="290.0" y="748.0" />
+      <point x="252.00000000000023" y="748.0" />
+      <point x="36.75" y="14.0" />
+    </edge>
+    <edge source="caesar.military.soldier.Officer" target="caesar.military.troop.Troop">
+      <point x="26.75" y="14.0" />
+      <point x="1269.96509992135" y="372.0" />
+      <point x="825.1017267267266" y="372.0" />
+      <point x="-18.75" y="-14.0" />
+    </edge>
+    <edge source="caesar.military.troop.Troop" target="caesar.military.troop.TroopType">
+      <point x="-33.75" y="-14.0" />
+      <point x="810.1017267267266" y="284.0" />
+      <point x="750.8795045045044" y="284.0" />
+      <point x="27.77777777777783" y="14.0" />
+    </edge>
+    <edge source="caesar.military.troop.TroopType" target="caesar.military.soldier.Rank">
+      <point x="-31.25" y="-14.0" />
+      <point x="691.8517267267266" y="156.0" />
+      <point x="716.3517267267266" y="156.0" />
+      <point x="-6.75" y="14.0" />
+    </edge>
+    <edge source="caesar.military.rome.Century" target="caesar.military.troop.TroopType">
+      <point x="-35.66666666666674" y="-14.0" />
+      <point x="833.1981812169311" y="550.0" />
+      <point x="788.3517267267266" y="550.0" />
+      <point x="788.3517267267266" y="294.0" />
+      <point x="736.9906156156155" y="294.0" />
+      <point x="13.888888888888914" y="14.0" />
+    </edge>
+    <edge source="caesar.game.entity.Entity" target="caesar.military.troop.Troop">
+      <point x="28.0" y="-14.0" />
+      <point x="243.25000000000023" y="560.0" />
+      <point x="802.0660124410124" y="560.0" />
+      <point x="-41.78571428571422" y="14.0" />
+    </edge>
+    <edge source="caesar.app.App" target="caesar.game.Game">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6079854809437386" x="1005.5" y="541.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

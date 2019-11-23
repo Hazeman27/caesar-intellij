@@ -1,30 +1,41 @@
 package caesar.game.entity;
 
-import java.util.Arrays;
+import caesar.game.map.Relief;
+import org.jetbrains.annotations.Contract;
 
 public class Location {
 
     private int x;
     private int y;
+    private Relief relief;
 
+    @Contract(pure = true)
     Location(int x, int y) {
         
         this.x = x;
         this.y = y;
     }
 
-    public void change(int deltaX, int deltaY) {
+    void change(int deltaX, int deltaY) {
 
         this.x += deltaX;
         this.y += deltaY;
     }
-
-    public int[] get() {
-        return new int[] {this.x, this.y};
+    
+    public int getX() {
+        return this.x;
     }
-
-    public void print() {
-        System.out.println(this.toString());
+    
+    public int getY() {
+        return this.y;
+    }
+    
+    public Relief getRelief() {
+        return this.relief;
+    }
+    
+    void setRelief(Relief relief) {
+        this.relief = relief;
     }
 
     @Override
@@ -35,6 +46,6 @@ public class Location {
     public static void main(String[] args) {
         
         Location location = new Location(0, 0);
-        System.out.println(Arrays.toString(location.get()));
+        System.out.println(location);
     }
 }

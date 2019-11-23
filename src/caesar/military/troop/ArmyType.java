@@ -1,6 +1,7 @@
 package caesar.military.troop;
 
 import caesar.military.soldier.Rank;
+import org.jetbrains.annotations.Contract;
 
 public enum ArmyType {
 	
@@ -11,6 +12,7 @@ public enum ArmyType {
 	protected final Rank officerRank;
 	protected final TroopType troopsType;
 	
+	@Contract(pure = true)
 	ArmyType(TroopType troopsType, Rank officerRank, String symbol) {
 		
 		this.troopsType = troopsType;

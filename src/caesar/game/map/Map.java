@@ -1,6 +1,9 @@
 package caesar.game.map;
 
+import caesar.game.entity.Location;
 import caesar.utility.RandomEnum;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class Map {
 
@@ -15,22 +18,23 @@ public class Map {
         for (int x = 0; x < size; x++) {
 
             for (int y = 0; y < size; y++)
-                this.relief[x][y] = RandomEnum.get(Relief.class);
+                this.relief[x][y] = RandomEnum.get(Relief.class, 1);
         }
     }
 
-    private Relief getRelief(int x, int y) {
+    @Contract(pure = true)
+    public Relief getRelief(int x, int y) {
 
         if (x >= this.size || x < 0 || y >= this.size || y < 0)
-            return null;
+            return Relief.UNKNOWN;
 
         return this.relief[x][y];
     }
 
-    public Relief[] getReliefAround(int[] coordinates) {
+    public Relief[] getReliefAround(@NotNull Location location) {
         
-        int x = coordinates[0];
-        int y = coordinates[1];
+        int x = location.getX();
+        int y = location.getY();
 
         Relief north        = this.getRelief(x, y + 1);
         Relief northwest    = this.getRelief(x - 1, y + 1);
