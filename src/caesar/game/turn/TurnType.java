@@ -20,6 +20,7 @@ public enum TurnType {
 	TRAVEL("Travelling", Arrays.asList(
 		Action.ADVANCE, 
 		Action.LOOK_AROUND,
+		Action.ANALYZE_ARMY,
 		Action.TO_MAIN_MENU
 	)),
 	
@@ -32,7 +33,13 @@ public enum TurnType {
 		Action.SOUTH, 
 		Action.SOUTHWEST, 
 		Action.SOUTHEAST,
-		Action.PREVIOUS
+		Action.TO_TRAVEL
+	)),
+	
+	ANALYZE_ARMY("Army analysis options", Arrays.asList(
+		Action.GENERAL_ANALYSIS,
+		Action.THOROUGH_ANALYSIS,
+		Action.TO_TRAVEL
 	));
 	
 	private final String title;

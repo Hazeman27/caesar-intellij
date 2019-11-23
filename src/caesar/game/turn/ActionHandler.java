@@ -27,8 +27,8 @@ public interface ActionHandler {
 		
 		if (game.getPlayer() != null) {
 			
-			response.message = Message.CONTINUE;
-			response.type = ResponseType.SUCCESS;
+			response.setMessage(Message.CONTINUE);
+			response.setType(ResponseType.SUCCESS);
 			
 			game.getTurn().next(TurnType.TRAVEL);
 			
@@ -37,8 +37,8 @@ public interface ActionHandler {
 		
 		else {
 			
-			response.message = Message.NO_CURRENT_GAME;
-			response.type = ResponseType.FAILURE;
+			response.setMessage(Message.NO_CURRENT_GAME);
+			response.setType(ResponseType.FAILURE);
 			
 			return response;
 		}
@@ -56,23 +56,23 @@ public interface ActionHandler {
 	@Contract("_ -> new")
 	static Response advance(@NotNull Game game) {
 		
-		game.getTurn().setPrevious(TurnType.TRAVEL);
 		game.getTurn().next(TurnType.ADVANCE);
-		
 		return new Response(ResponseType.SUCCESS);
 	}
 	
 	@NotNull
 	@Contract("_ -> new")
 	static Response lookAround(@NotNull Game game) {
-
-		Printer.print(Message.PLAYER_LOOKED_AROUND);
+		
         Printer.printRelief(
         	game.getMap(),
         	game.getPlayer().location
         );
 		
-		return new Response(ResponseType.SUCCESS);
+		return new Response(
+			Message.PLAYER_LOOKED_AROUND,
+			ResponseType.SUCCESS
+		);
 	}
 	
 	@NotNull
@@ -91,9 +91,9 @@ public interface ActionHandler {
 	
 	@NotNull
 	@Contract("_ -> new")
-	static Response goToPreviousTurn(@NotNull Game game) {
+	static Response goToTravelMenu(@NotNull Game game) {
 		
-		game.getTurn().next(game.getTurn().getPrevious());
+		game.getTurn().next(TurnType.TRAVEL);
 		return new Response(ResponseType.SUCCESS);
 	}
 	
@@ -109,14 +109,14 @@ public interface ActionHandler {
 		
 		if (relief == Relief.UNKNOWN) {
 			
-			response.message = Message.UNKNOWN_DIRECTION;
-			response.type = ResponseType.FAILURE;
+			response.setMessage(Message.UNKNOWN_DIRECTION);
+			response.setType(ResponseType.FAILURE);
 			
 			return response;
 		}
 		
-		response.message = Message.PLAYER_MOVED;
-		response.type = ResponseType.SUCCESS;
+		response.setMessage(Message.PLAYER_MOVED);
+		response.setType(ResponseType.SUCCESS);
 		
 		game.getPlayer().move(direction, relief);
 		return response;
@@ -160,5 +160,33 @@ public interface ActionHandler {
 	@NotNull
 	static Response advanceSoutheast(@NotNull Game game) {
 		return advance(game, Direction.SOUTHEAST);
+	}
+	
+	@NotNull
+	@Contract("_ -> new")
+	static Response analyzePlayerArmy(@NotNull Game game) {
+		
+		game.getTurn().next(TurnType.ANALYZE_ARMY);
+		return new Response(ResponseType.SUCCESS);
+	}
+	
+	@NotNull
+	@Contract("_ -> new")
+	static Response conductGeneralArmyAnalysis(@NotNull Game game) {
+		
+		return new Response(
+			game.getPlayer().army,
+			ResponseType.SUCCESS
+		);
+	}
+	
+	@NotNull
+	@Contract("_ -> new")
+	static Response conductThoroughArmyAnalysis(@NotNull Game game) {
+		
+		return new Response(
+			game.getPlayer().army.toString(true),
+			ResponseType.SUCCESS
+		);
 	}
 }

@@ -11,9 +11,13 @@ public enum Action {
 	EXIT("Exit", 0, ActionHandler::exitGame),
 	TO_MAIN_MENU("Main menu", 0, ActionHandler::goToMainMenu),
 	
-	PREVIOUS("Previous", 0, ActionHandler::goToPreviousTurn),
+	TO_TRAVEL("Previous", 0, ActionHandler::goToTravelMenu),
 	ADVANCE("Advance", 0, ActionHandler::advance),
 	LOOK_AROUND("Look around", 3, ActionHandler::lookAround),
+	
+	ANALYZE_ARMY("Analyze your army", 0, ActionHandler::analyzePlayerArmy),
+	GENERAL_ANALYSIS("General analysis", 1, ActionHandler::conductGeneralArmyAnalysis),
+	THOROUGH_ANALYSIS("Thorough analysis", 3, ActionHandler::conductThoroughArmyAnalysis),
 	BUILD_CAMP("Build camp", 10, ActionHandler::buildCamp),
 	
 	NORTH("North", 1, ActionHandler::advanceNorth),

@@ -193,6 +193,12 @@ public class Troop {
         return Troop.getSummary(this);
     }
     
+    public String toString(boolean full) {
+        
+        return full ? Troop.getFullSummary(this) :
+            Troop.getSummary(this);
+    }
+    
     public static void main(String[] args) {
         
         Troop troop = new Troop(TroopType.LEGION);

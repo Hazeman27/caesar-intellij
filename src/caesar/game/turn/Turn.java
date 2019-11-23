@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 public class Turn {
 	
 	private TurnType type;
-	private TurnType previous;
     private Game game;
     private ActionPoints actionPoints;
     private Scanner scanner;
@@ -81,11 +80,11 @@ public class Turn {
             	
             	Response response = action.handle(this.game);
             	
-            	if (response.type == ResponseType.SUCCESS)
+            	if (response.isSuccessful())
 					this.actionPoints.remove(actionValue);
             	
-            	else if (response.message != null)
-            		Printer.print(response.message);
+            	if (response.hasMessage())
+            		Printer.print(response.getMessage());
             }
         }
     }
@@ -116,14 +115,6 @@ public class Turn {
     	
     	this.startInteraction();
     }
-    
-    TurnType getPrevious() {
-    	return this.previous;
-	}
-	
-	void setPrevious(TurnType previous) {
-		this.previous = previous;
-	}
 	
 	public void setActionPoints(ActionPoints actionPoints) {
 		this.actionPoints = actionPoints;
