@@ -1,6 +1,5 @@
-package caesar.game.entity;
+package caesar.game.map;
 
-import caesar.game.map.Relief;
 import org.jetbrains.annotations.Contract;
 
 public class Location {
@@ -10,19 +9,29 @@ public class Location {
     private Relief relief;
 
     @Contract(pure = true)
-    Location(int x, int y) {
+    public Location(int x, int y) {
         
         this.x = x;
         this.y = y;
     }
 
-    void change(int deltaX, int deltaY) {
+    public void change(int deltaX, int deltaY) {
 
         this.x += deltaX;
         this.y += deltaY;
     }
     
-    Relief getRelief() {
+    public Vector calcVector(Location location) {
+        
+        return new Vector(
+            this.x,
+            this.y,
+            location.x,
+            location.y
+        );
+    }
+    
+    public Relief getRelief() {
         return this.relief;
     }
     
@@ -30,11 +39,11 @@ public class Location {
         this.relief = relief;
     }
     
-    public int getX() {
+    int getX() {
         return this.x;
     }
     
-    public int getY() {
+    int getY() {
         return this.y;
     }
 

@@ -16,7 +16,7 @@ public interface ActionHandler {
 	@Contract("_ -> new")
 	static Response newGame(@NotNull Game game) {
 		
-		game.start(10, 6, 0, 0, 100);
+		game.start(10, 6, 4, 6, 100);
 		return new Response(ResponseType.SUCCESS);
 	}
 	
@@ -101,6 +101,10 @@ public interface ActionHandler {
 	@Contract("_ -> new")
 	static Response goToNextTurn(@NotNull Game game) {
 		
+		game.getEnemy().makeMove(game.getPlayer(), game.getMap());
+		game.incrementTurnsCount();
+		
+		game.replenishEntitiesAP();
 		game.getTurn().next(TurnType.TRAVEL);
 		
 		return new Response(

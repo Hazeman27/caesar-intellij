@@ -97,6 +97,26 @@ public class Game {
     public void incrementTurnsCount() {
     	this.turnsCount++;
 	}
+	
+	public void replenishEntitiesAP() {
+    	
+    	if (this.player.actionPoints.get() < 5) {
+    		
+    		Printer.print(Message.CONSIDER_RESTING);
+    		
+    		int value = this.random.nextInt(4) + 1;
+			this.player.actionPoints.add(value);
+			
+			Printer.print("Action points gained: " + value + "!");
+		}
+    	
+    	if (this.enemy.actionPoints.get() < 4) {
+    	
+			this.enemy.actionPoints.add(
+				this.random.nextInt(6) + 1
+			);
+		}
+	}
     
     public void exit() {
 

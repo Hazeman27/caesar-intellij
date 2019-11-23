@@ -102,12 +102,8 @@ public class Turn {
             
             UserInput.awaitInput(this.scanner);
         }
-
-        Printer.print(Message.NEXT_TURN);
-		UserInput.awaitInput(this.scanner);
-	
-		this.game.incrementTurnsCount();
-        Action.NEXT_TURN.handle(this.game);
+		
+        Action.TO_NEXT_TURN.handle(this.game);
     }
     
     public void next(TurnType type) {

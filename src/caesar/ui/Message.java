@@ -17,6 +17,7 @@ public enum Message {
     UNKNOWN_COMMAND("Error", "Unknown command. Try again..."),
     LOW_AP("Error", "Not enough action points..."),
 	CANT_REMOVE_TROOP("Error", "Can't remove troop with no parent..."),
+	CONSIDER_RESTING("You seem to be low on action points. Consider building a camp and letting your army rest..."),
 	TEST("Really Long Text", "Contrary to popular belief, " +
 		"Lorem Ipsum is not simply random text. It has roots in a piece of classical " +
 		"Latin literature from 45 BC, making it over 2000 years old. " +

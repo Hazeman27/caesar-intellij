@@ -1,5 +1,6 @@
 package caesar.game.entity;
 
+import caesar.game.map.Location;
 import caesar.game.map.Relief;
 import caesar.game.map.Direction;
 import caesar.military.troop.ArmyType;

@@ -1,6 +1,7 @@
 package caesar.game.map;
 
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public enum Direction {
 	
@@ -39,5 +40,17 @@ public enum Direction {
 	@Override
 	public String toString() {
 		return this.name;
+	}
+	
+	@NotNull
+	public static Direction valueOf(int x, int y) {
+		
+		for (Direction direction: values()) {
+			
+			if (direction.x == x && direction.y == y)
+				return direction;
+		}
+		
+		throw new IllegalArgumentException("No enum with specified values...");
 	}
 }

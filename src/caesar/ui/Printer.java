@@ -1,6 +1,6 @@
 package caesar.ui;
 
-import caesar.game.entity.Location;
+import caesar.game.map.Location;
 import caesar.game.map.Map;
 import caesar.game.map.Relief;
 import org.jetbrains.annotations.NotNull;

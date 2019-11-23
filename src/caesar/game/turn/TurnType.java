@@ -21,6 +21,7 @@ public enum TurnType {
 		Action.ADVANCE, 
 		Action.LOOK_AROUND,
 		Action.ANALYZE_ARMY,
+		Action.TO_NEXT_TURN,
 		Action.TO_MAIN_MENU
 	)),
 	

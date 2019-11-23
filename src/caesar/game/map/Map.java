@@ -1,6 +1,5 @@
 package caesar.game.map;
 
-import caesar.game.entity.Location;
 import caesar.utility.RandomEnum;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
