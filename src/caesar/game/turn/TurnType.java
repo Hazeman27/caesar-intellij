@@ -43,6 +43,11 @@ public enum TurnType {
 		Action.GENERAL_ANALYSIS,
 		Action.THOROUGH_ANALYSIS,
 		Action.TO_TRAVEL
+	)),
+	
+	ENCOUNTER("Encounter", Arrays.asList(
+		Action.TO_TRAVEL,
+		Action.TO_MAIN_MENU
 	));
 	
 	private final String title;

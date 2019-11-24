@@ -47,6 +47,10 @@ public class Location {
     public int getY() {
         return this.y;
     }
+    
+    public boolean equals(Location location) {
+        return this.x == location.x && this.y == location.y;
+    }
 
     @Override
     public String toString() {

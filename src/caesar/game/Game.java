@@ -98,6 +98,10 @@ public class Game {
     public Enemy getEnemy() {
     	return this.enemy;
 	}
+	
+	public Location getEnemyLocation() {
+    	return this.enemy.location;
+	}
     
     public int getTurnsCount() {
     	return this.turnsCount;

@@ -2,6 +2,7 @@ package caesar.game.turn;
 
 import caesar.game.Game;
 import caesar.game.map.Direction;
+import caesar.game.map.Location;
 import caesar.game.map.Relief;
 import caesar.ui.Message;
 import caesar.ui.Printer;
@@ -68,15 +69,26 @@ public interface ActionHandler {
 	@Contract("_ -> new")
 	static Response lookAround(@NotNull Game game) {
 		
+		Location playerLocation = game.getPlayerLocation();
+		Location enemyLocation = game.getEnemyLocation();
+		
+		int deltaX = enemyLocation.getX() - playerLocation.getX();
+		int deltaY = enemyLocation.getY() - playerLocation.getY();
+		
         Printer.printRelief(
         	game.getMap(),
-        	game.getPlayerLocation()
+        	playerLocation
         );
 		
-		return new Response(
-			Message.PLAYER_LOOKED_AROUND,
-			ResponseType.SUCCESS
-		);
+        if (Math.abs(deltaX) == 1 || Math.abs(deltaY) == 1) {
+        	
+        	Direction direction = Direction.valueOf(deltaX, deltaY);
+        	
+        	Printer.print(Message.ENEMY_NEARBY);
+        	Printer.print("Enemy is " + direction + " of you...");
+		}
+  
+		return new Response(ResponseType.SUCCESS);
 	}
 	
 	@NotNull
@@ -119,7 +131,11 @@ public interface ActionHandler {
 		game.incrementTurnsCount();
 		
 		game.replenishEntitiesAP();
-		game.nextTurn(TurnType.TRAVEL);
+		
+		if (game.getEnemyLocation().equals(game.getPlayerLocation()))
+			game.nextTurn(TurnType.ENCOUNTER);
+		
+		else game.nextTurn(TurnType.TRAVEL);
 		
 		return new Response(
 			Message.NEXT_TURN,

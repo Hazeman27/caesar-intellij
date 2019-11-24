@@ -103,22 +103,6 @@ public class Printer {
         System.out.println("----------------");
     }
     
-    public static void printBorder(String title, int maxLength, int whiteSpace) {
-    	System.out.println(getBorder(title, maxLength, whiteSpace));
-    }
-    
-    public static void printBorder(int maxLength, int whiteSpace) {
-    	System.out.println(getBorder(maxLength, whiteSpace));
-    }
-    
-    public static void printEmptyLine(int maxLength, int whiteSpace) {
-    	System.out.println(getEmptyLine(maxLength, whiteSpace));
-    }
-    
-    public static void printFillingSpaces(String string, int maxLength) {
-    	System.out.println(getFillingSpaces(string, maxLength));
-    }
-    
     public static <T> void print(@NotNull T string, boolean addNewLine) {
     	System.out.print(string.toString() + (addNewLine ? "\n" : ""));
     }
