@@ -9,7 +9,6 @@ import caesar.game.calendar.Month;
 import caesar.game.entity.ActionPoints;
 import caesar.ui.Message;
 import caesar.ui.Printer;
-import caesar.utility.UserInput;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -64,7 +63,7 @@ public class Turn {
         String input = this.scanner.nextLine();
         input = input.toLowerCase().trim();
 
-        if (UserInput.isNumeric(input)) {
+        if (this.isNumeric(input)) {
         	
         	int inputValue = Integer.parseInt(input);
         	
@@ -114,8 +113,7 @@ public class Turn {
         	
             this.printMessage();
             this.handleInput(this.scanInput());
-            
-            UserInput.awaitInput(this.scanner);
+            this.awaitInput();
         }
 		
         Action.TO_NEXT_TURN.handle(this.game);
@@ -134,6 +132,23 @@ public class Turn {
 	
 	public void setActionPoints(ActionPoints actionPoints) {
 		this.actionPoints = actionPoints;
+	}
+	
+	private void awaitInput() {
+		
+		Printer.print("press enter to continue...");
+		this.scanner.nextLine();
+	};
+	
+	private boolean isNumeric(String candidate) {
+		
+		try {
+			Double.parseDouble(candidate);
+		} catch (NumberFormatException | NullPointerException nfe) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public static void main(String[] args) {

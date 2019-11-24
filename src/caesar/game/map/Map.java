@@ -1,6 +1,5 @@
 package caesar.game.map;
 
-import caesar.utility.RandomEnum;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +16,7 @@ public class Map {
         for (int x = 0; x < size; x++) {
 
             for (int y = 0; y < size; y++)
-                this.relief[x][y] = RandomEnum.get(Relief.class, 1);
+                this.relief[x][y] = Relief.getRandom();
         }
     }
 

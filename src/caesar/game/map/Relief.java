@@ -2,6 +2,8 @@ package caesar.game.map;
 
 import org.jetbrains.annotations.Contract;
 
+import java.security.SecureRandom;
+
 public enum Relief {
 	
 	UNKNOWN(".."),
@@ -23,5 +25,14 @@ public enum Relief {
 	
 	public String toString(boolean asSymbol) {
 		return asSymbol ? this.symbol : super.toString();
+	}
+	
+	public static Relief getRandom() {
+		
+		SecureRandom random = new SecureRandom();
+		
+		return values()[random.nextInt(
+			values().length - 1
+		) + 1];
 	}
 }
