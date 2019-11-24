@@ -1,11 +1,13 @@
 package caesar.game;
 
 import caesar.game.entity.Enemy;
+import caesar.game.map.Location;
 import caesar.game.turn.Turn;
 import caesar.game.turn.TurnType;
 import caesar.game.map.Map;
 import caesar.game.entity.Player;
 import caesar.military.troop.ArmyType;
+import caesar.military.troop.Troop;
 import caesar.ui.Message;
 import caesar.ui.Printer;
 import org.jetbrains.annotations.Contract;
@@ -17,13 +19,17 @@ public class Game {
 	
     private final Turn turn = new Turn(this);
     private final SecureRandom random = new SecureRandom();
-	
+    
 	private Map map;
 	private Player player;
     private Enemy enemy;
     private int turnsCount;
+	
+	private Log log;
     
     public Game() {
+    	
+    	this.log = new Log();
         this.turn.next(TurnType.MAIN_MENU);
     }
     
@@ -34,8 +40,7 @@ public class Game {
 		int playerLocationY,
 		int mapSize
 	) {
-		
-    	Printer.print(Message.NEW_GAME);
+  
 		this.map = new Map(mapSize);
 	
 		this.player = new Player(
@@ -82,19 +87,39 @@ public class Game {
     	return this.player;
     }
     
+    public Location getPlayerLocation() {
+    	return this.player.location;
+	}
+	
+	public Troop getPlayerArmy() {
+    	return this.player.army;
+	}
+    
     public Enemy getEnemy() {
     	return this.enemy;
 	}
     
-    public Turn getTurn() {
-    	return this.turn;
-    }
-    
     public int getTurnsCount() {
     	return this.turnsCount;
 	}
-    
-    public void incrementTurnsCount() {
+	
+	public Log getLog() {
+		return log;
+	}
+	
+	public String getLogLastItem() {
+    	return this.log.getLastItem();
+	}
+	
+	public void nextTurn(TurnType turnType) {
+		this.turn.next(turnType);
+	}
+	
+	public void log(Object item) {
+    	this.log.addItem(item);
+	}
+	
+	public void incrementTurnsCount() {
     	this.turnsCount++;
 	}
 	

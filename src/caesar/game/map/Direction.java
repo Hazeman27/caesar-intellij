@@ -2,6 +2,7 @@ package caesar.game.map;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public enum Direction {
 	
@@ -42,7 +43,8 @@ public enum Direction {
 		return this.name;
 	}
 	
-	@NotNull
+	@Nullable
+	@Contract(pure = true)
 	public static Direction valueOf(int x, int y) {
 		
 		for (Direction direction: values()) {
@@ -51,6 +53,6 @@ public enum Direction {
 				return direction;
 		}
 		
-		throw new IllegalArgumentException("No enum with specified values...");
+		return null;
 	}
 }

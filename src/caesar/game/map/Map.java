@@ -68,7 +68,7 @@ public class Map {
         for (int x = 0; x < this.size; x++) {
 
             for (int y = 0; y < this.size; y++)
-                map.append(this.relief[x][y]);
+                map.append(this.relief[x][y].toString(true));
 
             map.append("\n");
         }

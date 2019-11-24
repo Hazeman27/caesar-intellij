@@ -14,10 +14,14 @@ public interface ActionHandler {
     
 	@NotNull
 	@Contract("_ -> new")
-	static Response newGame(@NotNull Game game) {
+	static Response startNewGame(@NotNull Game game) {
 		
 		game.start(10, 6, 4, 6, 100);
-		return new Response(ResponseType.SUCCESS);
+		
+		return new Response(
+			Message.NEW_GAME,
+			ResponseType.SUCCESS
+		);
 	}
 	
 	@NotNull
@@ -30,7 +34,7 @@ public interface ActionHandler {
 			response.setMessage(Message.CONTINUE);
 			response.setType(ResponseType.SUCCESS);
 			
-			game.getTurn().next(TurnType.TRAVEL);
+			game.nextTurn(TurnType.TRAVEL);
 			
 			return response;
 		}
@@ -54,9 +58,9 @@ public interface ActionHandler {
 	
 	@NotNull
 	@Contract("_ -> new")
-	static Response advance(@NotNull Game game) {
+	static Response showAdvanceOptions(@NotNull Game game) {
 		
-		game.getTurn().next(TurnType.ADVANCE);
+		game.nextTurn(TurnType.ADVANCE);
 		return new Response(ResponseType.SUCCESS);
 	}
 	
@@ -66,11 +70,21 @@ public interface ActionHandler {
 		
         Printer.printRelief(
         	game.getMap(),
-        	game.getPlayer().location
+        	game.getPlayerLocation()
         );
 		
 		return new Response(
 			Message.PLAYER_LOOKED_AROUND,
+			ResponseType.SUCCESS
+		);
+	}
+	
+	@NotNull
+	@Contract("_ -> new")
+	static Response openActionsLog(@NotNull Game game) {
+		
+		return new Response(
+			game.getLog(),
 			ResponseType.SUCCESS
 		);
 	}
@@ -85,7 +99,7 @@ public interface ActionHandler {
 	@Contract("_ -> new")
 	static Response goToMainMenu(@NotNull Game game) {
 		
-		game.getTurn().next(TurnType.MAIN_MENU);
+		game.nextTurn(TurnType.MAIN_MENU);
 		return new Response(ResponseType.SUCCESS);
 	}
 	
@@ -93,7 +107,7 @@ public interface ActionHandler {
 	@Contract("_ -> new")
 	static Response goToTravelMenu(@NotNull Game game) {
 		
-		game.getTurn().next(TurnType.TRAVEL);
+		game.nextTurn(TurnType.TRAVEL);
 		return new Response(ResponseType.SUCCESS);
 	}
 	
@@ -105,7 +119,7 @@ public interface ActionHandler {
 		game.incrementTurnsCount();
 		
 		game.replenishEntitiesAP();
-		game.getTurn().next(TurnType.TRAVEL);
+		game.nextTurn(TurnType.TRAVEL);
 		
 		return new Response(
 			Message.NEXT_TURN,
@@ -114,11 +128,15 @@ public interface ActionHandler {
 	}
 	
 	@NotNull
-	static Response advance(@NotNull Game game, @NotNull Direction direction) {
+	static Response advance(@NotNull Game game) {
+		
+		Direction direction = Direction.valueOf(
+			game.getLogLastItem().toUpperCase()
+		);
 		
 		Relief relief = game.getMap().getRelief(
-			direction.getX(),
-			direction.getY()
+			direction.getX() + game.getPlayerLocation().getX(),
+			direction.getY() + game.getPlayerLocation().getY()
 		);
 		
 		Response response = new Response();
@@ -139,50 +157,10 @@ public interface ActionHandler {
 	}
 	
 	@NotNull
-	static Response advanceNorth(@NotNull Game game) {
-		return advance(game, Direction.NORTH);
-	}
-	
-	@NotNull
-	static Response advanceNorthwest(@NotNull Game game) {
-		return advance(game, Direction.NORTHWEST);
-	}
-	
-	@NotNull
-	static Response advanceNortheast(@NotNull Game game) {
-		return advance(game, Direction.NORTHEAST);
-	}
-	
-	@NotNull
-	static Response advanceWest(@NotNull Game game) {
-		return advance(game, Direction.WEST);
-	}
-	
-	@NotNull
-	static Response advanceEast(@NotNull Game game) {
-		return advance(game, Direction.EAST);
-	}
-	
-	@NotNull
-	static Response advanceSouth(@NotNull Game game) {
-		return advance(game, Direction.SOUTH);
-	}
-	
-	@NotNull
-	static Response advanceSouthwest(@NotNull Game game) {
-		return advance(game, Direction.SOUTHWEST);
-	}
-	
-	@NotNull
-	static Response advanceSoutheast(@NotNull Game game) {
-		return advance(game, Direction.SOUTHEAST);
-	}
-	
-	@NotNull
 	@Contract("_ -> new")
 	static Response analyzePlayerArmy(@NotNull Game game) {
 		
-		game.getTurn().next(TurnType.ANALYZE_ARMY);
+		game.nextTurn(TurnType.ANALYZE_ARMY);
 		return new Response(ResponseType.SUCCESS);
 	}
 	
@@ -191,7 +169,7 @@ public interface ActionHandler {
 	static Response conductGeneralArmyAnalysis(@NotNull Game game) {
 		
 		return new Response(
-			game.getPlayer().army,
+			game.getPlayerArmy(),
 			ResponseType.SUCCESS
 		);
 	}
@@ -201,7 +179,7 @@ public interface ActionHandler {
 	static Response conductThoroughArmyAnalysis(@NotNull Game game) {
 		
 		return new Response(
-			game.getPlayer().army.toString(true),
+			game.getPlayerArmy().toString(true),
 			ResponseType.SUCCESS
 		);
 	}

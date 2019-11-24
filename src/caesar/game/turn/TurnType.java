@@ -13,7 +13,8 @@ public enum TurnType {
 	
 	MAIN_MENU("Caesar", Arrays.asList(
 		Action.NEW_GAME, 
-		Action.CONTINUE_GAME, 
+		Action.CONTINUE_GAME,
+		Action.OPEN_JOURNAL,
 		Action.EXIT
 	)),
 	
@@ -21,6 +22,7 @@ public enum TurnType {
 		Action.ADVANCE, 
 		Action.LOOK_AROUND,
 		Action.ANALYZE_ARMY,
+		Action.OPEN_JOURNAL,
 		Action.TO_NEXT_TURN,
 		Action.TO_MAIN_MENU
 	)),

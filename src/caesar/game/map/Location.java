@@ -1,6 +1,7 @@
 package caesar.game.map;
 
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class Location {
 
@@ -21,7 +22,7 @@ public class Location {
         this.y += deltaY;
     }
     
-    public Vector calcVector(Location location) {
+    public Vector calcVector(@NotNull Location location) {
         
         return new Vector(
             this.x,
@@ -39,11 +40,11 @@ public class Location {
         this.relief = relief;
     }
     
-    int getX() {
+    public int getX() {
         return this.x;
     }
     
-    int getY() {
+    public int getY() {
         return this.y;
     }
 

@@ -4,7 +4,9 @@ import caesar.game.map.Direction;
 import caesar.game.map.Map;
 import caesar.game.map.Relief;
 import caesar.game.map.Vector;
+import caesar.game.turn.Action;
 import caesar.military.troop.ArmyType;
+import org.jetbrains.annotations.NotNull;
 
 public class Enemy extends Entity {
 	
@@ -17,16 +19,20 @@ public class Enemy extends Entity {
 		super(armyType, troopsAmount, actionPointsAmount, x, y);
 	}
 	
-	public void makeMove(Player player, Map map) {
+	public void makeMove(@NotNull Player player, @NotNull Map map) {
 		
 		Vector vector = this.location.calcVector(player.location);
 		Direction direction = vector.getDirection();
 		
-		Relief relief = map.getRelief(
-			direction.getX(),
-			direction.getY()
-		);
-
-		this.move(direction, relief);
+		if (direction != null) {
+			
+			Relief relief = map.getRelief(
+				direction.getX() + this.location.getX(),
+				direction.getY() + this.location.getY()
+			);
+			
+			this.move(direction, relief);
+			this.actionPoints.remove(Action.NORTH.getValue());
+		}
 	}
 }

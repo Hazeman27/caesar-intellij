@@ -16,6 +16,7 @@ public class Turn {
 	
 	private TurnType type;
     private Game game;
+    private List<Action> actionsLog;
     private ActionPoints actionPoints;
     private Scanner scanner;
     private int minCostAction;
@@ -81,7 +82,8 @@ public class Turn {
             int actionValue = action.getValue();
 
             if (this.actionPoints.get() >= actionValue) {
-            	
+	
+				this.game.log(action);
             	Response response = action.handle(this.game);
             	
             	if (response.isSuccessful())
@@ -90,6 +92,8 @@ public class Turn {
             	if (response.hasMessage())
             		Printer.print(response.getMessage());
             }
+            
+            else Printer.print(Message.LOW_AP);
         }
     }
 

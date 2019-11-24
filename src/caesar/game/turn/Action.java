@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 public enum Action {
 	
-	NEW_GAME			("New game", 			0, 	ActionHandler::newGame						),
+	NEW_GAME			("New game", 			0, 	ActionHandler::startNewGame					),
 	CONTINUE_GAME		("Continue game", 		0, 	ActionHandler::continueGame					),
 	EXIT				("Exit", 				0, 	ActionHandler::exitGame						),
 	
@@ -14,23 +14,24 @@ public enum Action {
 	TO_NEXT_TURN		("Next turn", 			0, 	ActionHandler::goToNextTurn					),
 	TO_TRAVEL			("Previous", 			0, 	ActionHandler::goToTravelMenu				),
 	
-	ADVANCE				("Advance", 			0, 	ActionHandler::advance						),
+	ADVANCE				("Advance", 			0, 	ActionHandler::showAdvanceOptions			),
 	LOOK_AROUND			("Look around", 		3, 	ActionHandler::lookAround					),
 	ANALYZE_ARMY		("Analyze your army", 	0, 	ActionHandler::analyzePlayerArmy			),
+	OPEN_JOURNAL		("Open journal",		0,	ActionHandler::openActionsLog				),
 	
 	GENERAL_ANALYSIS	("General analysis", 	1, 	ActionHandler::conductGeneralArmyAnalysis	),
 	THOROUGH_ANALYSIS	("Thorough analysis", 	3, 	ActionHandler::conductThoroughArmyAnalysis	),
 	
 	BUILD_CAMP			("Build camp", 			10, ActionHandler::buildCamp					),
 	
-	NORTH				("North", 				1, 	ActionHandler::advanceNorth					),
-	NORTHWEST			("Northwest", 			1, 	ActionHandler::advanceNorthwest				),
-	NORTHEAST			("Northeast", 			1, 	ActionHandler::advanceNortheast				),
-	WEST				("West", 				1, 	ActionHandler::advanceWest					),
-	EAST				("East", 				1, 	ActionHandler::advanceEast					),
-	SOUTH				("South", 				1, 	ActionHandler::advanceSouth					),
-	SOUTHWEST			("Southwest", 			1, 	ActionHandler::advanceSouthwest				),
-	SOUTHEAST			("Southeast", 			1, 	ActionHandler::advanceSoutheast				);
+	NORTH				("North", 				1, 	ActionHandler::advance						),
+	NORTHWEST			("Northwest", 			1, 	ActionHandler::advance						),
+	NORTHEAST			("Northeast", 			1, 	ActionHandler::advance						),
+	WEST				("West", 				1, 	ActionHandler::advance						),
+	EAST				("East", 				1, 	ActionHandler::advance						),
+	SOUTH				("South", 				1, 	ActionHandler::advance						),
+	SOUTHWEST			("Southwest", 			1, 	ActionHandler::advance						),
+	SOUTHEAST			("Southeast", 			1, 	ActionHandler::advance						);
 	
 	private final int value;
 	private final String name;
