@@ -15,7 +15,7 @@ public class Log {
 		this.log = new ArrayList<>();
 	}
 	
-	void addItem(@NotNull Object item) {
+	<T> void addItem(@NotNull T item) {
 		this.log.add(item.toString());
 	}
 	

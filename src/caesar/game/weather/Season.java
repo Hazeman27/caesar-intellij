@@ -1,0 +1,63 @@
+package caesar.game.weather;
+
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
+import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.List;
+
+public enum Season {
+	
+	WINTER(Arrays.asList(
+		WeatherType.SNOW,
+		WeatherType.BLIZZARD,
+		WeatherType.FOGGY,
+		WeatherType.MIST,
+		WeatherType.CLOUDY,
+		WeatherType.WINDY,
+		WeatherType.SUNNY
+	)),
+	
+	SPRING(Arrays.asList(
+		WeatherType.SUNNY,
+		WeatherType.CLOUDY,
+		WeatherType.RAINY,
+		WeatherType.STORMY,
+		WeatherType.THUNDERSTORMS,
+		WeatherType.WINDY
+	)),
+	
+	SUMMER(Arrays.asList(
+		WeatherType.SUNNY,
+		WeatherType.WINDY,
+		WeatherType.CLOUDY,
+		WeatherType.RAINY
+	)),
+	
+	AUTUMN(Arrays.asList(
+		WeatherType.RAINY,
+		WeatherType.CLOUDY,
+		WeatherType.WINDY,
+		WeatherType.SNOW,
+		WeatherType.FOGGY,
+		WeatherType.MIST
+	));
+	
+	//	Temperature unit: celsius
+	private final List<WeatherType> weatherTypes;
+	
+	@Contract(pure = true)
+	Season(List<WeatherType> weatherTypes) {
+		this.weatherTypes = weatherTypes;
+	}
+	
+	public static WeatherType getRandomWeatherType(@NotNull Season season) {
+		
+		SecureRandom random = new SecureRandom();
+		
+		return season.weatherTypes.get(
+			random.nextInt(season.weatherTypes.size())
+		);
+	}
+}

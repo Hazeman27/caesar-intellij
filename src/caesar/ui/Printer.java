@@ -69,7 +69,8 @@ public class Printer {
     public static void printRelief(@NotNull Map map, Location location) {
     	
     	Relief[] relief = map.getReliefAround(location);
-
+    
+        System.out.println();
         System.out.println("North       - " + relief[0] + ";");
         System.out.println("Northwest   - " + relief[1] + ";");
         System.out.println("Northeast   - " + relief[2] + ";");
@@ -109,5 +110,9 @@ public class Printer {
     
     public static <T> void print(@NotNull T string) {
         System.out.println(string.toString());
+    }
+    
+    public static void printEmptyLine() {
+        System.out.println();
     }
 }

@@ -1,15 +1,19 @@
 package caesar.game;
 
+import caesar.game.calendar.Calendar;
+import caesar.game.calendar.Month;
 import caesar.game.entity.Enemy;
 import caesar.game.map.Location;
 import caesar.game.turn.Turn;
 import caesar.game.turn.TurnType;
 import caesar.game.map.Map;
 import caesar.game.entity.Player;
+import caesar.game.weather.Weather;
 import caesar.military.troop.ArmyType;
 import caesar.military.troop.Troop;
 import caesar.ui.Message;
 import caesar.ui.Printer;
+
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,10 +30,24 @@ public class Game {
     private int turnsCount;
 	
 	private Log log;
+	private Calendar calendar;
     
-    public Game() {
+    public Game(
+    	Month calendarMonth,
+		int calendarDay,
+		int calendarYear,
+		boolean calendarBCE
+	) {
     	
     	this.log = new Log();
+		
+    	this.calendar = new Calendar(
+    		calendarMonth,
+			calendarDay,
+			calendarYear,
+			calendarBCE
+		);
+    	
         this.turn.next(TurnType.MAIN_MENU);
     }
     
@@ -115,6 +133,14 @@ public class Game {
     	return this.log.getLastItem();
 	}
 	
+	public Calendar getCalendar() {
+		return calendar;
+	}
+	
+	public Weather getWeather() {
+		return this.calendar.getWeather();
+	}
+	
 	public void nextTurn(TurnType turnType) {
 		this.turn.next(turnType);
 	}
@@ -125,6 +151,14 @@ public class Game {
 	
 	public void incrementTurnsCount() {
     	this.turnsCount++;
+	}
+	
+	public void nextDay() {
+    	this.calendar.nextDay();
+	}
+	
+	public void changeWeather() {
+    	this.calendar.getWeather().change();
 	}
 	
 	public void replenishEntitiesAP() {
@@ -154,6 +188,6 @@ public class Game {
     }
 	
 	public static void main(String... args) {
-    	new Game();
+    	new Game(Month.FEBRUARIUS, 13, 58, true);
     }
 }

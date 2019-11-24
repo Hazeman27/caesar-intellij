@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import caesar.game.Game;
+import caesar.game.calendar.Month;
 import caesar.game.entity.ActionPoints;
 import caesar.ui.Message;
 import caesar.ui.Printer;
@@ -16,7 +17,6 @@ public class Turn {
 	
 	private TurnType type;
     private Game game;
-    private List<Action> actionsLog;
     private ActionPoints actionPoints;
     private Scanner scanner;
     private int minCostAction;
@@ -38,15 +38,23 @@ public class Turn {
 
     private void printMessage() {
 		
+    	Printer.printEmptyLine();
     	Printer.print(this.type);
+    	Printer.print(this.game.getCalendar());
+    	Printer.print(this.game.getWeather());
+    	Printer.printEmptyLine();
     	
     	if (this.game.getPlayer() != null)
     		Printer.print(this.game.getPlayer());
     	
     	if (this.game.getEnemy() != null)
     		Printer.print(this.game.getEnemy());
+	
+		Printer.printEmptyLine();
     	
-    	Printer.print("Turns count: " + this.game.getTurnsCount());
+    	if (this.game.getTurnsCount() > 0)
+			Printer.print("Turns count: " + this.game.getTurnsCount());
+    	
     	Printer.print("Enter your choice: ", false);
     }
 
@@ -57,10 +65,13 @@ public class Turn {
         input = input.toLowerCase().trim();
 
         if (UserInput.isNumeric(input)) {
-        
-			return this.type.getAction(
-				Integer.parseInt(input) - 1
-			);
+        	
+        	int inputValue = Integer.parseInt(input);
+        	
+        	if (inputValue < 1 || inputValue > this.type.getActions().size())
+        		return null;
+        	
+			return this.type.getAction(inputValue - 1);
 		}
 
         for (Action action: this.type.getActions()) {
@@ -127,7 +138,7 @@ public class Turn {
 	
 	public static void main(String[] args) {
 
-        Turn turn = new Turn(new Game());
+        Turn turn = new Turn(new Game(Month.IANUARIUS, 13, 58, true));
         turn.next(TurnType.TRAVEL);
     }
 }

@@ -131,6 +131,8 @@ public interface ActionHandler {
 		game.incrementTurnsCount();
 		
 		game.replenishEntitiesAP();
+		game.nextDay();
+		game.changeWeather();
 		
 		if (game.getEnemyLocation().equals(game.getPlayerLocation()))
 			game.nextTurn(TurnType.ENCOUNTER);

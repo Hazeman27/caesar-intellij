@@ -1,19 +1,21 @@
 package caesar.game.calendar;
 
+import caesar.game.weather.Weather;
 import org.jetbrains.annotations.NotNull;
 
 public class Calendar {
 	
+	private Weather weather;
 	private Month month;
 	private int day;
 	private int year;
-	private boolean annoDomini;
+	private boolean bce;
 	
 	public Calendar(
 		@NotNull Month month,
 		int day,
 		int year,
-		boolean annoDomini
+		boolean bce
 	) {
 		
 		if (day > month.getDays()) {
@@ -28,20 +30,11 @@ public class Calendar {
 			this.day = Math.max(day, 1);
 		}
 		
+		assert this.month != null;
+		this.weather = new Weather(this.month.getSeason());
+		
 		this.year = Math.max(year, 1);
-		this.annoDomini = annoDomini;
-	}
-	
-	public Month getMonth() {
-		return month;
-	}
-	
-	public int getDay() {
-		return day;
-	}
-	
-	public int getYear() {
-		return year;
+		this.bce = bce;
 	}
 	
 	public void nextDay() {
@@ -52,37 +45,45 @@ public class Calendar {
 			this.nextMonth();
 	}
 	
-	public void nextMonth() {
+	private void nextMonth() {
 		
 		this.month = Month.next(this.month);
+		
+		assert this.month != null;
+		this.weather.setSeason(this.month.getSeason());
+		
 		this.day = 1;
 		
 		if (this.month == Month.IANUARIUS)
 			this.nextYear();
 	}
 	
-	public void nextYear() {
+	private void nextYear() {
 		
-		if (annoDomini)
+		if (bce)
 			this.year--;
 		
 		else this.year++;
 		
 		if (this.year == 0) {
 			
-			this.annoDomini = false;
+			this.bce = false;
 			this.year = 1;
 		}
 	}
 	
+	public Weather getWeather() {
+		return weather;
+	}
+	
 	@Override
 	public String toString() {
-		return this.month.toString() +
+		return this.month +
 			" " +
 			this.day +
 			", " +
 			this.year +
-			(this.annoDomini ? " A.D." : "");
+			(this.bce ? " A.D." : "");
 	}
 	
 	public static void main(String[] args) {

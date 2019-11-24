@@ -5,9 +5,8 @@ import org.jetbrains.annotations.NotNull;
 
 public enum Message {
 	
+	PRELUDE("Prelude", "Story is under development..."),
 	PLAYER_MOVED("You have moved"),
-    PLAYER_LOOKED_AROUND("You have looked around you and here is what you see:"),
-    PRELUDE("Prelude", "Story is under development..."),
 	NEW_GAME("Starting new game..."),
     CONTINUE("Continuing game..."),
 	NEXT_TURN("Moving to next turn..."),
@@ -98,8 +97,7 @@ public enum Message {
 		stringBuilder.append(this.content)
 			.append("\n");
 		
-        stringBuilder.append(Printer.getBorder(this.maxLength, 0))
-			.append("\n");
+        stringBuilder.append(Printer.getBorder(this.maxLength, 0));
    
 		return stringBuilder.toString();
 	}

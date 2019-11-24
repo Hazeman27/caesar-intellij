@@ -8,7 +8,7 @@ class Response {
 	private String message;
 	private ResponseType type;
 	
-	Response(@NotNull Object message, ResponseType type) {
+	<T> Response(@NotNull T message, ResponseType type) {
 		
 		this.message = "\n" + message.toString();
 		this.type = type;
@@ -26,7 +26,7 @@ class Response {
 		return message;
 	}
 	
-	void setMessage(@NotNull Object message) {
+	<T> void setMessage(@NotNull T message) {
 		this.message = "\n" + message.toString();
 	}
 	

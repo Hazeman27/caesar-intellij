@@ -1,0 +1,39 @@
+package caesar.game.weather;
+
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
+import java.security.SecureRandom;
+
+public enum WeatherType {
+	
+	RAINY(2, 30),
+	STORMY(0, 30),
+	SUNNY(18, 40),
+	CLOUDY(9, 27),
+	WINDY(5, 25),
+	FOGGY(3, 15),
+	SNOW(-15, 5),
+	BLIZZARD(-25, -15),
+	MIST(-3, 10),
+	THUNDERSTORMS(10, 24);
+	
+	private final int minTemperature;
+	private final int maxTemperature;
+	
+	@Contract(pure = true)
+	WeatherType(int minTemperature, int maxTemperature) {
+		
+		this.minTemperature = minTemperature;
+		this.maxTemperature = maxTemperature;
+	}
+	
+	public static int getRandomTemperature(@NotNull WeatherType weatherType) {
+		
+		SecureRandom random = new SecureRandom();
+		
+		return random.nextInt(weatherType.maxTemperature -
+			weatherType.minTemperature) +
+			weatherType.minTemperature;
+	}
+}
