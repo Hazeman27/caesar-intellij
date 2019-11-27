@@ -17,9 +17,9 @@ public class Troop {
     
     private List<Soldier> soldiers;
     private List<Troop> troops;
-
     private Soldier officer;
     private Troop parentTroop;
+    private boolean alive;
     
     public Troop(@NotNull TroopType troopType, Troop parentTroop) {
         
@@ -28,6 +28,7 @@ public class Troop {
         
         this.symbol = troopType.symbol;
         this.parentTroop = parentTroop;
+        this.alive = true;
     
         this.initTroops(troopType.troops);
     }
@@ -37,6 +38,7 @@ public class Troop {
     	this.officer = new Officer(troopType.officerRank, this);
         this.type = troopType.toString();
     	this.symbol = troopType.symbol;
+    	this.alive = false;
     
         this.initTroops(troopType.troops);
     }
@@ -46,6 +48,7 @@ public class Troop {
         this.officer = new Officer(armyType.officerRank, this);
         this.type = armyType.toString();
         this.symbol = armyType.symbol;
+        this.alive = false;
     
         this.initTroops(armyType.troopsType, troopsAmount);
     }
@@ -86,21 +89,50 @@ public class Troop {
             this.soldiers.add(new Soldier(this));
     }
 
-    public void removeTroop(Troop troop) {
-        this.troops.remove(troop);
-    }
+    private void perish() {
 
-    public void removeSoldier(Soldier soldier) {
-        this.soldiers.remove(soldier);
-    }
-
-    public void perish() {
-
-        if (this.parentTroop != null)
+        if (this.parentTroop != null) {
+            
             this.parentTroop.troops.remove(this);
+            this.alive = false;
+        }
 
         else
             Printer.print(Message.CANT_REMOVE_TROOP);
+    }
+    
+    public List<Soldier> getSoldiers() {
+        return this.soldiers;
+    }
+    
+    public List<Troop> getTroops() {
+        return this.troops;
+    }
+    
+    public boolean isAlive() {
+        return this.alive;
+    }
+    
+    public void removeTroop(Troop troop) {
+        
+        if (this.troops == null)
+            return;
+        
+        this.troops.remove(troop);
+        
+        if (this.troops.size() == 0)
+            this.perish();
+    }
+    
+    public void removeSoldier(Soldier soldier) {
+        
+        if (this.soldiers == null)
+            return;
+        
+        this.soldiers.remove(soldier);
+        
+        if (this.soldiers.size() == 0)
+            this.perish();
     }
 
     public void printSymbol(boolean addSpace, boolean addNewLine) {
@@ -127,18 +159,29 @@ public class Troop {
             this.troops.get(i)
                 .printSymbol(i != amount - 1, i == amount - 1);
     }
+	
+	@Override
+	public String toString() {
+		return Troop.getSummary(this);
+	}
+	
+	public String toString(boolean full) {
+		
+		return full ? Troop.getFullSummary(this) :
+			Troop.getSummary(this);
+	}
 
-    public static int countSoldiers(@NotNull Troop troop) {
+    public static int countSoldiers(@NotNull Troop troop, boolean countOfficers) {
 
         int total = 0;
         
         if (troop.troops == null)
-            return troop.soldiers.size() + 1;
+            return troop.soldiers.size() + (countOfficers ? 1 : 0);
         
         for (Troop t: troop.troops)
-            total += countSoldiers(t);
+            total += countSoldiers(t, countOfficers);
 
-        return total + 1;
+        return total + (countOfficers ? 1 : 0);
     }
 
     @NotNull
@@ -155,7 +198,7 @@ public class Troop {
             .append("\n");
         
         summary.append("Soldiers count: ")
-            .append(countSoldiers(troop))
+            .append(countSoldiers(troop, true))
             .append("\n");
 
         if (troop.troops != null)
@@ -180,32 +223,28 @@ public class Troop {
         return fullSummary.toString();
     }
 
-    public static void printSummary(Troop troop) {
-        Printer.print(getSummary(troop));
-    }
-
-    public static void printFullSummary(Troop troop) {
-        Printer.print(getFullSummary(troop));
-    }
-    
-    @Override
-    public String toString() {
-        return Troop.getSummary(this);
-    }
-    
-    public String toString(boolean full) {
-        
-        return full ? Troop.getFullSummary(this) :
-            Troop.getSummary(this);
-    }
+    public static void engage(Troop A, Troop B) {
+    	
+    	while (A.isAlive() && B.isAlive()) {
+    		
+    		if (A.troops == null && B.troops == null) {
+    			
+    			for (Soldier soldier: A.soldiers)
+			}
+    		
+    		for (Troop troop: A.troops) {
+    		
+    		
+			}
+		}
+	}
     
     public static void main(String[] args) {
         
         Troop troop = new Troop(TroopType.LEGION);
-        Troop.printSummary(troop);
         
         troop.troops.get(0).perish();
-        Troop.printSummary(troop);
+        
         
         troop.printTroopSymbols();
     }

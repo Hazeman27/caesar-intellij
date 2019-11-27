@@ -116,7 +116,7 @@ public class Turn {
             this.awaitInput();
         }
 		
-        Action.TO_NEXT_TURN.handle(this.game);
+        Action.TO_NEXT_DAY.handle(this.game);
     }
     
     public void next(TurnType type) {

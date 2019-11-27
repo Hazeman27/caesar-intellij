@@ -4,6 +4,7 @@ import caesar.game.Game;
 import caesar.game.map.Direction;
 import caesar.game.map.Location;
 import caesar.game.map.Relief;
+import caesar.game.weather.WeatherType;
 import caesar.ui.Message;
 import caesar.ui.Printer;
 import org.jetbrains.annotations.Contract;
@@ -80,7 +81,8 @@ public interface ActionHandler {
         	playerLocation
         );
 		
-        if (Math.abs(deltaX) == 1 || Math.abs(deltaY) == 1) {
+        if (WeatherType.isClear(game.getCurrentWeather()) &&
+			(Math.abs(deltaX) == 1 || Math.abs(deltaY) == 1)) {
         	
         	Direction direction = Direction.valueOf(deltaX, deltaY);
         	
@@ -103,7 +105,15 @@ public interface ActionHandler {
 	
 	@NotNull
 	@Contract(pure = true)
-	static Response buildCamp(Game game) {
+	static Response buildCamp(@NotNull Game game) {
+		
+		Response response = new Response();
+		
+		if (Relief.isSolid(game.getPlayerRelief())) {
+		
+		
+		}
+		
 		return new Response(ResponseType.SUCCESS);
 	}
 	
@@ -125,7 +135,15 @@ public interface ActionHandler {
 	
 	@NotNull
 	@Contract("_ -> new")
-	static Response goToNextTurn(@NotNull Game game) {
+	static Response goToEncounterMenu(@NotNull Game game) {
+		
+		game.nextTurn(TurnType.ENCOUNTER);
+		return new Response(ResponseType.SUCCESS);
+	}
+	
+	@NotNull
+	@Contract("_ -> new")
+	static Response goToNextDay(@NotNull Game game) {
 		
 		game.getEnemy().makeMove(game.getPlayer(), game.getMap());
 		game.incrementTurnsCount();
@@ -200,5 +218,59 @@ public interface ActionHandler {
 			game.getPlayerArmy().toString(true),
 			ResponseType.SUCCESS
 		);
+	}
+	
+	@NotNull
+	@Contract("_ -> new")
+	static Response prepareForBattle(@NotNull Game game) {
+		
+		game.nextTurn(TurnType.PREPARE_FOR_BATTLE);
+		return new Response(ResponseType.SUCCESS);
+	}
+	
+	@NotNull
+	@Contract("_ -> new")
+	static Response sendMessage(@NotNull Game game) {
+		
+		game.nextTurn(TurnType.SEND_MESSAGE);
+		return new Response(ResponseType.SUCCESS);
+	}
+	
+	@NotNull
+	@Contract("_ -> new")
+	static Response retreat(@NotNull Game game) {
+		
+		game.nextTurn(TurnType.RETREAT);
+		return new Response(ResponseType.SUCCESS);
+	}
+	
+	@NotNull
+	@Contract("_ -> new")
+	static Response attack(@NotNull Game game) {
+		return new Response(ResponseType.SUCCESS);
+	}
+	
+	@NotNull
+	@Contract("_ -> new")
+	static Response changeFormation(@NotNull Game game) {
+		return new Response(ResponseType.SUCCESS);
+	}
+	
+	@NotNull
+	@Contract("_ -> new")
+	static Response proposeAlliance(@NotNull Game game) {
+		return new Response(ResponseType.SUCCESS);
+	}
+	
+	@NotNull
+	@Contract("_ -> new")
+	static Response demandSurrender(@NotNull Game game) {
+		return new Response(ResponseType.SUCCESS);
+	}
+	
+	@NotNull
+	@Contract("_ -> new")
+	static Response askForSupplies(@NotNull Game game) {
+		return new Response(ResponseType.SUCCESS);
 	}
 }

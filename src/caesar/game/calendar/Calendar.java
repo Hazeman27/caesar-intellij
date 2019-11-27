@@ -30,8 +30,8 @@ public class Calendar {
 			this.day = Math.max(day, 1);
 		}
 		
-		assert this.month != null;
-		this.weather = new Weather(this.month.getSeason());
+		if (this.month != null)
+			this.weather = new Weather(this.month.getSeason());
 		
 		this.year = Math.max(year, 1);
 		this.bce = bce;
@@ -49,8 +49,8 @@ public class Calendar {
 		
 		this.month = Month.next(this.month);
 		
-		assert this.month != null;
-		this.weather.setSeason(this.month.getSeason());
+		if (this.month != null)
+			this.weather.setSeason(this.month.getSeason());
 		
 		this.day = 1;
 		

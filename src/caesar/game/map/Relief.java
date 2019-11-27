@@ -1,8 +1,7 @@
 package caesar.game.map;
 
+import caesar.game.Game;
 import org.jetbrains.annotations.Contract;
-
-import java.security.SecureRandom;
 
 public enum Relief {
 	
@@ -28,11 +27,11 @@ public enum Relief {
 	}
 	
 	public static Relief getRandom() {
-		
-		SecureRandom random = new SecureRandom();
-		
-		return values()[random.nextInt(
-			values().length - 1
-		) + 1];
+		return values()[Game.getRandomInt(values().length, 1)];
+	}
+	
+	@Contract(pure = true)
+	public static boolean isSolid(Relief relief) {
+		return relief != RIVER && relief != SWAMP;
 	}
 }

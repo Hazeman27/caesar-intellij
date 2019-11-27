@@ -2,30 +2,44 @@ package caesar.military.soldier;
 
 import org.jetbrains.annotations.Contract;
 
-public class Status {
-    
-    private final int maxState = 100;
+public enum Status {
+	
+	MORALE(100, 0),
+	SATIETY(100, 0),
+	HEALTH(100, 0);
+	
+    private final int maxState;
+    private final int minState;
 	private int state;
 
 	@Contract(pure = true)
-	Status(int state) {
-		this.state = state;
-	}
-
-	@Contract(pure = true)
-	Status() {
+	Status(int maxState, int minState) {
+		
+		this.maxState = maxState;
+		this.minState = minState;
 		this.state = maxState;
 	}
-
-	int get() {
-		return this.state;
+	
+	@Contract(pure = true)
+	int getMaxState() {
+		return maxState;
 	}
 	
-	void set(int value) {
-		this.state = value;
+	@Contract(pure = true)
+	int getMinState() {
+		return minState;
 	}
-
-	public void increase(int amount) {
+	
+	@Contract(pure = true)
+	int getState() {
+		return state;
+	}
+	
+	void setState(int state) {
+		this.state = state;
+	}
+	
+	void increase(int amount) {
 		
 		if (this.state == maxState)
 			return;
@@ -39,15 +53,11 @@ public class Status {
 		this.state += amount;
 	}
 	
-	public void decrease(int amount) {
-
-		int minState = 0;
-		if (this.state == minState)
-			return;
+	void decrease(int amount) {
 		
-		if (this.state - amount <= minState) {
+		if (this.state - amount <= this.minState) {
 			
-			this.state = minState;
+			this.state = this.minState;
 			return;
 		}
 			

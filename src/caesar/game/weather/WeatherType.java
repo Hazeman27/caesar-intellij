@@ -1,9 +1,8 @@
 package caesar.game.weather;
 
+import caesar.game.Game;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-
-import java.security.SecureRandom;
 
 public enum WeatherType {
 	
@@ -30,10 +29,14 @@ public enum WeatherType {
 	
 	public static int getRandomTemperature(@NotNull WeatherType weatherType) {
 		
-		SecureRandom random = new SecureRandom();
-		
-		return random.nextInt(weatherType.maxTemperature -
-			weatherType.minTemperature) +
-			weatherType.minTemperature;
+		return Game.getRandomInt(
+			weatherType.maxTemperature,
+			weatherType.minTemperature
+		);
+	}
+	
+	@Contract(pure = true)
+	public static boolean isClear(WeatherType weatherType) {
+		return weatherType != FOGGY && weatherType != MIST;
 	}
 }

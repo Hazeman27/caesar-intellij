@@ -23,7 +23,7 @@ public enum TurnType {
 		Action.LOOK_AROUND,
 		Action.ANALYZE_ARMY,
 		Action.OPEN_JOURNAL,
-		Action.TO_NEXT_TURN,
+		Action.TO_NEXT_DAY,
 		Action.TO_MAIN_MENU
 	)),
 	
@@ -46,8 +46,35 @@ public enum TurnType {
 	)),
 	
 	ENCOUNTER("Encounter", Arrays.asList(
-		Action.TO_TRAVEL,
+		Action.PREPARE_FOR_BATTLE,
+		Action.SEND_MESSAGE,
+		Action.RETREAT,
 		Action.TO_MAIN_MENU
+	)),
+	
+	PREPARE_FOR_BATTLE("Preparing for battle", Arrays.asList(
+		Action.ATTACK,
+		Action.CHANGE_FORMATION,
+		Action.TO_ENCOUNTER
+	)),
+	
+	SEND_MESSAGE("Send message", Arrays.asList(
+		Action.PROPOSE_ALLIANCE,
+		Action.DEMAND_SURRENDER,
+		Action.ASK_FOR_SUPPLIES,
+		Action.TO_ENCOUNTER
+	)),
+	
+	RETREAT("Retreat options", Arrays.asList(
+		Action.NORTH,
+		Action.NORTHWEST,
+		Action.NORTHEAST,
+		Action.WEST,
+		Action.EAST,
+		Action.SOUTH,
+		Action.SOUTHWEST,
+		Action.SOUTHEAST,
+		Action.TO_ENCOUNTER
 	));
 	
 	private final String title;

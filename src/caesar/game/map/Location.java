@@ -48,7 +48,7 @@ public class Location {
         return this.y;
     }
     
-    public boolean equals(Location location) {
+    public boolean equals(@NotNull Location location) {
         return this.x == location.x && this.y == location.y;
     }
 

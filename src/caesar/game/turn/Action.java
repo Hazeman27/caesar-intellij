@@ -11,8 +11,9 @@ public enum Action {
 	EXIT				("Exit", 				0, 	ActionHandler::exitGame						),
 	
 	TO_MAIN_MENU		("<< Main menu", 		0, 	ActionHandler::goToMainMenu					),
-	TO_NEXT_TURN		("Next turn >>", 		0, 	ActionHandler::goToNextTurn					),
+	TO_NEXT_DAY			("Next day >>", 		0, 	ActionHandler::goToNextDay					),
 	TO_TRAVEL			("<< Previous", 		0, 	ActionHandler::goToTravelMenu				),
+	TO_ENCOUNTER		("<< Previous", 		0, 	ActionHandler::goToEncounterMenu			),
 	
 	ADVANCE				("Advance", 			0, 	ActionHandler::showAdvanceOptions			),
 	LOOK_AROUND			("Look around", 		3, 	ActionHandler::lookAround					),
@@ -31,7 +32,19 @@ public enum Action {
 	EAST				("East", 				1, 	ActionHandler::advance						),
 	SOUTH				("South", 				1, 	ActionHandler::advance						),
 	SOUTHWEST			("Southwest", 			1, 	ActionHandler::advance						),
-	SOUTHEAST			("Southeast", 			1, 	ActionHandler::advance						);
+	SOUTHEAST			("Southeast", 			1, 	ActionHandler::advance						),
+	
+	PREPARE_FOR_BATTLE	("Prepare for battle",	0,	ActionHandler::prepareForBattle				),
+	SEND_MESSAGE		("Send message",		0,	ActionHandler::sendMessage					),
+	RETREAT				("Retreat",				0,	ActionHandler::retreat						),
+	
+	ATTACK				("Attack", 				0, 	ActionHandler::attack						),
+	CHANGE_FORMATION	("Change formation",	0, 	ActionHandler::changeFormation				),
+	
+	PROPOSE_ALLIANCE	("Propose alliance",	2, 	ActionHandler::proposeAlliance				),
+	DEMAND_SURRENDER	("Demand surrender",	2,	ActionHandler::demandSurrender				),
+	ASK_FOR_SUPPLIES	("Ask for supplies",	2, 	ActionHandler::askForSupplies				);
+	
 	
 	private final int value;
 	private final String name;

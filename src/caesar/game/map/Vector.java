@@ -1,10 +1,13 @@
 package caesar.game.map;
 
+import org.jetbrains.annotations.Contract;
+
 public class Vector {
 	
 	private int x;
 	private int y;
 	
+	@Contract(pure = true)
 	Vector(int x1, int y1, int x2, int y2) {
 		
 		this.x = x2 - x1;

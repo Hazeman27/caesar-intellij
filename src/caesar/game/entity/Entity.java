@@ -45,7 +45,7 @@ public abstract class Entity {
 			", REL: " +
 			this.location.getRelief() +
 			", ARMY: " +
-			Troop.countSoldiers(this.army) +
+			Troop.countSoldiers(this.army, true) +
 			" ::";
 	}
 }

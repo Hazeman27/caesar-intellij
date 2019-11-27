@@ -1,9 +1,9 @@
 package caesar.game.weather;
 
+import caesar.game.Game;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,10 +54,8 @@ public enum Season {
 	
 	public static WeatherType getRandomWeatherType(@NotNull Season season) {
 		
-		SecureRandom random = new SecureRandom();
-		
 		return season.weatherTypes.get(
-			random.nextInt(season.weatherTypes.size())
+			Game.getRandomInt(season.weatherTypes.size())
 		);
 	}
 }

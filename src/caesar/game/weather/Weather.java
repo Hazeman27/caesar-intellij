@@ -28,6 +28,10 @@ public class Weather {
 			WeatherType.getRandomTemperature(currentWeather);
 	}
 	
+	public WeatherType getCurrentWeather() {
+		return currentWeather;
+	}
+	
 	@Override
 	public String toString() {
 		return this.season +

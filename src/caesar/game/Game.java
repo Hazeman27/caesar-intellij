@@ -4,11 +4,13 @@ import caesar.game.calendar.Calendar;
 import caesar.game.calendar.Month;
 import caesar.game.entity.Enemy;
 import caesar.game.map.Location;
+import caesar.game.map.Relief;
 import caesar.game.turn.Turn;
 import caesar.game.turn.TurnType;
 import caesar.game.map.Map;
 import caesar.game.entity.Player;
 import caesar.game.weather.Weather;
+import caesar.game.weather.WeatherType;
 import caesar.military.troop.ArmyType;
 import caesar.military.troop.Troop;
 import caesar.ui.Message;
@@ -21,8 +23,8 @@ import java.security.SecureRandom;
 
 public class Game {
 	
+	private static final SecureRandom random = new SecureRandom();
     private final Turn turn = new Turn(this);
-    private final SecureRandom random = new SecureRandom();
     
 	private Map map;
 	private Player player;
@@ -90,10 +92,10 @@ public class Game {
     
 		return new Enemy(
 			ArmyType.GALLIC,
-			this.random.nextInt(40) + 10,
-			this.random.nextInt(20) + 5,
-			this.random.nextInt(this.map.getSize()),
-			this.random.nextInt(this.map.getSize())
+			random.nextInt(40) + 10,
+			random.nextInt(20) + 5,
+			random.nextInt(this.map.getSize()),
+			random.nextInt(this.map.getSize())
 		);
 	}
 
@@ -111,6 +113,10 @@ public class Game {
 	
 	public Troop getPlayerArmy() {
     	return this.player.army;
+	}
+	
+	public Relief getPlayerRelief() {
+    	return this.player.location.getRelief();
 	}
     
     public Enemy getEnemy() {
@@ -141,6 +147,12 @@ public class Game {
 		return this.calendar.getWeather();
 	}
 	
+	public WeatherType getCurrentWeather() {
+    	
+    	return this.calendar.getWeather()
+			.getCurrentWeather();
+	}
+	
 	public void nextTurn(TurnType turnType) {
 		this.turn.next(turnType);
 	}
@@ -167,7 +179,7 @@ public class Game {
     		
     		Printer.print(Message.CONSIDER_RESTING);
     		
-    		int value = this.random.nextInt(4) + 1;
+    		int value = random.nextInt(4) + 1;
 			this.player.actionPoints.add(value);
 			
 			Printer.print("Action points gained: " + value + "!");
@@ -176,7 +188,7 @@ public class Game {
     	if (this.enemy.actionPoints.get() < 4) {
     	
 			this.enemy.actionPoints.add(
-				this.random.nextInt(6) + 1
+				random.nextInt(6) + 1
 			);
 		}
 	}
@@ -186,6 +198,14 @@ public class Game {
         Printer.print(Message.EXIT);
         System.exit(0);
     }
+	
+	public static int getRandomInt(int bound) {
+		return random.nextInt(bound);
+	}
+	
+	public static int getRandomInt(int min, int max) {
+		return random.nextInt(max - min) + min;
+	}
 	
 	public static void main(String... args) {
     	new Game(Month.FEBRUARIUS, 13, 58, true);
