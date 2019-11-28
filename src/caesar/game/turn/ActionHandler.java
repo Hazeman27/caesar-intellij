@@ -5,6 +5,7 @@ import caesar.game.map.Direction;
 import caesar.game.map.Location;
 import caesar.game.map.Relief;
 import caesar.game.weather.WeatherType;
+import caesar.military.troop.Troop;
 import caesar.ui.Message;
 import caesar.ui.Printer;
 import org.jetbrains.annotations.Contract;
@@ -205,7 +206,7 @@ public interface ActionHandler {
 	static Response conductGeneralArmyAnalysis(@NotNull Game game) {
 		
 		return new Response(
-			game.getPlayerArmy(),
+			Troop.getSummary(game.getPlayerArmy()),
 			ResponseType.SUCCESS
 		);
 	}
@@ -215,7 +216,7 @@ public interface ActionHandler {
 	static Response conductThoroughArmyAnalysis(@NotNull Game game) {
 		
 		return new Response(
-			game.getPlayerArmy().toString(true),
+			Troop.getFullSummary(game.getPlayerArmy()),
 			ResponseType.SUCCESS
 		);
 	}

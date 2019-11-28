@@ -3,28 +3,14 @@ package caesar.military.soldier;
 import caesar.game.Game;
 import caesar.military.troop.Troop;
 
-public class Officer extends Soldier {
+public class Roman extends Soldier {
 	
-	private final Rank rank;
 	private final String name;
-	private final int trainingBoost = 20;
+	private final int trainingBoost = 10;
 	
-	public Officer(Rank rank, Troop troop) {
-		
+	public Roman(Troop troop) {
 		super(troop);
 		this.name = Name.getRandomRoman();
-		this.rank = rank;
-	}
-	
-	@Override
-	public void perish() {
-		this.troop.removeOfficer();
-		this.alive = false;
-	}
-	
-	@Override
-	public void flee() {
-		this.troop.removeOfficer();
 	}
 	
 	@Override
@@ -49,6 +35,6 @@ public class Officer extends Soldier {
 	
 	@Override
 	public String toString() {
-		return super.toString() + this.rank + " " + this.name;
+		return super.toString() + this.name;
 	}
 }

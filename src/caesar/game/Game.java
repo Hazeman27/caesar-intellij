@@ -24,45 +24,45 @@ import java.security.SecureRandom;
 public class Game {
 	
 	private static final SecureRandom random = new SecureRandom();
-    private final Turn turn = new Turn(this);
-    
+	private final Turn turn = new Turn(this);
+	
 	private Map map;
 	private Player player;
-    private Enemy enemy;
-    private int turnsCount;
+	private Enemy enemy;
+	private int turnsCount;
 	
 	private Log log;
 	private Calendar calendar;
-    
-    public Game(
-    	Month calendarMonth,
+	
+	public Game(
+		Month calendarMonth,
 		int calendarDay,
 		int calendarYear,
 		boolean calendarBCE
 	) {
-    	
-    	this.log = new Log();
 		
-    	this.calendar = new Calendar(
-    		calendarMonth,
+		this.log = new Log();
+		
+		this.calendar = new Calendar(
+			calendarMonth,
 			calendarDay,
 			calendarYear,
 			calendarBCE
 		);
-    	
-        this.turn.next(TurnType.MAIN_MENU);
-    }
-    
-    public void start(
+		
+		this.turn.next(TurnType.MAIN_MENU);
+	}
+	
+	public void start(
 		int playerActionPointsAmount,
 		int playerTroopsAmount,
 		int playerLocationX,
 		int playerLocationY,
 		int mapSize
 	) {
-  
+		
 		this.map = new Map(mapSize);
-	
+		
 		this.player = new Player(
 			ArmyType.ROMAN,
 			playerTroopsAmount,
@@ -85,11 +85,11 @@ public class Game {
 		this.enemy = this.spawnEnemy();
 		this.turn.next(TurnType.TRAVEL);
 	}
-    
-    @NotNull
+	
+	@NotNull
 	@Contract(" -> new")
 	private Enemy spawnEnemy() {
-    
+		
 		return new Enemy(
 			ArmyType.GALLIC,
 			random.nextInt(40) + 10,
@@ -98,37 +98,37 @@ public class Game {
 			random.nextInt(this.map.getSize())
 		);
 	}
-
-    public Map getMap() {
-    	return this.map;
-    }
-    
-    public Player getPlayer() {
-    	return this.player;
-    }
-    
-    public Location getPlayerLocation() {
-    	return this.player.location;
+	
+	public Map getMap() {
+		return this.map;
+	}
+	
+	public Player getPlayer() {
+		return this.player;
+	}
+	
+	public Location getPlayerLocation() {
+		return this.player.location;
 	}
 	
 	public Troop getPlayerArmy() {
-    	return this.player.army;
+		return this.player.army;
 	}
 	
 	public Relief getPlayerRelief() {
-    	return this.player.location.getRelief();
+		return this.player.location.getRelief();
 	}
-    
-    public Enemy getEnemy() {
-    	return this.enemy;
+	
+	public Enemy getEnemy() {
+		return this.enemy;
 	}
 	
 	public Location getEnemyLocation() {
-    	return this.enemy.location;
+		return this.enemy.location;
 	}
-    
-    public int getTurnsCount() {
-    	return this.turnsCount;
+	
+	public int getTurnsCount() {
+		return this.turnsCount;
 	}
 	
 	public Log getLog() {
@@ -136,7 +136,7 @@ public class Game {
 	}
 	
 	public String getLogLastItem() {
-    	return this.log.getLastItem();
+		return this.log.getLastItem();
 	}
 	
 	public Calendar getCalendar() {
@@ -148,8 +148,8 @@ public class Game {
 	}
 	
 	public WeatherType getCurrentWeather() {
-    	
-    	return this.calendar.getWeather()
+		
+		return this.calendar.getWeather()
 			.getCurrentWeather();
 	}
 	
@@ -158,46 +158,46 @@ public class Game {
 	}
 	
 	public void log(Object item) {
-    	this.log.addItem(item);
+		this.log.addItem(item);
 	}
 	
 	public void incrementTurnsCount() {
-    	this.turnsCount++;
+		this.turnsCount++;
 	}
 	
 	public void nextDay() {
-    	this.calendar.nextDay();
+		this.calendar.nextDay();
 	}
 	
 	public void changeWeather() {
-    	this.calendar.getWeather().change();
+		this.calendar.getWeather().change();
 	}
 	
 	public void replenishEntitiesAP() {
-    	
-    	if (this.player.actionPoints.get() < 5) {
-    		
-    		Printer.print(Message.CONSIDER_RESTING);
-    		
-    		int value = random.nextInt(4) + 1;
+		
+		if (this.player.actionPoints.get() < 5) {
+			
+			Printer.print(Message.CONSIDER_RESTING);
+			
+			int value = random.nextInt(4) + 1;
 			this.player.actionPoints.add(value);
 			
 			Printer.print("Action points gained: " + value + "!");
 		}
-    	
-    	if (this.enemy.actionPoints.get() < 4) {
-    	
+		
+		if (this.enemy.actionPoints.get() < 4) {
+			
 			this.enemy.actionPoints.add(
 				random.nextInt(6) + 1
 			);
 		}
 	}
-    
-    public void exit() {
-
-        Printer.print(Message.EXIT);
-        System.exit(0);
-    }
+	
+	public void exit() {
+		
+		Printer.print(Message.EXIT);
+		System.exit(0);
+	}
 	
 	public static int getRandomInt(int bound) {
 		return random.nextInt(bound);
@@ -208,6 +208,6 @@ public class Game {
 	}
 	
 	public static void main(String... args) {
-    	new Game(Month.FEBRUARIUS, 13, 58, true);
-    }
+		new Game(Month.FEBRUARIUS, 13, 58, true);
+	}
 }

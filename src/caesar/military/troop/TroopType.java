@@ -11,56 +11,70 @@ public enum TroopType {
 	
 	CONTUBERNIUM(
 		Collections.singletonMap(null, 7),
-		Rank.DECANUS, "."
+		Rank.DECANUS,
+		TroopOrigin.ROMAN, "."
 	),
 	
 	CENTURY(
 		Collections.singletonMap(CONTUBERNIUM, 10),
-		Rank.CENTURION, ":"
+		Rank.CENTURION,
+		TroopOrigin.ROMAN, ":"
 	),
 	
 	CENTURY_FIRST_COHORT(
 		Collections.singletonMap(CONTUBERNIUM, 20),
-		Rank.CENTURION, "::"
+		Rank.CENTURION,
+		TroopOrigin.ROMAN, "::"
 	),
 	
 	COHORT(
 		Collections.singletonMap(CENTURY, 6),
-		Rank.LEAD_CENTURION, "[:]"
+		Rank.LEAD_CENTURION,
+		TroopOrigin.ROMAN, "[:]"
 	),
 	
 	COHORT_FIRST(
 		Collections.singletonMap(CENTURY_FIRST_COHORT, 5),
-		Rank.LEAD_CENTURION, "[::]"
+		Rank.LEAD_CENTURION,
+		TroopOrigin.ROMAN, "[::]"
 	),
 	
 	LEGION(
 		new HashMap<TroopType, Integer>() {
 			{ put(COHORT, 9); put(COHORT_FIRST, 1); }
-		}, Rank.LEGATE, "[><]"
+		}, Rank.LEGATE, TroopOrigin.ROMAN, "[><]"
 	),
 	
 //	Gallic tribes...
 	
 	GAULS_GROUP(
 		Collections.singletonMap(null, 20),
-		Rank.CHIEF, "x"
+		Rank.CHIEF,
+		TroopOrigin.GALLIC, "x"
 	),
 	
 	TRIBE(
 		Collections.singletonMap(GAULS_GROUP, 25),
-		Rank.WARLORD, "[xx]"
+		Rank.WARLORD,
+		TroopOrigin.GALLIC, "[xx]"
 	);
 	
-	protected Map<TroopType, Integer> troops;
-	protected final Rank officerRank;
-	protected final String symbol;
+	Map<TroopType, Integer> troops;
+	final Rank officerRank;
+	final TroopOrigin origin;
+	final String symbol;
 
 	@Contract(pure = true)
-	TroopType(Map<TroopType, Integer> troops, Rank officerRank, String symbol) {
+	TroopType(
+		Map<TroopType, Integer> troops,
+		Rank officerRank,
+		TroopOrigin origin,
+		String symbol
+	) {
 		
 		this.troops = troops;
 		this.officerRank = officerRank;
+		this.origin = origin;
 		this.symbol = symbol;
 	}
 }

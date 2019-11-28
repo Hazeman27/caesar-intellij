@@ -2,14 +2,10 @@ package caesar.military.soldier;
 
 import org.jetbrains.annotations.Contract;
 
-public enum Status {
+class Status {
 	
-	MORALE(100, 0),
-	SATIETY(100, 0),
-	HEALTH(100, 0);
-	
-    private final int maxState;
-    private final int minState;
+        private final int maxState;
+        private final int minState;
 	private int state;
 
 	@Contract(pure = true)

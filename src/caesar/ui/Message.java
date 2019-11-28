@@ -8,13 +8,13 @@ public enum Message {
 	PRELUDE("Prelude", "Story is under development..."),
 	PLAYER_MOVED("You have moved"),
 	NEW_GAME("Starting new game..."),
-    CONTINUE("Continuing game..."),
+	CONTINUE("Continuing game..."),
 	NEXT_TURN("Moving to next turn..."),
-    EXIT("Exiting Caesar..."),
-    NO_CURRENT_GAME("Error", "No current game found..."),
-    UNKNOWN_DIRECTION("Error", "Unknown direction for movement..."),
-    UNKNOWN_COMMAND("Error", "Unknown command. Try again..."),
-    LOW_AP("Error", "Not enough action points..."),
+	EXIT("Exiting Caesar..."),
+	NO_CURRENT_GAME("Error", "No current game found..."),
+	UNKNOWN_DIRECTION("Error", "Unknown direction for movement..."),
+	UNKNOWN_COMMAND("Error", "Unknown command. Try again..."),
+	LOW_AP("Error", "Not enough action points..."),
 	CANT_REMOVE_TROOP("Error", "Can't remove troop with no parent..."),
 	CONSIDER_RESTING("You seem to be low on action points. Consider building a camp and letting your army rest..."),
 	ENEMY_NEARBY("You have spotted a gallic army!"),
@@ -30,11 +30,11 @@ public enum Message {
 		"This book is a treatise on the theory of ethics, very popular during the Renaissance. " +
 		"The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", " +
 		"comes from a line in section 1.10.32.");
-		
+	
 	private final String title;
 	private final String content;
 	private final int maxLength;
-
+	
 	@Contract(pure = true)
 	Message(@NotNull String title, String content) {
 		
@@ -97,8 +97,8 @@ public enum Message {
 		stringBuilder.append(this.content)
 			.append("\n");
 		
-        stringBuilder.append(Printer.getBorder(this.maxLength, 0));
-   
+		stringBuilder.append(Printer.getBorder(this.maxLength, 0));
+		
 		return stringBuilder.toString();
 	}
 	
