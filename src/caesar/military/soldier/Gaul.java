@@ -2,6 +2,7 @@ package caesar.military.soldier;
 
 import caesar.game.Game;
 import caesar.military.troop.Troop;
+import org.jetbrains.annotations.NotNull;
 
 public class Gaul extends Soldier {
 	
@@ -13,10 +14,7 @@ public class Gaul extends Soldier {
 	}
 	
 	@Override
-	int attackTarget(Soldier target) {
-		
-		if (target == null)
-			return 0;
+	int attackTarget(@NotNull Soldier target) {
 		
 		int damage = Game.getRandomInt(this.health.getMaxState());
 		damage += this.morale.getState() / 10 +

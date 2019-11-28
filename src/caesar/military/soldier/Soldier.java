@@ -44,6 +44,9 @@ public abstract class Soldier implements MilitaryUnit {
 	@Override
 	public void engage(MilitaryUnit target, boolean verbose) {
 		
+		if (target == null)
+			return;
+		
 		Soldier targetSoldier = (Soldier) target;
 		int thisDamageDealt;
 		int targetDamageDealt;
@@ -65,7 +68,7 @@ public abstract class Soldier implements MilitaryUnit {
 	
 	int receiveDamage(int damageAmount) {
 		
-		damageAmount -= this.block(damageAmount);
+		damageAmount = Math.max(damageAmount - this.block(damageAmount), 0);
 		this.health.decrease(damageAmount);
 		
 		if (this.health.getState() == this.health.getMinState())

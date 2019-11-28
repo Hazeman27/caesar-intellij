@@ -4,9 +4,10 @@ import caesar.military.MilitaryUnit;
 import caesar.ui.Printer;
 import org.jetbrains.annotations.Contract;
 
-public class Engagement implements Runnable {
+import java.util.concurrent.Callable;
+
+public class Engagement implements Callable<MilitaryUnit> {
 	
-	static int engagementsCount = 0;
 	private MilitaryUnit unitA;
 	private MilitaryUnit unitB;
 	private boolean verbose;
@@ -20,24 +21,29 @@ public class Engagement implements Runnable {
 	}
 	
 	@Override
-	public void run() {
+	public MilitaryUnit call() {
+		
+		if (this.unitA == null || this.unitB == null)
+			return null;
 		
 		if (this.verbose) {
 			
 			Printer.print(this.unitA + " is engaging with " + this.unitB);
 			this.unitA.engage(this.unitB, true);
-			
-			if (!this.unitB.isAlive())
-				Printer.print(this.unitA + " has eliminated " + this.unitB);
-			else if (!this.unitA.isAlive())
-				Printer.print(this.unitB + " has eliminated " + this.unitA);
 		} else {
 			this.unitA.engage(this.unitB, false);
 		}
 		
-		engagementsCount++;
+		if (!this.unitB.isAlive()) {
+			if (verbose) Printer.print(this.unitA + " has eliminated " + this.unitB);
+			return unitA;
+		}
 		
-		if (engagementsCount == EngagementController.engagementsCount)
-			Printer.print();
+		if (!this.unitA.isAlive()) {
+			if (verbose) Printer.print(this.unitB + " has eliminated " + this.unitA);
+			return unitB;
+		}
+		
+		return null;
 	}
 }

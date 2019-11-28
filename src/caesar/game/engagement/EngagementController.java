@@ -6,20 +6,20 @@ import caesar.military.troop.TroopType;
 import caesar.ui.Printer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class EngagementController {
 	
-	static int engagementsCount = 0;
 	private Map<MilitaryUnit, MilitaryUnit> engagements;
 	
 	public EngagementController(List<MilitaryUnit> sideA, List<MilitaryUnit> sideB) {
-		initPartakers(sideA, sideB);
+		mapEngagements(sideA, sideB);
 	}
 	
-	private void initPartakers(
+	private void mapEngagements(
 		@NotNull List<MilitaryUnit> sideA,
 		@NotNull List<MilitaryUnit> sideB
 	) {
@@ -39,7 +39,6 @@ public class EngagementController {
 		
 		int maxSize = biggest.size();
 		int minSize = smallest.size();
-		engagementsCount = maxSize;
 		
 		int i = 0;
 		int j = 0;
@@ -54,27 +53,30 @@ public class EngagementController {
 	}
 	
 	public void start(boolean verbose) {
-
-		for (Map.Entry<MilitaryUnit, MilitaryUnit> entry: this.engagements.entrySet()) {
-			
-			Printer.print(entry.getKey() + " vs " + entry.getValue());
-			
-			new Thread(new Engagement(
-				entry.getKey(),
-				entry.getValue(),
-				verbose
-			)).start();
+		
+		ExecutorService executorService = Executors.newCachedThreadPool();
+		
+		List<Future<MilitaryUnit>> engagementFutures = new ArrayList<>();
+		List<Engagement> engagementTasks = new ArrayList<>();
+		
+		this.engagements.forEach((unitA, unitB) -> {
+			engagementTasks.add(new Engagement(unitA, unitB, verbose));
+		});
+		
+		try {
+			engagementFutures = executorService.invokeAll(engagementTasks);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	public static void main(String[] args) {
 		
-		Troop A = new Troop(TroopType.CONTUBERNIUM);
-		Troop B = new Troop(TroopType.GAULS_GROUP);
+		Troop A = new Troop(TroopType.CENTURY);
+		Troop B = new Troop(TroopType.TRIBE);
 		
-		Printer.print(A + " " + B);
-		
-		A.engage(B, true);
-		Printer.print(A + " " + B);
+		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
+		A.engage(B, false);
+		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
 	}
 }

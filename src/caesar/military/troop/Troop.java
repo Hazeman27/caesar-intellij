@@ -11,6 +11,7 @@ import caesar.ui.Printer;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -133,6 +134,9 @@ public class Troop implements MilitaryUnit {
 	@Override
 	public void engage(MilitaryUnit target, boolean verbose) {
 		
+		if (target == null)
+			return;
+		
 		Troop targetTroop = (Troop) target;
 		
 		List<MilitaryUnit> thisUnits;
@@ -145,15 +149,15 @@ public class Troop implements MilitaryUnit {
 			
 			targetUnits = targetTroop.soldiers;
 			targetUnits.add(targetTroop.officer);
-			
-			
 		} else {
 			
 			thisUnits = this.troops;
-			thisUnits.add(this.officer);
-			
 			targetUnits = targetTroop.troops;
-			targetUnits.add(targetTroop.officer);
+			
+			new EngagementController(
+				Collections.singletonList(this.officer),
+				Collections.singletonList(targetTroop.officer)
+			).start(verbose);
 		}
 		
 		new EngagementController(thisUnits, targetUnits)
@@ -162,6 +166,10 @@ public class Troop implements MilitaryUnit {
 	
 	public String getOrigin() {
 		return origin;
+	}
+	
+	public List<MilitaryUnit> getTroops() {
+		return troops;
 	}
 	
 	public void removeSoldier(Soldier soldier) {
