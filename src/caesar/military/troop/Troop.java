@@ -155,22 +155,14 @@ public class Troop implements MilitaryUnit {
 			thisUnits = this.troops;
 			targetUnits = targetTroop.troops;
 			
-			try {
-				new EngagementController(
-					Collections.singletonList(this.officer),
-					Collections.singletonList(targetTroop.officer)
-				).start(verbose);
-			} catch (InterruptedException | ExecutionException e) {
-				e.printStackTrace();
-			}
+			new EngagementController(
+				Collections.singletonList(this.officer),
+				Collections.singletonList(targetTroop.officer)
+			).start(verbose);
 		}
 		
-		try {
-			new EngagementController(thisUnits, targetUnits)
-				.start(verbose);
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
+		new EngagementController(thisUnits, targetUnits)
+			.start(verbose);
 	}
 	
 	public String getOrigin() {

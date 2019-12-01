@@ -1,5 +1,6 @@
 package caesar.game.engagement;
 
+import caesar.game.Game;
 import caesar.military.MilitaryUnit;
 import caesar.military.troop.Troop;
 import caesar.military.troop.TroopType;
@@ -8,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class EngagementController {
 	
@@ -43,33 +45,36 @@ public class EngagementController {
 		
 		while (i < maxSize) {
 			
-			if (j == minSize)
-				this.engagements.put(biggest.get(i++), smallest.get(j - 1));
-			
-			else this.engagements.put(biggest.get(i++), smallest.get(j++));
+			if (j == minSize) {
+				this.engagements.put(
+					biggest.get(i++),
+					smallest.get(Game.getRandomInt(j))
+				);
+			} else {
+				this.engagements.put(
+					biggest.get(i++),
+					smallest.get(j++)
+				);
+			}
 		}
 	}
 	
-	public void start(boolean verbose) throws InterruptedException, ExecutionException {
+	public void start(boolean verbose) {
 		
 		ExecutorService executorService = Executors.newCachedThreadPool();
-		CompletionService<MilitaryUnit> completionService =
-			new ExecutorCompletionService<>(executorService);
+		List<Engagement> engagements = new ArrayList<>();
 		
 		this.engagements.forEach((unitA, unitB) -> {
-			completionService.submit(new Engagement(unitA, unitB, verbose));
+			engagements.add(new Engagement(unitA, unitB, verbose));
 		});
 		
-		int received = 0;
-		
-		while (received < this.engagements.size()) {
-			
-			Future<MilitaryUnit> result = completionService.take();
-			MilitaryUnit militaryUnit = result.get();
-			
-			Printer.print(militaryUnit + " has been victorious");
-			received++;
+		try {
+			executorService.invokeAll(engagements);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+		
+		executorService.shutdown();
 	}
 	
 	public static void main(String[] args) {
