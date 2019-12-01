@@ -7,16 +7,16 @@ public enum Relief {
 	
 	UNKNOWN(".."),
 	MOUNTAIN("^^"),
-    MARSH("mm"),
-    VALLEY("vv"),
-    HILL("hh"),
-    OPEN("--"),
-    RIVER("~~"),
-    SWAMP("sw"),
-    FOREST("ff");
-    
-    private final String symbol;
-
+	MARSH("mm"),
+	VALLEY("vv"),
+	HILL("hh"),
+	OPEN("--"),
+	RIVER("~~"),
+	SWAMP("sw"),
+	FOREST("ff");
+	
+	private final String symbol;
+	
 	@Contract(pure = true)
 	Relief(String symbol) {
 		this.symbol = symbol;
@@ -27,7 +27,7 @@ public enum Relief {
 	}
 	
 	public static Relief getRandom() {
-		return values()[Game.getRandomInt(values().length, 1)];
+		return values()[Game.getRandomInt(1, values().length)];
 	}
 	
 	@Contract(pure = true)

@@ -104,12 +104,30 @@ public class Printer {
 		System.out.println("----------------");
 	}
 	
-	public static <T> void print(@NotNull T string, boolean addNewLine) {
-		System.out.print(string.toString() + (addNewLine ? "\n" : ""));
+	public static <T> void print(@NotNull T object, boolean addNewLine, int sleepMilliseconds) {
+		
+		String string = object.toString();
+		
+		for (char c: string.toCharArray()) {
+			
+			System.out.print(c);
+			try {
+				Thread.sleep(sleepMilliseconds);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if (addNewLine)
+			System.out.println();
 	}
 	
-	public static <T> void print(@NotNull T string) {
-		System.out.println(string.toString());
+	public static <T> void print(@NotNull T object, boolean addNewLine) {
+		System.out.print(object.toString() + (addNewLine ? "\n" : ""));
+	}
+	
+	public static <T> void print(@NotNull T object) {
+		System.out.println(object.toString());
 	}
 	
 	public static void printEmptyLine() {

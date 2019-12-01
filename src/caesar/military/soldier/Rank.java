@@ -7,6 +7,7 @@ public enum Rank {
 	LEGATE,
 	GENERAL,
 	
+	// Gallic...
 	CHIEF,
 	WARLORD,
 	CHIEF_WARLORD

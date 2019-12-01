@@ -30,8 +30,8 @@ public enum WeatherType {
 	public static int getRandomTemperature(@NotNull WeatherType weatherType) {
 		
 		return Game.getRandomInt(
-			weatherType.maxTemperature,
-			weatherType.minTemperature
+			weatherType.minTemperature,
+			weatherType.maxTemperature
 		);
 	}
 	

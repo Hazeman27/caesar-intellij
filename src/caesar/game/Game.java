@@ -194,7 +194,6 @@ public class Game {
 	}
 	
 	public void exit() {
-		
 		Printer.print(Message.EXIT);
 		System.exit(0);
 	}
@@ -205,9 +204,5 @@ public class Game {
 	
 	public static int getRandomInt(int min, int max) {
 		return random.nextInt(max - min) + min;
-	}
-	
-	public static void main(String... args) {
-		new Game(Month.FEBRUARIUS, 13, 58, true);
 	}
 }

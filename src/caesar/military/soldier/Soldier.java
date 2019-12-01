@@ -11,9 +11,9 @@ public abstract class Soldier implements MilitaryUnit {
 	Status health;
 	Status morale;
 	Status satiety;
-	String origin;
 	Troop troop;
 	boolean alive;
+	private String origin;
 	
 	@Contract(pure = true)
 	Soldier(@NotNull Troop troop) {

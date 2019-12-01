@@ -3,34 +3,34 @@ package caesar.game.turn;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-class Response {
+public class Response {
 	
 	private String message;
 	private ResponseType type;
 	
-	<T> Response(@NotNull T message, ResponseType type) {
+	public <T> Response(@NotNull T message, ResponseType type) {
 		
 		this.message = "\n" + message.toString();
 		this.type = type;
 	}
 	
 	@Contract(pure = true)
-	Response(ResponseType type) {
+	public Response(ResponseType type) {
 		this.type = type;
 	}
 	
 	@Contract(pure = true)
-	Response() {}
+	public Response() {}
 	
 	String getMessage() {
 		return message;
 	}
 	
-	<T> void setMessage(@NotNull T message) {
+	public <T> void setMessage(@NotNull T message) {
 		this.message = "\n" + message.toString();
 	}
 	
-	void setType(ResponseType type) {
+	public void setType(ResponseType type) {
 		this.type = type;
 	}
 	

@@ -57,6 +57,18 @@ public enum TroopType {
 		Collections.singletonMap(GAULS_GROUP, 25),
 		Rank.WARLORD,
 		TroopOrigin.GALLIC, "[xx]"
+	),
+	
+	TRIBES_GROUP(
+		Collections.singletonMap(TRIBE, 4),
+		Rank.WARLORD,
+		TroopOrigin.GALLIC, "[X]"
+	),
+	
+	TRIAD(
+		Collections.singletonMap(TRIBES_GROUP, 3),
+		Rank.WARLORD,
+		TroopOrigin.GALLIC, "[XX]"
 	);
 	
 	Map<TroopType, Integer> troops;
