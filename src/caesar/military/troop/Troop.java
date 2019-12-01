@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class Troop implements MilitaryUnit {
 	
@@ -154,14 +155,22 @@ public class Troop implements MilitaryUnit {
 			thisUnits = this.troops;
 			targetUnits = targetTroop.troops;
 			
-			new EngagementController(
-				Collections.singletonList(this.officer),
-				Collections.singletonList(targetTroop.officer)
-			).start(verbose);
+			try {
+				new EngagementController(
+					Collections.singletonList(this.officer),
+					Collections.singletonList(targetTroop.officer)
+				).start(verbose);
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
 		}
 		
-		new EngagementController(thisUnits, targetUnits)
-			.start(verbose);
+		try {
+			new EngagementController(thisUnits, targetUnits)
+				.start(verbose);
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public String getOrigin() {

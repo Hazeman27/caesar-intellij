@@ -7,9 +7,7 @@ import caesar.ui.Printer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class EngagementController {
 	
@@ -52,21 +50,25 @@ public class EngagementController {
 		}
 	}
 	
-	public void start(boolean verbose) {
+	public void start(boolean verbose) throws InterruptedException, ExecutionException {
 		
 		ExecutorService executorService = Executors.newCachedThreadPool();
-		
-		List<Future<MilitaryUnit>> engagementFutures = new ArrayList<>();
-		List<Engagement> engagementTasks = new ArrayList<>();
+		CompletionService<MilitaryUnit> completionService =
+			new ExecutorCompletionService<>(executorService);
 		
 		this.engagements.forEach((unitA, unitB) -> {
-			engagementTasks.add(new Engagement(unitA, unitB, verbose));
+			completionService.submit(new Engagement(unitA, unitB, verbose));
 		});
 		
-		try {
-			engagementFutures = executorService.invokeAll(engagementTasks);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		int received = 0;
+		
+		while (received < this.engagements.size()) {
+			
+			Future<MilitaryUnit> result = completionService.take();
+			MilitaryUnit militaryUnit = result.get();
+			
+			Printer.print(militaryUnit + " has been victorious");
+			received++;
 		}
 	}
 	

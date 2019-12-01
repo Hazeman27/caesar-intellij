@@ -4,6 +4,7 @@ import caesar.military.MilitaryUnit;
 import caesar.military.troop.Troop;
 import caesar.ui.Printer;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class Soldier implements MilitaryUnit {
 	
@@ -15,7 +16,7 @@ public abstract class Soldier implements MilitaryUnit {
 	boolean alive;
 	
 	@Contract(pure = true)
-	Soldier(Troop troop) {
+	Soldier(@NotNull Troop troop) {
 		
 		this.health = new Status(100, 0);
 		this.morale = new Status(100, 0);
