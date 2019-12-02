@@ -20,7 +20,6 @@ public class Officer extends Soldier {
 	@Override
 	public void perish() {
 		this.troop.removeOfficer();
-		this.alive = false;
 	}
 	
 	@Override

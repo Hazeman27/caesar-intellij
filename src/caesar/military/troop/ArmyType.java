@@ -14,6 +14,7 @@ public enum ArmyType {
 	
 	@Contract(pure = true)
 	ArmyType(TroopType troopsType, Rank officerRank, String symbol) {
+		
 		this.troopsType = troopsType;
 		this.officerRank = officerRank;
 		this.symbol = symbol;

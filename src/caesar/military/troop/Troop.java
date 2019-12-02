@@ -22,11 +22,9 @@ public class Troop implements MilitaryUnit {
 	private final String symbol;
 	private final String origin;
 	
-	private List<MilitaryUnit> soldiers;
-	private List<MilitaryUnit> troops;
+	private List<MilitaryUnit> units;
 	private Soldier officer;
 	private Troop parentTroop;
-	private boolean alive;
 	
 	public Troop(@NotNull TroopType troopType, Troop parentTroop) {
 		
@@ -34,10 +32,9 @@ public class Troop implements MilitaryUnit {
 		this.origin = troopType.origin.toString();
 		this.symbol = troopType.symbol;
 		this.parentTroop = parentTroop;
-		this.alive = true;
 		
 		this.officer = new Officer(troopType.officerRank, this);
-		this.initTroops(troopType.troops, troopType.origin);
+		this.units = this.initUnits(troopType.troops, troopType.origin);
 	}
 	
 	public Troop(@NotNull TroopType troopType) {
@@ -45,10 +42,9 @@ public class Troop implements MilitaryUnit {
 		this.type = troopType.toString();
 		this.origin = troopType.origin.toString();
 		this.symbol = troopType.symbol;
-		this.alive = false;
 		
 		this.officer = new Officer(troopType.officerRank, this);
-		this.initTroops(troopType.troops, troopType.origin);
+		this.units = this.initUnits(troopType.troops, troopType.origin);
 	}
 	
 	public Troop(@NotNull ArmyType armyType, int troopsAmount) {
@@ -56,77 +52,93 @@ public class Troop implements MilitaryUnit {
 		this.type = armyType.toString();
 		this.origin = armyType.toString();
 		this.symbol = armyType.symbol;
-		this.alive = false;
 		
 		this.officer = new Officer(armyType.officerRank, this);
-		this.initTroops(armyType.troopsType, troopsAmount);
+		this.units = this.initUnits(armyType.troopsType, troopsAmount);
 	}
 	
-	private void initTroops(
+	@NotNull
+	private List<MilitaryUnit> initUnits(
 		@NotNull Map<TroopType, Integer> troopsMap,
 		TroopOrigin troopOrigin
 	) {
 		
 		if (troopsMap.containsKey(null)) {
-			this.initSoldiers(troopsMap.get(null), troopOrigin);
-			return;
+			
+			return this.initSoldiers(
+				troopsMap.get(null),
+				troopOrigin
+			);
 		}
 		
-		this.troops = new ArrayList<>();
+		List<MilitaryUnit> units = new ArrayList<>();
 		
 		for (Map.Entry<TroopType, Integer> entry: troopsMap.entrySet()) {
 			
-			TroopType troopsType = entry.getKey();
-			int troopsAmount = entry.getValue();
-			
-			for (int i = 0; i < troopsAmount; i++)
-				this.troops.add(new Troop(troopsType, this));
+			units.addAll(this.initUnits(
+				entry.getKey(),
+				entry.getValue()
+			));
 		}
+		
+		return units;
 	}
 	
-	private void initTroops(TroopType troopsType, int troopsAmount) {
+	@NotNull
+	private List<MilitaryUnit> initUnits(
+		TroopType troopsType,
+		int troopsAmount
+	) {
 		
-		this.troops = new ArrayList<>();
+		List<MilitaryUnit> units = new ArrayList<>();
 		
 		for (int i = 0; i < troopsAmount; i++)
-			this.troops.add(new Troop(troopsType, this));
+			units.add(new Troop(troopsType, this));
+		
+		return units;
 	}
 	
-	private void initSoldiers(int soldiersAmount, TroopOrigin troopOrigin) {
+	@NotNull
+	private List<MilitaryUnit> initSoldiers(
+		int soldiersAmount,
+		TroopOrigin troopOrigin
+	) {
 		
-		this.soldiers = new ArrayList<>();
+		List<MilitaryUnit> units = new ArrayList<>();
 		
 		for (int i = 0; i < soldiersAmount; i++) {
 			
 			if (troopOrigin == TroopOrigin.ROMAN)
-				this.soldiers.add(new Roman(this));
+				units.add(new Roman(this));
 			
 			else if (troopOrigin == TroopOrigin.GALLIC)
-				this.soldiers.add(new Gaul(this));
+				units.add(new Gaul(this));
 		}
-	}
-	
-	@Override
-	public boolean isAlive() {
-		return this.alive;
+		
+		return units;
 	}
 	
 	@Override
 	public void perish() {
 		
 		if (this.parentTroop != null) {
-			this.parentTroop.troops.remove(this);
-			this.alive = false;
-		} else {
-			Printer.print(Message.CANT_REMOVE_TROOP);
+			
+			this.parentTroop.units.remove(this);
+			this.parentTroop = null;
 		}
+		
+		else Printer.print(Message.CANT_REMOVE_TROOP);
+		
 	}
 	
 	@Override
 	public void flee() {
 		
-		if (this.parentTroop != null)
-			this.parentTroop.troops.remove(this);
+		if (this.parentTroop != null) {
+			
+			this.parentTroop.units.remove(this);
+			this.parentTroop = null;
+		}
 		
 		else Printer.print(Message.CANT_REMOVE_TROOP);
 	}
@@ -142,23 +154,13 @@ public class Troop implements MilitaryUnit {
 		List<MilitaryUnit> thisUnits;
 		List<MilitaryUnit> targetUnits;
 		
-		if (targetTroop.troops == null) {
+		thisUnits = this.units;
+		targetUnits = targetTroop.units;
 			
-			thisUnits = this.soldiers;
-			thisUnits.add(this.officer);
-			
-			targetUnits = targetTroop.soldiers;
-			targetUnits.add(targetTroop.officer);
-		} else {
-			
-			thisUnits = this.troops;
-			targetUnits = targetTroop.troops;
-			
-			new EngagementController(
-				Collections.singletonList(this.officer),
-				Collections.singletonList(targetTroop.officer)
-			).start(verbose);
-		}
+		new EngagementController(
+			Collections.singletonList(this.officer),
+			Collections.singletonList(targetTroop.officer)
+		).start(verbose);
 		
 		new EngagementController(thisUnits, targetUnits)
 			.start(verbose);
@@ -168,29 +170,22 @@ public class Troop implements MilitaryUnit {
 		return origin;
 	}
 	
-	public List<MilitaryUnit> getTroops() {
-		return troops;
-	}
-	
-	public void removeSoldier(Soldier soldier) {
+	public void removeSoldier(@NotNull Soldier soldier) {
 		
-		if (this.soldiers == null)
-			return;
+		soldier.setTroop(null);
+		this.units.remove(soldier);
 		
-		this.soldiers.remove(soldier);
-		
-		if (this.soldiers.size() == 0 && this.officer == null)
+		if (this.units.size() == 0 && this.officer == null)
 			this.perish();
 	}
 	
 	public void removeOfficer() {
 		
+		this.officer.setTroop(null);
 		this.officer = null;
 		
-		if ((this.soldiers != null && this.soldiers.size() == 0) ||
-			(this.troops != null && this.troops.size() == 0)) {
+		if (this.units.size() == 0)
 			this.perish();
-		}
 	}
 	
 	public void setOfficer(Soldier soldier) {
@@ -207,11 +202,11 @@ public class Troop implements MilitaryUnit {
 	
 	public void printTroopSymbols() {
 		
-		int amount = this.troops.size();
+		int amount = this.units.size();
 		
 		for (int i = 0; i < amount; i++) {
 			
-			Troop troop = (Troop) this.troops.get(i);
+			Troop troop = (Troop) this.units.get(i);
 			troop.printSymbol(i != amount - 1, i == amount - 1);
 		}
 	}
@@ -222,19 +217,20 @@ public class Troop implements MilitaryUnit {
 			"[" +
 			this.symbol +
 			"] (" +
-			(this.troops == null ? this.soldiers.size() : this.troops.size()) +
+			(this.units.size()) +
 			")";
 	}
 	
-	public static int countSoldiers(@NotNull Troop troop) {
+	public static int countSoldiers(MilitaryUnit unit) {
+		
+		if (unit instanceof Soldier)
+			return 1;
 		
 		int total = 0;
+		Troop troop = (Troop) unit;
 		
-		if (troop.troops == null)
-			return troop.soldiers.size() + (troop.officer == null ? 0 : 1);
-		
-		for (MilitaryUnit militaryUnit: troop.troops)
-			total += countSoldiers((Troop) militaryUnit);
+		for (MilitaryUnit u:  troop.units)
+			total += countSoldiers(u);
 		
 		return total + (troop.officer == null ? 0 : 1);
 	}
@@ -242,39 +238,31 @@ public class Troop implements MilitaryUnit {
 	@NotNull
 	public static String getSummary(@NotNull Troop troop) {
 		
-		StringBuilder summary = new StringBuilder();
-		
-		summary.append("\n[")
-		       .append(troop.origin)
-		       .append("] ")
-		       .append(troop.type)
-		       .append(":\n");
-		
-		summary.append("-> Officer: ")
-		       .append(troop.officer)
-		       .append("\n");
-		
-		summary.append("-> Soldiers count: ")
-		       .append(countSoldiers(troop))
-		       .append("\n");
-		
-		if (troop.troops != null) {
-			summary.append("-> Troops count: ")
-			       .append(troop.troops.size())
-			       .append("\n");
-		}
-		
-		return summary.toString();
+		return "\n[" +
+			troop.origin +
+			"] " +
+			troop.type +
+			":\n" +
+			"-> Officer: " +
+			troop.officer +
+			"\n" +
+			"-> Soldiers count: " +
+			countSoldiers(troop) +
+			"\n" +
+			"-> Troops count: " +
+			troop.units.size() +
+			"\n";
 	}
 	
 	@NotNull
 	public static String getFullSummary(Troop troop) {
 		
 		StringBuilder fullSummary = new StringBuilder(getSummary(troop));
-		int troopsCount = troop.troops.size();
+		int unitsCount = troop.units.size();
 		
-		for (int i = 0; i < troopsCount; i++) {
-			Troop current = (Troop) troop.troops.get(i);
+		for (int i = 0; i < unitsCount; i++) {
+			
+			Troop current = (Troop) troop.units.get(i);
 			fullSummary.append(getSummary(current));
 		}
 		
@@ -285,7 +273,6 @@ public class Troop implements MilitaryUnit {
 		
 		Troop troop = new Troop(TroopType.LEGION);
 		
-		troop.troops.get(0).perish();
-		troop.printTroopSymbols();
+		Printer.print(Troop.getFullSummary(troop));
 	}
 }

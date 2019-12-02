@@ -12,7 +12,6 @@ public abstract class Soldier implements MilitaryUnit {
 	Status morale;
 	Status satiety;
 	Troop troop;
-	boolean alive;
 	private String origin;
 	
 	@Contract(pure = true)
@@ -21,20 +20,14 @@ public abstract class Soldier implements MilitaryUnit {
 		this.health = new Status(100, 0);
 		this.morale = new Status(100, 0);
 		this.satiety = new Status(100, 0);
+		
 		this.origin = troop.getOrigin();
 		this.troop = troop;
-		this.alive = true;
-	}
-	
-	@Override
-	public boolean isAlive() {
-		return this.alive;
 	}
 	
 	@Override
 	public void perish() {
 		this.troop.removeSoldier(this);
-		this.alive = false;
 	}
 	
 	@Override
@@ -52,7 +45,7 @@ public abstract class Soldier implements MilitaryUnit {
 		int thisDamageDealt;
 		int targetDamageDealt;
 
-		while (this.isAlive() && target.isAlive()) {
+		while (this.troop != null && targetSoldier.troop != null) {
 			
 			thisDamageDealt = this.attackTarget(targetSoldier);
 			targetDamageDealt = targetSoldier.attackTarget(this);
@@ -62,6 +55,10 @@ public abstract class Soldier implements MilitaryUnit {
 				Printer.print(targetSoldier + " dealt " + targetDamageDealt + " damage to " + this);
 			}
 		}
+	}
+	
+	public void setTroop(Troop troop) {
+		this.troop = troop;
 	}
 	
 	abstract int attackTarget(Soldier target);

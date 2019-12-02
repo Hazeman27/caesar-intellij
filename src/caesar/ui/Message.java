@@ -36,7 +36,10 @@ public enum Message {
 	private final int maxLength;
 	
 	@Contract(pure = true)
-	Message(@NotNull String title, String content) {
+	Message(String title, String content) {
+		
+		if (title == null)
+			title = "";
 		
 		this.title = title;
 		this.maxLength = Math.max(title.length(), 50);
@@ -83,12 +86,9 @@ public enum Message {
 		
 		StringBuilder stringBuilder = new StringBuilder("\n");
 		
-		if (this.title != null) {
-			
-			stringBuilder.append(
-				Printer.getBorder(this.title, this.maxLength, 0)
-			);
-		}
+		if (this.title != null) stringBuilder.append(
+			Printer.getBorder(this.title, this.maxLength, 0)
+		);
 		
 		else stringBuilder.append(
 			Printer.getBorder(this.maxLength, 0)
@@ -98,7 +98,6 @@ public enum Message {
 			.append("\n");
 		
 		stringBuilder.append(Printer.getBorder(this.maxLength, 0));
-		
 		return stringBuilder.toString();
 	}
 	
