@@ -93,8 +93,8 @@ public enum TurnType {
 	private List<String> getActionNames() {
 		
 		return this.actions.stream()
-				.map(action -> action.toString(true))
-				.collect(Collectors.toList());
+		                   .map(action -> action.toString(true))
+		                   .collect(Collectors.toList());
 	}
 	
 	private int getActionNamesMaxLength() {
@@ -128,38 +128,39 @@ public enum TurnType {
 	public String toString() {
 		
 		StringBuilder stringBuilder = new StringBuilder(
-			Printer.getBorder(this.title, this.actionNamesMaxLength, 5)
+			Printer.getBorder(
+				this.title,
+				this.actionNamesMaxLength, 5
+			)
 		);
 		
 		stringBuilder.append(
 			Printer.getEmptyLine(this.actionNamesMaxLength, 5)
 		);
 		
-        for (int i = 0; i < actionNames.size(); i++) {
-            
-            String actionName = actionNames.get(i);
-
-            stringBuilder.append("| ")
-				.append(i + 1)
-				.append(": ")
-				.append(actionName)
-				.append(
-					Printer.getFillingSpaces(
-						actionName,
-						this.actionNamesMaxLength
-					)
-				);
-        }
+	        for (int i = 0; i < actionNames.size(); i++) {
+	            
+	            String actionName = actionNames.get(i);
+	
+	            stringBuilder.append("| ")
+	                         .append(i + 1)
+	                         .append(": ")
+	                         .append(actionName)
+	                         .append(Printer.getFillingSpaces(
+	                         	actionName,
+		                         this.actionNamesMaxLength
+	                         ));
+	        }
+	        
+	        stringBuilder.append(
+	                Printer.getEmptyLine(this.actionNamesMaxLength, 5)
+	        );
+	        
+	        stringBuilder.append(
+	                Printer.getBorder(this.actionNamesMaxLength, 5)
+	        );
         
-        stringBuilder.append(
-        	Printer.getEmptyLine(this.actionNamesMaxLength, 5)
-		);
-        
-        stringBuilder.append(
-        	Printer.getBorder(this.actionNamesMaxLength, 5)
-		);
-        
-        return stringBuilder.toString();
+                return stringBuilder.toString();
 	}
 	
 	public static void main(String[] args) {

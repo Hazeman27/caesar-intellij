@@ -127,6 +127,10 @@ public class Game {
 		return this.enemy.location;
 	}
 	
+	public Troop getEnemyArmy() {
+		return this.enemy.army;
+	}
+	
 	public int getTurnsCount() {
 		return this.turnsCount;
 	}

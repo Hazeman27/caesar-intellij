@@ -11,13 +11,11 @@ public class Location {
 	
 	@Contract(pure = true)
 	public Location(int x, int y) {
-		
 		this.x = x;
 		this.y = y;
 	}
 	
 	public void change(int deltaX, int deltaY) {
-		
 		this.x += deltaX;
 		this.y += deltaY;
 	}

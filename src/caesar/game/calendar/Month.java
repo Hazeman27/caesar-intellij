@@ -49,7 +49,6 @@ public enum Month {
 			return IANUARIUS;
 		
 		for (Month month: values()) {
-			
 			if (month.number == current.number + 1)
 				return month;
 		}
