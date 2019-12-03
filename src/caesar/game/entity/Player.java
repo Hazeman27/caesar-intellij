@@ -8,7 +8,8 @@ public class Player extends Entity {
 		ArmyType armyType,
 		int troopsAmount,
 		int actionPointsAmount,
-		int x, int y
+		int x,
+		int y
 	) {
 		super(armyType, troopsAmount, actionPointsAmount, x, y);
 	}

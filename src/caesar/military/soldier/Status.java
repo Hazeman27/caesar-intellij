@@ -18,21 +18,16 @@ class Status {
 	
 	@Contract(pure = true)
 	int getMaxState() {
-		return maxState;
-	}
-	
-	@Contract(pure = true)
-	int getMinState() {
-		return minState;
+		return this.maxState;
 	}
 	
 	@Contract(pure = true)
 	int getState() {
-		return state;
+		return this.state;
 	}
 	
-	void setState(int state) {
-		this.state = state;
+	boolean isAtMinimum() {
+		return this.state == this.minState;
 	}
 	
 	void increase(int amount) {
@@ -41,7 +36,6 @@ class Status {
 			return;
 		
 		if (this.state + amount >= maxState) {
-			
 			this.state = maxState;
 			return;
 		}
@@ -52,7 +46,6 @@ class Status {
 	void decrease(int amount) {
 		
 		if (this.state - amount <= this.minState) {
-			
 			this.state = this.minState;
 			return;
 		}

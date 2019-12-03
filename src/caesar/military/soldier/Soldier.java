@@ -27,7 +27,9 @@ public abstract class Soldier implements MilitaryUnit {
 	
 	@Override
 	public void perish() {
+		
 		this.troop.removeSoldier(this);
+		this.troop = null;
 	}
 	
 	@Override
@@ -36,25 +38,43 @@ public abstract class Soldier implements MilitaryUnit {
 	}
 	
 	@Override
-	public void engage(MilitaryUnit target, boolean verbose) {
+	public MilitaryUnit engage(MilitaryUnit target, boolean verbose) {
 		
 		if (target == null)
-			return;
+			return this;
 		
 		Soldier targetSoldier = (Soldier) target;
 		int thisDamageDealt;
 		int targetDamageDealt;
 
-		while (this.troop != null && targetSoldier.troop != null) {
+		while (!this.health.isAtMinimum() && !targetSoldier.health.isAtMinimum()) {
 			
 			thisDamageDealt = this.attackTarget(targetSoldier);
 			targetDamageDealt = targetSoldier.attackTarget(this);
 			
 			if (verbose) {
-				Printer.print(this + " dealt " + thisDamageDealt + " damage to " + target);
-				Printer.print(targetSoldier + " dealt " + targetDamageDealt + " damage to " + this);
+				Printer.print(
+					this +
+					" dealt " +
+					thisDamageDealt +
+					" damage to " +
+					targetSoldier
+				);
+				
+				Printer.print(
+					targetSoldier +
+					" dealt " +
+					targetDamageDealt +
+					" damage to " +
+					this
+				);
 			}
 		}
+		
+		if (targetSoldier.health.isAtMinimum())
+			return this;
+		
+		else return target;
 	}
 	
 	public void setTroop(Troop troop) {
@@ -69,7 +89,7 @@ public abstract class Soldier implements MilitaryUnit {
 		damageAmount = Math.max(damageAmount - this.block(damageAmount), 0);
 		this.health.decrease(damageAmount);
 		
-		if (this.health.getState() == this.health.getMinState())
+		if (this.health.isAtMinimum())
 			this.perish();
 		
 		return damageAmount;

@@ -9,6 +9,7 @@ import caesar.military.soldier.Soldier;
 import caesar.ui.Message;
 import caesar.ui.Printer;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -144,10 +145,10 @@ public class Troop implements MilitaryUnit {
 	}
 	
 	@Override
-	public void engage(MilitaryUnit target, boolean verbose) {
+	public MilitaryUnit engage(MilitaryUnit target, boolean verbose) {
 		
 		if (target == null)
-			return;
+			return this;
 		
 		Troop targetTroop = (Troop) target;
 		
@@ -156,7 +157,7 @@ public class Troop implements MilitaryUnit {
 		
 		thisUnits = this.units;
 		targetUnits = targetTroop.units;
-			
+		
 		new EngagementController(
 			Collections.singletonList(this.officer),
 			Collections.singletonList(targetTroop.officer)
@@ -164,6 +165,8 @@ public class Troop implements MilitaryUnit {
 		
 		new EngagementController(thisUnits, targetUnits)
 			.start(verbose);
+		
+		return this;
 	}
 	
 	public String getOrigin() {
@@ -172,7 +175,6 @@ public class Troop implements MilitaryUnit {
 	
 	public void removeSoldier(@NotNull Soldier soldier) {
 		
-		soldier.setTroop(null);
 		this.units.remove(soldier);
 		
 		if (this.units.size() == 0 && this.officer == null)
@@ -182,7 +184,6 @@ public class Troop implements MilitaryUnit {
 	public void removeOfficer() {
 		
 		this.officer.setTroop(null);
-		this.officer = null;
 		
 		if (this.units.size() == 0)
 			this.perish();
@@ -221,6 +222,7 @@ public class Troop implements MilitaryUnit {
 			")";
 	}
 	
+	@Contract(pure = true)
 	public static int countSoldiers(MilitaryUnit unit) {
 		
 		if (unit instanceof Soldier)
@@ -272,7 +274,6 @@ public class Troop implements MilitaryUnit {
 	public static void main(String[] args) {
 		
 		Troop troop = new Troop(TroopType.LEGION);
-		
 		Printer.print(Troop.getFullSummary(troop));
 	}
 }

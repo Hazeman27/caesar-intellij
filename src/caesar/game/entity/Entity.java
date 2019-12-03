@@ -17,7 +17,8 @@ public abstract class Entity {
 		ArmyType armyType,
 		int troopsAmount,
 		int actionPointsAmount,
-		int x, int y
+		int x,
+		int y
 	) {
 		
 		this.actionPoints = new ActionPoints(actionPointsAmount);

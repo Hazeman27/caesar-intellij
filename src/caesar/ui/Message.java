@@ -62,17 +62,17 @@ public enum Message {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(content);
 		
-		if (contentLength > this.maxLength) {
+		if (contentLength <= this.maxLength)
+			return stringBuilder.toString();
+		
+		for (int i = this.maxLength; i < contentLength; i += this.maxLength) {
 			
-			for (int i = this.maxLength; i < contentLength; i += this.maxLength) {
+			for (int j = i; j >= 0; j--) {
 				
-				for (int j = i; j >= 0; j--) {
-					
-					if (Character.isWhitespace(stringBuilder.charAt(j))) {
-						stringBuilder.setCharAt(j, '\n');
-						i += j - i + 1;
-						break;
-					}
+				if (Character.isWhitespace(stringBuilder.charAt(j))) {
+					stringBuilder.setCharAt(j, '\n');
+					i += j - i + 1;
+					break;
 				}
 			}
 		}

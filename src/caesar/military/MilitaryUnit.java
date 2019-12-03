@@ -4,5 +4,5 @@ public interface MilitaryUnit {
 	
 	void perish();
 	void flee();
-	void engage(MilitaryUnit target, boolean verbose);
+	MilitaryUnit engage(MilitaryUnit target, boolean verbose);
 }

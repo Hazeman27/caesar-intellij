@@ -28,21 +28,9 @@ public class Engagement implements Callable<MilitaryUnit> {
 		
 		if (this.verbose) {
 			Printer.print(this.unitA + " is engaging with " + this.unitB);
-			this.unitA.engage(this.unitB, true);
-		} else {
-			this.unitA.engage(this.unitB, false);
+			return this.unitA.engage(this.unitB, true);
 		}
 		
-//		if (!this.unitB.isAlive()) {
-//			if (verbose) Printer.print(this.unitA + " has eliminated " + this.unitB);
-//			return unitA;
-//		}
-//
-//		if (!this.unitA.isAlive()) {
-//			if (verbose) Printer.print(this.unitB + " has eliminated " + this.unitA);
-//			return unitB;
-//		}
-		
-		return null;
+		return this.unitA.engage(this.unitB, false);
 	}
 }

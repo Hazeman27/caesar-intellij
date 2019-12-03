@@ -60,13 +60,11 @@ public class Calendar {
 	
 	private void nextYear() {
 		
-		if (bce)
-			this.year--;
+		if (bce) this.year--;
 		
 		else this.year++;
 		
 		if (this.year == 0) {
-			
 			this.bce = false;
 			this.year = 1;
 		}

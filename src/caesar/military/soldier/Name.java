@@ -908,7 +908,7 @@ class Name {
 	}
 	
 	@NotNull
-	static String getRandomGaul() {
+	static String getRandomGallic() {
 		return gaulNames[Game.getRandomInt(gaulNames.length)];
 	}
 }

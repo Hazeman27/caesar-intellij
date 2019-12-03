@@ -10,7 +10,7 @@ public class Gaul extends Soldier {
 	
 	public Gaul(Troop troop) {
 		super(troop);
-		this.name = Name.getRandomGaul();
+		this.name = Name.getRandomGallic();
 	}
 	
 	@Override
