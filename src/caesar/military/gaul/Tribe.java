@@ -21,6 +21,7 @@ public class Tribe extends Troop {
 		this.officer = new GaulOfficer(GaulRank.WARLORD, this);
 	}
 	
+	@Override
 	protected List<MilitaryUnit> initUnits() {
 		
 		List<MilitaryUnit> units = new ArrayList<>();

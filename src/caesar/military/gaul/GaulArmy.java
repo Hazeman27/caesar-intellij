@@ -16,6 +16,7 @@ public class GaulArmy extends Troop {
 		this.officer = new GaulOfficer(GaulRank.HERO_WARLORD, this);
 	}
 	
+	@Override
 	protected List<MilitaryUnit> initUnits() {
 		
 		List<MilitaryUnit> units = new ArrayList<>();

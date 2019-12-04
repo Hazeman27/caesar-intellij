@@ -40,6 +40,10 @@ public abstract class Troop implements MilitaryUnit {
 	
 	protected abstract List<MilitaryUnit> initUnits();
 	
+	private void regroupUnits() {
+	
+	}
+	
 	@Override
 	public void perish() {
 		

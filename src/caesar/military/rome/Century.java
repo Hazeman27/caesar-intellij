@@ -26,6 +26,7 @@ public class Century extends Troop {
 		this.officer = new RomanOfficer(RomanRank.CENTURION, this);
 	}
 	
+	@Override
 	protected List<MilitaryUnit> initUnits() {
 		
 		List<MilitaryUnit> units = new ArrayList<>();

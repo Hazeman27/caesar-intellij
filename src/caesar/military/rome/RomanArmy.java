@@ -16,6 +16,7 @@ public class RomanArmy extends Troop {
 		this.officer = new RomanOfficer(RomanRank.GENERAL, this);
 	}
 	
+	@Override
 	protected List<MilitaryUnit> initUnits() {
 		
 		List<MilitaryUnit> units = new ArrayList<>();

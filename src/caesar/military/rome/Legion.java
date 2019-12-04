@@ -16,6 +16,7 @@ public class Legion extends Troop {
 		this.officer = new RomanOfficer(RomanRank.LEGATE, this);
 	}
 	
+	@Override
 	protected List<MilitaryUnit> initUnits() {
 		
 		List<MilitaryUnit> units = new ArrayList<>();

@@ -22,6 +22,7 @@ public class Contubernium extends Troop {
 		this.officer = new RomanOfficer(RomanRank.DECANUS, this);
 	}
 	
+	@Override
 	protected List<MilitaryUnit> initUnits() {
 		
 		List<MilitaryUnit> units = new ArrayList<>();

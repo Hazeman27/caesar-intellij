@@ -21,6 +21,7 @@ public class Cohort extends Troop {
 		this.officer = new RomanOfficer(RomanRank.LEAD_CENTURION, this);
 	}
 	
+	@Override
 	protected List<MilitaryUnit> initUnits() {
 		
 		List<MilitaryUnit> units = new ArrayList<>();
