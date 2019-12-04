@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
 public class TribeGroup extends Troop {
 	
 	TribeGroup(Troop parentTroop) {
-		super(parentTroop, 19, ".");
+		super(parentTroop, 5, ".");
 		this.officer = new GaulOfficer(GaulRank.CHIEF_WARLORD, this);
 	}
 	

@@ -1,8 +1,8 @@
 package caesar.military.gaul;
 
 import caesar.military.MilitaryUnit;
-import caesar.military.officer.Officer;
-import caesar.military.officer.Rank;
+import caesar.military.officer.GaulOfficer;
+import caesar.military.officer.GaulRank;
 import caesar.military.troop.Troop;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class Triad extends Troop {
 	
 	Triad(Troop parentTroop) {
 		super(parentTroop, 3, ".");
-		this.officer = new Officer(Rank.CHIEF_WARLORD, this);
+		this.officer = new GaulOfficer(GaulRank.CHIEF_WARLORD, this);
 	}
 	
 	protected List<MilitaryUnit> initUnits() {

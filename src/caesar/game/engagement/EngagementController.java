@@ -90,7 +90,13 @@ public class EngagementController {
 		Troop B = new Tribe();
 
 		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-		A.engage(B, true);
+		A.engage(B, false);
+		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
+		A.engage(B, false);
+		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
+		A.engage(B, false);
+		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
+		A.engage(B, false);
 		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
 	}
 }
