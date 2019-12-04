@@ -1,5 +1,6 @@
 package caesar.military.soldier;
 
+import caesar.game.Game;
 import caesar.military.MilitaryUnit;
 import caesar.military.troop.Troop;
 import caesar.ui.Printer;
@@ -8,14 +9,14 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class Soldier implements MilitaryUnit {
 	
-	Status health;
-	Status morale;
-	Status satiety;
-	String name;
-	Troop troop;
+	private Status health;
+	protected Status morale;
+	protected Status satiety;
+	protected String name;
+	protected Troop troop;
 	
 	@Contract(pure = true)
-	Soldier(@NotNull Troop troop) {
+	protected Soldier(@NotNull Troop troop) {
 		
 		this.health = new Status(100, 0);
 		this.morale = new Status(100, 0);
@@ -74,10 +75,18 @@ public abstract class Soldier implements MilitaryUnit {
 		this.troop = troop;
 	}
 	
-	abstract int attackTarget(Soldier target);
-	abstract int block(int damageAmount);
+	protected abstract int getDamageBoost();
+	protected abstract int block(int damageAmount);
 	
-	int receiveDamage(int damageAmount) {
+	private int attackTarget(@NotNull Soldier target) {
+		
+		int damage = Game.getRandomInt(this.health.getMaxState());
+		damage += this.getDamageBoost();
+		
+		return target.receiveDamage(damage);
+	};
+	
+	private int receiveDamage(int damageAmount) {
 		
 		damageAmount = Math.max(damageAmount - this.block(damageAmount), 0);
 		this.health.decrease(damageAmount);
@@ -90,6 +99,6 @@ public abstract class Soldier implements MilitaryUnit {
 	
 	@Override
 	public String toString() {
-		return this.getClass().getName() + this.name;
+		return "[" + this.getClass().getSimpleName() + "] " + this.name;
 	}
 }

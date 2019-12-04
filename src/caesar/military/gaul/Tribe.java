@@ -1,8 +1,8 @@
 package caesar.military.gaul;
 
 import caesar.military.MilitaryUnit;
-import caesar.military.soldier.Officer;
-import caesar.military.soldier.Rank;
+import caesar.military.officer.GaulOfficer;
+import caesar.military.officer.GaulRank;
 import caesar.military.troop.Troop;
 
 import java.util.ArrayList;
@@ -11,9 +11,14 @@ import java.util.stream.IntStream;
 
 public class Tribe extends Troop {
 	
-	public Tribe(Troop parentTroop) {
+	Tribe(Troop parentTroop) {
 		super(parentTroop, 25, ".");
-		this.officer = new Officer(Rank.WARLORD, this);
+		this.officer = new GaulOfficer(GaulRank.WARLORD, this);
+	}
+	
+	public Tribe() {
+		super(25, ".");
+		this.officer = new GaulOfficer(GaulRank.WARLORD, this);
 	}
 	
 	protected List<MilitaryUnit> initUnits() {

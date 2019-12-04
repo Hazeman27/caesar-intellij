@@ -1,8 +1,8 @@
 package caesar.military.gaul;
 
 import caesar.military.MilitaryUnit;
-import caesar.military.soldier.Officer;
-import caesar.military.soldier.Rank;
+import caesar.military.officer.GaulOfficer;
+import caesar.military.officer.GaulRank;
 import caesar.military.troop.Troop;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class GaulArmy extends Troop {
 	
 	public GaulArmy(int legionsAmount) {
 		super(legionsAmount, "[>G<]");
-		this.officer = new Officer(Rank.GENERAL, this);
+		this.officer = new GaulOfficer(GaulRank.HERO_WARLORD, this);
 	}
 	
 	protected List<MilitaryUnit> initUnits() {

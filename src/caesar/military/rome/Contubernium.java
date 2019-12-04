@@ -1,8 +1,8 @@
 package caesar.military.rome;
 
 import caesar.military.MilitaryUnit;
-import caesar.military.soldier.Officer;
-import caesar.military.soldier.Rank;
+import caesar.military.officer.RomanOfficer;
+import caesar.military.officer.RomanRank;
 import caesar.military.soldier.Roman;
 import caesar.military.troop.Troop;
 
@@ -14,7 +14,12 @@ public class Contubernium extends Troop {
 	
 	Contubernium(Troop parentTroop) {
 		super(parentTroop, 7, ".");
-		this.officer = new Officer(Rank.DECANUS, this);
+		this.officer = new RomanOfficer(RomanRank.DECANUS, this);
+	}
+	
+	public Contubernium() {
+		super(7, ".");
+		this.officer = new RomanOfficer(RomanRank.DECANUS, this);
 	}
 	
 	protected List<MilitaryUnit> initUnits() {

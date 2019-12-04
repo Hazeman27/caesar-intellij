@@ -3,7 +3,7 @@ package caesar.military.soldier;
 import caesar.game.Game;
 import org.jetbrains.annotations.NotNull;
 
-class Name {
+public class Name {
 	
 	private static String[] praenominas = new String[] {
 		"Appius",
@@ -902,13 +902,13 @@ class Name {
 	};
 	
 	@NotNull
-	static String getRandomRoman() {
+	public static String getRandomRoman() {
 		return praenominas[Game.getRandomInt(praenominas.length)] + " " +
 			nominas[Game.getRandomInt(nominas.length)];
 	}
 	
 	@NotNull
-	static String getRandomGallic() {
+	public static String getRandomGallic() {
 		return gaulNames[Game.getRandomInt(gaulNames.length)];
 	}
 }

@@ -2,6 +2,11 @@ package caesar.game.engagement;
 
 import caesar.game.Game;
 import caesar.military.MilitaryUnit;
+import caesar.military.gaul.Group;
+import caesar.military.gaul.Tribe;
+import caesar.military.rome.Century;
+import caesar.military.troop.Troop;
+import caesar.ui.Printer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -82,13 +87,11 @@ public class EngagementController {
 	
 	public static void main(String[] args) {
 		
-//		Troop A = new Troop(TroopType.CENTURY);
-//		Troop B = new Troop(TroopType.TRIBE);
-//
-//		Printer.print(Troop.getFullSummary(A));
-//		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-//		A.engage(B, false);
-//		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-//		Printer.print(Troop.getFullSummary(A));
+		Troop A = new Century();
+		Troop B = new Tribe();
+
+		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
+		A.engage(B, true);
+		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
 	}
 }

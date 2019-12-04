@@ -1,8 +1,8 @@
 package caesar.military.rome;
 
 import caesar.military.MilitaryUnit;
-import caesar.military.soldier.Officer;
-import caesar.military.soldier.Rank;
+import caesar.military.officer.RomanOfficer;
+import caesar.military.officer.RomanRank;
 import caesar.military.troop.Troop;
 
 import java.util.ArrayList;
@@ -11,9 +11,9 @@ import java.util.stream.IntStream;
 
 public class RomanArmy extends Troop {
 	
-	public RomanArmy(int legionsAmount) {
-		super(legionsAmount, "[>R<]");
-		this.officer = new Officer(Rank.GENERAL, this);
+	public RomanArmy(int troopsAmount) {
+		super(troopsAmount, "[>R<]");
+		this.officer = new RomanOfficer(RomanRank.GENERAL, this);
 	}
 	
 	protected List<MilitaryUnit> initUnits() {

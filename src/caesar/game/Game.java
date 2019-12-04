@@ -63,7 +63,6 @@ public class Game {
 		this.map = new Map(mapSize);
 		
 		this.player = new Player(
-			ArmyType.ROMAN,
 			playerTroopsAmount,
 			playerActionPointsAmount,
 			playerLocationX,
@@ -90,7 +89,6 @@ public class Game {
 	private Enemy spawnEnemy() {
 		
 		return new Enemy(
-			ArmyType.GALLIC,
 			random.nextInt(40) + 10,
 			random.nextInt(20) + 5,
 			random.nextInt(this.map.getSize()),

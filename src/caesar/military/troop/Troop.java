@@ -113,7 +113,7 @@ public abstract class Troop implements MilitaryUnit {
 	@NotNull
 	public static String getSummary(@NotNull Troop troop) {
 		
-		return troop.getClass().getName() +
+		return troop.getClass().getSimpleName() +
 			":\n" +
 			"-> Officer: " +
 			troop.officer +

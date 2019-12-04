@@ -1,8 +1,8 @@
 package caesar.military.soldier;
 
 import caesar.game.Game;
+import caesar.military.rome.Contubernium;
 import caesar.military.troop.Troop;
-import org.jetbrains.annotations.NotNull;
 
 public class Roman extends Soldier {
 	
@@ -16,24 +16,20 @@ public class Roman extends Soldier {
 	}
 	
 	@Override
-	int attackTarget(@NotNull Soldier target) {
+	protected int getDamageBoost() {
 		
-		int damage = Game.getRandomInt(this.health.getMaxState());
-		
-		damage += this.morale.getState() / 5 +
+		return this.morale.getState() / 5 +
 			this.satiety.getState() / 20 +
 			this.trainingBoost;
-		
-		return target.receiveDamage(damage);
 	};
 	
 	@Override
-	int block(int damageAmount) {
+	protected int block(int damageAmount) {
 		return Game.getRandomInt(damageAmount) +
 			this.trainingBoost;
 	};
 	
 	public static void main(String[] args) {
-		System.out.println(new Roman(null));
+		System.out.println(new Roman(new Contubernium()));
 	}
 }

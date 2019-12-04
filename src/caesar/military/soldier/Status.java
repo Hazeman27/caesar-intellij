@@ -2,7 +2,7 @@ package caesar.military.soldier;
 
 import org.jetbrains.annotations.Contract;
 
-class Status {
+public class Status {
 	
         private final int maxState;
         private final int minState;
@@ -17,13 +17,13 @@ class Status {
 	}
 	
 	@Contract(pure = true)
-	int getMaxState() {
-		return this.maxState;
+	public int getState() {
+		return this.state;
 	}
 	
 	@Contract(pure = true)
-	int getState() {
-		return this.state;
+	int getMaxState() {
+		return this.maxState;
 	}
 	
 	boolean isAtMinimum() {

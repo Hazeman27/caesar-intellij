@@ -1,8 +1,8 @@
 package caesar.military.rome;
 
 import caesar.military.MilitaryUnit;
-import caesar.military.soldier.Officer;
-import caesar.military.soldier.Rank;
+import caesar.military.officer.RomanOfficer;
+import caesar.military.officer.RomanRank;
 import caesar.military.troop.Troop;
 
 import java.util.ArrayList;
@@ -13,7 +13,17 @@ public class Century extends Troop {
 	
 	Century(Troop parentTroop) {
 		super(parentTroop, 10, ":");
-		this.officer = new Officer(Rank.CENTURION, this);
+		this.officer = new RomanOfficer(RomanRank.CENTURION, this);
+	}
+	
+	Century(Troop parentTroop, int troopsAmount, String symbol) {
+		super(parentTroop, troopsAmount, symbol);
+		this.officer = new RomanOfficer(RomanRank.CENTURION, this);
+	}
+	
+	public Century() {
+		super(10, ":");
+		this.officer = new RomanOfficer(RomanRank.CENTURION, this);
 	}
 	
 	protected List<MilitaryUnit> initUnits() {
