@@ -2,7 +2,6 @@ package caesar.game.engagement;
 
 import caesar.game.Game;
 import caesar.military.MilitaryUnit;
-import caesar.military.gaul.Group;
 import caesar.military.gaul.Tribe;
 import caesar.military.rome.Century;
 import caesar.military.troop.Troop;

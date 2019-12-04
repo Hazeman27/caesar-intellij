@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import caesar.ui.Printer;
 import org.jetbrains.annotations.Contract;
@@ -138,19 +139,19 @@ public enum TurnType {
 			Printer.getEmptyLine(this.actionNamesMaxLength, 5)
 		);
 		
-	        for (int i = 0; i < actionNames.size(); i++) {
-	            
-	            String actionName = actionNames.get(i);
-	
-	            stringBuilder.append("| ")
-	                         .append(i + 1)
-	                         .append(": ")
-	                         .append(actionName)
-	                         .append(Printer.getFillingSpaces(
-	                         	actionName,
-		                         this.actionNamesMaxLength
-	                         ));
-	        }
+		IntStream.range(0, actionNames.size()).forEach(i -> {
+			
+			String actionName = actionNames.get(i);
+			
+			stringBuilder.append("| ")
+			             .append(i + 1)
+			             .append(": ")
+			             .append(actionName)
+			             .append(Printer.getFillingSpaces(
+				             actionName,
+				             this.actionNamesMaxLength
+			             ));
+		});
 	        
 	        stringBuilder.append(
 	                Printer.getEmptyLine(this.actionNamesMaxLength, 5)

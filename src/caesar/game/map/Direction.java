@@ -47,7 +47,6 @@ public enum Direction {
 	public static Direction valueOf(int x, int y) {
 		
 		for (Direction direction: values()) {
-			
 			if (direction.x == x && direction.y == y)
 				return direction;
 		}

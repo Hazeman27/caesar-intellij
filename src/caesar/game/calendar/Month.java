@@ -4,6 +4,9 @@ import caesar.game.weather.Season;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
 public enum Month {
 	
 	IANUARIUS(1, 29, Season.WINTER),
@@ -41,7 +44,6 @@ public enum Month {
 		return this.season;
 	}
 	
-	@Nullable
 	@Contract(pure = true)
 	static Month next(Month current) {
 		
@@ -53,6 +55,6 @@ public enum Month {
 				return month;
 		}
 		
-		return null;
+		return current;
 	}
 }

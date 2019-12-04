@@ -19,20 +19,14 @@ public class Calendar {
 	) {
 		
 		if (day > month.getDays()) {
-			
-			this.month = Month.next(month);
-			this.day = day - month.getDays();
+			month = Month.next(month);
+			day -= month.getDays();
 		}
 		
-		else {
-			
-			this.month = month;
-			this.day = Math.max(day, 1);
-		}
+		this.month = month;
+		this.day = Math.max(day, 1);
 		
-		if (this.month != null)
-			this.weather = new Weather(this.month.getSeason());
-		
+		this.weather = new Weather(this.month.getSeason());
 		this.year = Math.max(year, 1);
 		this.bce = bce;
 	}
@@ -48,9 +42,7 @@ public class Calendar {
 	private void nextMonth() {
 		
 		this.month = Month.next(this.month);
-		
-		if (this.month != null)
-			this.weather.setSeason(this.month.getSeason());
+		this.weather.setSeason(this.month.getSeason());
 		
 		this.day = 1;
 		
@@ -61,7 +53,6 @@ public class Calendar {
 	private void nextYear() {
 		
 		if (bce) this.year--;
-		
 		else this.year++;
 		
 		if (this.year == 0) {

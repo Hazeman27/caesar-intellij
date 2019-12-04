@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Log {
 	
@@ -35,17 +36,15 @@ public class Log {
 			.append(" items) ::")
 			.append("\n");
 		
-		
-		for (int i = 0; i < listSize; i++) {
-			
-			stringBuilder
-				.append("[ ")
-				.append(i + 1)
-				.append(": ")
-				.append(this.log.get(i))
-				.append(" ]")
-				.append("\n");
-		}
+		IntStream.range(0, this.log.size())
+		         .forEach(i -> stringBuilder
+			         .append("[ ")
+			         .append(i + 1)
+			         .append(": ")
+			         .append(this.log.get(i))
+			         .append(" ]")
+			         .append("\n")
+		         );
 		
 		return stringBuilder.toString();
 	}
