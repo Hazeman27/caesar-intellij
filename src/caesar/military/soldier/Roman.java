@@ -7,10 +7,13 @@ import caesar.military.troop.Troop;
 public class Roman extends Soldier {
 	
 	private final int trainingBoost;
+	private Status shieldCondition;
 	
 	public Roman(Troop troop) {
 		
 		super(troop);
+		this.shieldCondition = new Status(10, 0);
+		
 		this.name = Name.getRandomRoman();
 		this.trainingBoost = Game.getRandomInt(5, 15);
 	}
@@ -25,8 +28,13 @@ public class Roman extends Soldier {
 	
 	@Override
 	protected int block(int damageAmount) {
-		return Game.getRandomInt(damageAmount) +
-			this.trainingBoost;
+		
+		int blocked = Game.getRandomInt(damageAmount) +
+			this.trainingBoost +
+			this.shieldCondition.getState();
+		
+		this.shieldCondition.decrease(1);
+		return blocked;
 	};
 	
 	public static void main(String[] args) {
