@@ -25,22 +25,20 @@ public enum Action {
 	
 	CONTINUE_GAME("Continue game", 0, game -> {
 		
-		Response response = new Response();
-		
 		if (game.getPlayer() != null) {
 			
-			response.setMessage(Message.CONTINUE);
-			response.setType(ResponseType.SUCCESS);
-			
 			game.nextTurn(TurnType.TRAVEL);
-			return response;
+			
+			return new Response(
+				Message.CONTINUE,
+				ResponseType.SUCCESS
+			);
 		}
 		
-		else {
-			response.setMessage(Message.NO_CURRENT_GAME);
-			response.setType(ResponseType.FAILURE);
-			return response;
-		}
+		return new Response(
+			Message.NO_CURRENT_GAME,
+			ResponseType.FAILURE
+		);
 	}),
 	
 	EXIT("Exit", 0, game -> {
@@ -100,10 +98,7 @@ public enum Action {
 		int deltaX = enemyLocation.getX() - playerLocation.getX();
 		int deltaY = enemyLocation.getY() - playerLocation.getY();
 		
-		Printer.printRelief(
-			game.getMap(),
-			playerLocation
-		);
+		Printer.printRelief(game.getMap(), playerLocation);
 		
 		if (WeatherType.isClear(game.getCurrentWeather()) &&
 			(Math.abs(deltaX) == 1 || Math.abs(deltaY) == 1)) {
@@ -149,14 +144,20 @@ public enum Action {
 	
 	BUILD_CAMP("Build camp", 10, game -> {
 		
-		Response response = new Response();
-		
 		if (Relief.isSolid(game.getPlayerRelief())) {
-		
-		
+			
+			game.getPlayer().setCamping(true);
+			
+			return new Response(
+				Message.CAMP_BUILT,
+				ResponseType.SUCCESS
+			);
 		}
 		
-		return new Response(ResponseType.SUCCESS);
+		return new Response(
+			Message.CANT_BUILD_CAMP,
+			ResponseType.FAILURE
+		);
 	}),
 	
 	PREPARE_FOR_BATTLE("Prepare for battle", 0, game -> {
@@ -256,20 +257,18 @@ public enum Action {
 			direction.getY() + game.getPlayerLocation().getY()
 		);
 		
-		Response response = new Response();
-		
 		if (relief == Relief.UNKNOWN) {
 			
-			response.setMessage(Message.UNKNOWN_DIRECTION);
-			response.setType(ResponseType.FAILURE);
-			
-			return response;
+			return new Response(
+				Message.UNKNOWN_DIRECTION,
+				ResponseType.FAILURE
+			);
 		}
 		
-		response.setMessage(Message.PLAYER_MOVED);
-		response.setType(ResponseType.SUCCESS);
-		
 		game.getPlayer().move(direction, relief);
-		return response;
+		return new Response(
+			Message.PLAYER_MOVED,
+			ResponseType.SUCCESS
+		);
 	}
 }

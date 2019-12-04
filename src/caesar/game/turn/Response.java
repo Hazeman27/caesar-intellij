@@ -9,7 +9,6 @@ class Response {
 	private ResponseType type;
 	
 	<T> Response(@NotNull T message, ResponseType type) {
-		
 		this.message = "\n" + message.toString();
 		this.type = type;
 	}
@@ -19,19 +18,8 @@ class Response {
 		this.type = type;
 	}
 	
-	@Contract(pure = true)
-	Response() {}
-	
 	String getMessage() {
 		return message;
-	}
-	
-	<T> void setMessage(@NotNull T message) {
-		this.message = "\n" + message.toString();
-	}
-	
-	void setType(ResponseType type) {
-		this.type = type;
 	}
 	
 	boolean isSuccessful() {
