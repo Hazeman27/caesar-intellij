@@ -18,6 +18,8 @@ public enum Message {
 	CANT_REMOVE_TROOP("Error", "Can't remove troop with no parent..."),
 	CONSIDER_RESTING("You seem to be low on action points. Consider building a camp and letting your army rest..."),
 	ENEMY_NEARBY("You have spotted a gallic army!"),
+	CAMP_BUILT("You have built a camp, now you can rest there..."),
+	CANT_BUILD_CAMP("Can't build camp on this relief!"),
 	TEST("Really Long Text", "Contrary to popular belief, " +
 		"Lorem Ipsum is not simply random text. It has roots in a piece of classical " +
 		"Latin literature from 45 BC, making it over 2000 years old. " +
