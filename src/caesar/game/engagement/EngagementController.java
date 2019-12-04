@@ -2,9 +2,6 @@ package caesar.game.engagement;
 
 import caesar.game.Game;
 import caesar.military.MilitaryUnit;
-import caesar.military.troop.Troop;
-import caesar.military.troop.TroopType;
-import caesar.ui.Printer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -16,6 +13,13 @@ public class EngagementController {
 	
 	public EngagementController(List<MilitaryUnit> sideA, List<MilitaryUnit> sideB) {
 		mapEngagements(sideA, sideB);
+	}
+	
+	public EngagementController(MilitaryUnit unitA, MilitaryUnit unitB) {
+		mapEngagements(
+			Collections.singletonList(unitA),
+			Collections.singletonList(unitB)
+		);
 	}
 	
 	private void mapEngagements(
@@ -78,13 +82,13 @@ public class EngagementController {
 	
 	public static void main(String[] args) {
 		
-		Troop A = new Troop(TroopType.CENTURY);
-		Troop B = new Troop(TroopType.TRIBE);
-		
-		Printer.print(Troop.getFullSummary(A));
-		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-		A.engage(B, false);
-		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-		Printer.print(Troop.getFullSummary(A));
+//		Troop A = new Troop(TroopType.CENTURY);
+//		Troop B = new Troop(TroopType.TRIBE);
+//
+//		Printer.print(Troop.getFullSummary(A));
+//		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
+//		A.engage(B, false);
+//		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
+//		Printer.print(Troop.getFullSummary(A));
 	}
 }

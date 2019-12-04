@@ -1,4 +1,4 @@
-package caesar.military.rome;
+package caesar.military.gaul;
 
 import caesar.military.MilitaryUnit;
 import caesar.military.soldier.Officer;
@@ -9,18 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class CenturyFirstCohort extends Troop {
+public class Tribe extends Troop {
 	
-	CenturyFirstCohort(Troop parentTroop) {
-		super(parentTroop, 20, "::");
-		this.officer = new Officer(Rank.CENTURION, this);
+	public Tribe(Troop parentTroop) {
+		super(parentTroop, 25, ".");
+		this.officer = new Officer(Rank.WARLORD, this);
 	}
 	
 	protected List<MilitaryUnit> initUnits() {
 		
 		List<MilitaryUnit> units = new ArrayList<>();
 		IntStream.range(0, this.unitsAmount)
-		         .forEach(i -> units.add(new Contubernium(this)));
+		         .forEach(i -> units.add(new Group(this)));
 		
 		return units;
 	}

@@ -7,13 +7,13 @@ import org.jetbrains.annotations.NotNull;
 public class Officer extends Soldier {
 	
 	private final Rank rank;
-	private final String name;
-	private final int trainingBoost = 20;
+	private final int trainingBoost;
 	
 	public Officer(Rank rank, Troop troop) {
 		
 		super(troop);
 		this.name = Name.getRandomRoman();
+		this.trainingBoost = Game.getRandomInt(15, 35);
 		this.rank = rank;
 	}
 	
@@ -22,11 +22,6 @@ public class Officer extends Soldier {
 		
 		this.troop.removeOfficer();
 		this.troop = null;
-	}
-	
-	@Override
-	public void flee() {
-		this.troop.removeOfficer();
 	}
 	
 	@Override
@@ -45,9 +40,4 @@ public class Officer extends Soldier {
 		return Game.getRandomInt(damageAmount) +
 			this.trainingBoost;
 	};
-	
-	@Override
-	public String toString() {
-		return super.toString() + this.rank + " " + this.name;
-	}
 }

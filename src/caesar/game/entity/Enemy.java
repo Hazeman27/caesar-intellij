@@ -5,19 +5,18 @@ import caesar.game.map.Map;
 import caesar.game.map.Relief;
 import caesar.game.map.Vector;
 import caesar.game.turn.Action;
-import caesar.military.troop.ArmyType;
+import caesar.military.gaul.GaulArmy;
 import org.jetbrains.annotations.NotNull;
 
 public class Enemy extends Entity {
 	
 	public Enemy(
-		ArmyType armyType,
 		int troopsAmount,
 		int actionPointsAmount,
-		int x,
-		int y
+		int x, int y
 	) {
-		super(armyType, troopsAmount, actionPointsAmount, x, y);
+		super(actionPointsAmount, x, y);
+		this.army = new GaulArmy(troopsAmount);
 	}
 	
 	public void makeMove(@NotNull Player player, @NotNull Map map) {

@@ -11,7 +11,6 @@ import caesar.game.map.Map;
 import caesar.game.entity.Player;
 import caesar.game.weather.Weather;
 import caesar.game.weather.WeatherType;
-import caesar.military.troop.ArmyType;
 import caesar.military.troop.Troop;
 import caesar.ui.Message;
 import caesar.ui.Printer;

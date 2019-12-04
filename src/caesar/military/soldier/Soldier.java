@@ -11,8 +11,8 @@ public abstract class Soldier implements MilitaryUnit {
 	Status health;
 	Status morale;
 	Status satiety;
+	String name;
 	Troop troop;
-	private String origin;
 	
 	@Contract(pure = true)
 	Soldier(@NotNull Troop troop) {
@@ -20,8 +20,6 @@ public abstract class Soldier implements MilitaryUnit {
 		this.health = new Status(100, 0);
 		this.morale = new Status(100, 0);
 		this.satiety = new Status(100, 0);
-		
-		this.origin = troop.getOrigin();
 		this.troop = troop;
 	}
 	
@@ -30,11 +28,6 @@ public abstract class Soldier implements MilitaryUnit {
 		
 		this.troop.removeSoldier(this);
 		this.troop = null;
-	}
-	
-	@Override
-	public void flee() {
-		this.troop.removeSoldier(this);
 	}
 	
 	@Override
@@ -97,6 +90,6 @@ public abstract class Soldier implements MilitaryUnit {
 	
 	@Override
 	public String toString() {
-		return "[" + this.origin + "] ";
+		return this.getClass().getName() + this.name;
 	}
 }

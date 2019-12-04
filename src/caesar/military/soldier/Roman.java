@@ -6,18 +6,20 @@ import org.jetbrains.annotations.NotNull;
 
 public class Roman extends Soldier {
 	
-	private final String name;
-	private final int trainingBoost = 10;
+	private final int trainingBoost;
 	
 	public Roman(Troop troop) {
+		
 		super(troop);
 		this.name = Name.getRandomRoman();
+		this.trainingBoost = Game.getRandomInt(5, 15);
 	}
 	
 	@Override
 	int attackTarget(@NotNull Soldier target) {
 		
 		int damage = Game.getRandomInt(this.health.getMaxState());
+		
 		damage += this.morale.getState() / 5 +
 			this.satiety.getState() / 20 +
 			this.trainingBoost;
@@ -31,8 +33,7 @@ public class Roman extends Soldier {
 			this.trainingBoost;
 	};
 	
-	@Override
-	public String toString() {
-		return super.toString() + this.name;
+	public static void main(String[] args) {
+		System.out.println(new Roman(null));
 	}
 }

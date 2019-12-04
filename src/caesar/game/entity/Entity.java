@@ -3,7 +3,6 @@ package caesar.game.entity;
 import caesar.game.map.Location;
 import caesar.game.map.Relief;
 import caesar.game.map.Direction;
-import caesar.military.troop.ArmyType;
 import caesar.military.troop.Troop;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,16 +12,9 @@ public abstract class Entity {
 	public Location location;
 	public Troop army;
 	
-	Entity(
-		ArmyType armyType,
-		int troopsAmount,
-		int actionPointsAmount,
-		int x,
-		int y
-	) {
+	Entity(int actionPointsAmount, int x, int y) {
 		
 		this.actionPoints = new ActionPoints(actionPointsAmount);
-		this.army = new Troop(armyType, troopsAmount);
 		this.location = new Location(x, y);
 	}
 	

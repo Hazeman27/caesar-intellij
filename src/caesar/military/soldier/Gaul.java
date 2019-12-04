@@ -6,8 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class Gaul extends Soldier {
 	
-	private final String name;
-	
 	public Gaul(Troop troop) {
 		super(troop);
 		this.name = Name.getRandomGallic();
@@ -27,9 +25,4 @@ public class Gaul extends Soldier {
 	int block(int damageAmount) {
 		return Game.getRandomInt(damageAmount);
 	};
-	
-	@Override
-	public String toString() {
-		return super.toString() + this.name;
-	}
 }
