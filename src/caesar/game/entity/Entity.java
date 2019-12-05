@@ -3,7 +3,7 @@ package caesar.game.entity;
 import caesar.game.map.Location;
 import caesar.game.map.Relief;
 import caesar.game.map.Direction;
-import caesar.game.status.Status;
+import caesar.game.status.Resource;
 import caesar.military.troop.Troop;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,16 +13,16 @@ public abstract class Entity {
 	public Location location;
 	public Troop army;
 	private boolean camping;
-	private Status wood;
-	private Status food;
+	private Resource wood;
+	private Resource food;
 	
 	Entity(int actionPointsAmount, int x, int y) {
 		
 		this.actionPoints = new ActionPoints(actionPointsAmount);
 		this.location = new Location(x, y);
 		
-		this.wood = new Status();
-		this.food = new Status();
+		this.wood = new Resource();
+		this.food = new Resource();
 		this.camping = false;
 	}
 	
@@ -42,6 +42,24 @@ public abstract class Entity {
 	
 	public void setCamping(boolean camping) {
 		this.camping = camping;
+	}
+	
+	public void decreaseWoodResource(int amount) {
+		this.wood.decrease(amount);
+	}
+	
+	public void increaseWoodResource(int amount) {
+		this.wood.increase(amount);
+	}
+	
+	public void feedArmy() {
+		this.food.decrease(
+			Troop.countSoldiers(this.army)
+		);
+	}
+	
+	public void gatherFood() {
+		this.food.increase(1);
 	}
 	
 	@Override

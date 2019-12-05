@@ -149,7 +149,6 @@ public class Game {
 	}
 	
 	public WeatherType getCurrentWeather() {
-		
 		return this.calendar.getWeather()
 			.getCurrentWeather();
 	}
@@ -172,6 +171,9 @@ public class Game {
 	
 	public void changeWeather() {
 		this.calendar.getWeather().change();
+	}
+	
+	public void decreaseEntitiesFoodResource() {
 	}
 	
 	public void replenishPlayerAP(int value) {
