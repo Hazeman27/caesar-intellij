@@ -20,7 +20,7 @@ public class Triad extends Troop {
 	protected List<MilitaryUnit> initUnits() {
 		
 		List<MilitaryUnit> units = new ArrayList<>();
-		IntStream.range(0, this.unitsAmount)
+		IntStream.range(0, this.unitCapacity)
 		         .forEach(i -> units.add(new TribeGroup(this)));
 		
 		return units;

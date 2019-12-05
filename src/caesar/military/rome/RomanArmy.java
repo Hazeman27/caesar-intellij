@@ -20,7 +20,7 @@ public class RomanArmy extends Troop {
 	protected List<MilitaryUnit> initUnits() {
 		
 		List<MilitaryUnit> units = new ArrayList<>();
-		IntStream.range(0, this.unitsAmount)
+		IntStream.range(0, this.unitCapacity)
 		         .forEach(i -> units.add(new Legion(this)));
 		
 		return units;

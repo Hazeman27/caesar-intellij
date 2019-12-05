@@ -20,7 +20,7 @@ public class GaulArmy extends Troop {
 	protected List<MilitaryUnit> initUnits() {
 		
 		List<MilitaryUnit> units = new ArrayList<>();
-		IntStream.range(0, this.unitsAmount)
+		IntStream.range(0, this.unitCapacity)
 		         .forEach(i -> units.add(new Triad(this)));
 		
 		return units;

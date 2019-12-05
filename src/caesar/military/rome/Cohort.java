@@ -25,7 +25,7 @@ public class Cohort extends Troop {
 	protected List<MilitaryUnit> initUnits() {
 		
 		List<MilitaryUnit> units = new ArrayList<>();
-		IntStream.range(0, this.unitsAmount)
+		IntStream.range(0, this.unitCapacity)
 		         .forEach(i -> units.add(new Century(this)));
 		
 		return units;

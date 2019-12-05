@@ -2,6 +2,7 @@ package caesar.military.troop;
 
 import caesar.game.engagement.EngagementController;
 import caesar.military.MilitaryUnit;
+import caesar.military.officer.Officer;
 import caesar.military.rome.RomanArmy;
 import caesar.military.soldier.Soldier;
 import caesar.ui.Message;
@@ -16,32 +17,67 @@ import java.util.stream.IntStream;
 public abstract class Troop implements MilitaryUnit {
 	
 	private final String symbol;
-	
-	private List<MilitaryUnit> units;
 	private Troop parentTroop;
 	
-	protected final int unitsAmount;
-	protected Soldier officer;
+	protected List<MilitaryUnit> units;
+	protected final int unitCapacity;
+	protected Officer officer;
 	
-	protected Troop(Troop parentTroop, int unitsAmount, String symbol) {
+	protected Troop(Troop parentTroop, int unitCapacity, String symbol) {
 		
-		this.unitsAmount = unitsAmount;
+		this.unitCapacity = unitCapacity;
 		this.units = this.initUnits();
 		this.parentTroop = parentTroop;
 		this.symbol = symbol;
 	}
 	
-	protected Troop(int unitsAmount, String symbol) {
+	@Contract(pure = true)
+	protected Troop(
+		Troop parentTroop,
+		List<MilitaryUnit> units,
+		int unitCapacity,
+		String symbol
+	) {
 		
-		this.unitsAmount = unitsAmount;
+		this.unitCapacity = unitCapacity;
+		this.units = units;
+		this.parentTroop = parentTroop;
+		this.symbol = symbol;
+	}
+	
+	protected Troop(int unitCapacity, String symbol) {
+		
+		this.unitCapacity = unitCapacity;
 		this.units = this.initUnits();
 		this.symbol = symbol;
 	}
 	
 	protected abstract List<MilitaryUnit> initUnits();
 	
-	private void regroupUnits() {
+	protected abstract Troop getChildTroopInstance(
+		List<MilitaryUnit> units,
+		Officer officer
+	);
 	
+	protected abstract Troop initChildTroop(
+		List<Officer> officersPool,
+		List<MilitaryUnit> unitsPool
+	);
+	
+	public int getUnitCapacity() {
+		return unitCapacity;
+	}
+	
+	public int getChildTroopUnitCapacity() {
+		return ((Troop) this.units.get(0)).unitCapacity;
+	}
+	
+	public List<MilitaryUnit> getUnits() {
+		return units;
+	}
+	
+	public Officer getOfficer() {
+		return officer;
 	}
 	
 	@Override

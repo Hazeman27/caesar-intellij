@@ -1,3 +1,0 @@
-package rubic;
-
-interface CommandFunctionality {}
