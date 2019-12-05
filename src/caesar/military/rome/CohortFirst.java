@@ -17,20 +17,7 @@ public class CohortFirst extends Cohort {
 	}
 	
 	@Override
-	protected List<MilitaryUnit> initUnits() {
-		
-		List<MilitaryUnit> units = new LinkedList<>();
-		IntStream.range(0, unitCapacity)
-		         .forEach(i -> units.add(new CenturyFirstCohort(this)));
-		
-		return units;
-	}
-	
-	@Override
-	protected Troop getChildUnitInstance(
-		List<MilitaryUnit> units,
-		Officer officer
-	) {
-		return new CenturyFirstCohort(this, units, officer);
+	protected MilitaryUnit getChildUnitInstance() {
+		return new CenturyFirstCohort(this);
 	}
 }

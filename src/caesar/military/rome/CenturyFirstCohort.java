@@ -1,10 +1,6 @@
 package caesar.military.rome;
 
-import caesar.military.MilitaryUnit;
-import caesar.military.officer.Officer;
 import caesar.military.troop.Troop;
-
-import java.util.List;
 
 public class CenturyFirstCohort extends Century {
 	
@@ -12,9 +8,5 @@ public class CenturyFirstCohort extends Century {
 	
 	CenturyFirstCohort(Troop parentUnit) {
 		super(parentUnit, unitCapacity, "::");
-	}
-	
-	CenturyFirstCohort(Troop parentUnit, List<MilitaryUnit> units, Officer officer) {
-		super(parentUnit, units, officer, unitCapacity, "::");
 	}
 }

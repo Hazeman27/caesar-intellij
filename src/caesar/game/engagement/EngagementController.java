@@ -84,7 +84,7 @@ public class EngagementController {
 		executorService.shutdown();
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String ...args) {
 		
 		Troop A = new Century();
 		Troop B = new Tribe();

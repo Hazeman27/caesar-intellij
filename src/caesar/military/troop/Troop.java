@@ -21,7 +21,7 @@ public abstract class Troop implements MilitaryUnit {
 	private final String symbol;
 	private Troop parentUnit;
 	
-	protected List<MilitaryUnit> units;
+	private List<MilitaryUnit> units;
 	protected Officer officer;
 	
 	protected Troop(Troop parentUnit, int unitCapacity, String symbol) {
@@ -54,20 +54,34 @@ public abstract class Troop implements MilitaryUnit {
 	}
 
 	protected abstract int getChildUnitCapacity();
+	protected abstract MilitaryUnit getChildUnitInstance();
 	
-	protected abstract List<MilitaryUnit> initUnits();
+	@Contract(pure = true)
+	public Officer getOfficer() {
+		return this.officer;
+	}
 	
-	protected abstract Troop getChildUnitInstance(
-		List<MilitaryUnit> units,
-		Officer officer
-	);
+	public void setOfficer(Officer officer) {
+		this.officer = officer;
+		this.officer.setParentUnit(this);
+	}
 	
-	public List<MilitaryUnit> getUnits() {
+	@Contract(pure = true)
+	private List<MilitaryUnit> getUnits() {
 		return this.units;
 	}
 	
-	public Officer getOfficer() {
-		return this.officer;
+	@NotNull
+	private List<MilitaryUnit> initUnits() {
+		
+		List<MilitaryUnit> units = new LinkedList<>();
+		
+		IntStream.range(0, this.unitCapacity)
+		         .forEach(i -> units.add(
+		         	this.getChildUnitInstance()
+		         ));
+		
+		return units;
 	}
 	
 	@Override
@@ -100,6 +114,10 @@ public abstract class Troop implements MilitaryUnit {
 		
 		if (this.units.size() == 0)
 			this.perish();
+	}
+	
+	private void clearUnits() {
+		this.units.clear();
 	}
 	
 	@Contract("null -> null")
@@ -152,7 +170,8 @@ public abstract class Troop implements MilitaryUnit {
 		return null;
 	}
 	
-	private Troop initChildUnit(
+	@NotNull
+	private MilitaryUnit initChildUnit(
 		@NotNull List<Officer> officersPool,
 		@NotNull List<MilitaryUnit> unitsPool
 	) {
@@ -166,14 +185,15 @@ public abstract class Troop implements MilitaryUnit {
 			officersPool.remove(0);
 		}
 		
-		return this.getChildUnitInstance(
-			new LinkedList<>(),
-			officer
-		);
+		Troop unit = (Troop) this.getChildUnitInstance();
+		unit.setOfficer(officer);
+		unit.clearUnits();
+		
+		return unit;
 	}
 	
 	private void populateChildTroop(
-		Troop unit,
+		MilitaryUnit unit,
 		List<MilitaryUnit> unitsPool
 	) {
 		
@@ -187,7 +207,7 @@ public abstract class Troop implements MilitaryUnit {
 			unitToAdd = unitsPool.get(0);
 			unitToAdd.setParentUnit(unit);
 	
-			unit.getUnits().add(unitToAdd);
+			((Troop) unit).getUnits().add(unitToAdd);
 			unitsPool.remove(0);
 		}
 	}
@@ -206,14 +226,14 @@ public abstract class Troop implements MilitaryUnit {
 				officersPool.add(troop.getOfficer());
 		});
 		
-		this.units.clear();
+		this.clearUnits();
 		
 		for (int i = 0; i < this.unitCapacity; i++) {
 			
 			if (unitsPool.isEmpty() && officersPool.isEmpty())
 				break;
 			
-			Troop unit = this.initChildUnit(
+			MilitaryUnit unit = this.initChildUnit(
 				officersPool,
 				unitsPool
 			);
