@@ -84,7 +84,7 @@ public abstract class Soldier implements MilitaryUnit {
 	
 	private int attackTarget(@NotNull Soldier target) {
 		
-		int damage = Game.getRandomInt(Status.getMaxState());
+		int damage = Game.getRandomInt(this.health.getMaxState());
 		damage += this.getDamageBoost();
 		
 		return target.receiveDamage(damage);

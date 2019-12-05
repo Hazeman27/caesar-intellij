@@ -4,13 +4,33 @@ import org.jetbrains.annotations.Contract;
 
 public class Status {
 	
-	private static final int MAX_STATE = 100;
-	private static final int MIN_STATE = 0;
-	private int state;
+	private final int MAX_STATE;
+	private final int MIN_STATE;
+	int state;
 
 	@Contract(pure = true)
 	public Status() {
+		
+		MAX_STATE = 100;
+		MIN_STATE = 0;
+		
 		this.state = MAX_STATE;
+	}
+	
+	public Status(int maxState, int minState) {
+		
+		MAX_STATE = maxState;
+		MIN_STATE = minState;
+		
+		this.state = maxState;
+	}
+	
+	public Status(int maxState, int minState, int state) {
+		
+		MAX_STATE = maxState;
+		MIN_STATE = minState;
+		
+		this.state = state;
 	}
 	
 	@Contract(pure = true)
@@ -19,13 +39,8 @@ public class Status {
 	}
 	
 	@Contract(pure = true)
-	public static int getMaxState() {
-		return MAX_STATE;
-	}
-	
-	@Contract(pure = true)
-	public static int getMinState() {
-		return MIN_STATE;
+	public int getMaxState() {
+		return this.MAX_STATE;
 	}
 	
 	public boolean isAtMinimum() {

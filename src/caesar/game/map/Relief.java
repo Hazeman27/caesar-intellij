@@ -5,21 +5,30 @@ import org.jetbrains.annotations.Contract;
 
 public enum Relief {
 	
-	UNKNOWN(".."),
-	MOUNTAIN("^^"),
-	MARSH("mm"),
-	VALLEY("vv"),
-	HILL("hh"),
-	OPEN("--"),
-	RIVER("~~"),
-	SWAMP("sw"),
-	FOREST("ff");
+	UNKNOWN("..", 0),
+	MOUNTAIN("^^", 2),
+	MARSH("mm", 3),
+	VALLEY("vv", 5),
+	HILL("hh", 3),
+	OPEN("--", 2),
+	RIVER("~~", 4),
+	SWAMP("sw", 1),
+	FOREST("ff", 7);
+	
+	// 3.3 min - 4 max
 	
 	private final String symbol;
+	private final int resourceIndex;
 	
 	@Contract(pure = true)
-	Relief(String symbol) {
+	Relief(String symbol, int resourceIndex) {
 		this.symbol = symbol;
+		this.resourceIndex = resourceIndex;
+	}
+	
+	@Contract(pure = true)
+	public int getResourceIndex() {
+		return this.resourceIndex;
 	}
 	
 	public String toString(boolean asSymbol) {
