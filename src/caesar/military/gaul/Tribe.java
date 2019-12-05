@@ -3,25 +3,29 @@ package caesar.military.gaul;
 import caesar.military.MilitaryUnit;
 import caesar.military.officer.GaulOfficer;
 import caesar.military.officer.GaulRank;
+import caesar.military.officer.Officer;
 import caesar.military.troop.Troop;
 
 public class Tribe extends Troop {
 	
-	static final int unitCapacity = 12;
+	static final int UNIT_CAPACITY = 12;
 	
 	Tribe(Troop parentUnit) {
-		super(parentUnit, unitCapacity, "[x]");
-		this.officer = new GaulOfficer(GaulRank.WARLORD, this);
+		super(parentUnit, UNIT_CAPACITY, "[x]");
 	}
 	
 	public Tribe() {
-		super(unitCapacity, "[x]");
-		this.officer = new GaulOfficer(GaulRank.WARLORD, this);
+		super(UNIT_CAPACITY, "[x]");
 	}
 	
 	@Override
 	protected int getChildUnitCapacity() {
-		return Group.unitCapacity;
+		return Group.UNIT_CAPACITY;
+	}
+	
+	@Override
+	protected Officer getOfficerInstance() {
+		return new GaulOfficer(GaulRank.WARLORD, this);
 	}
 	
 	@Override

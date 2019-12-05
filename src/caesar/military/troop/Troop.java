@@ -22,14 +22,16 @@ public abstract class Troop implements MilitaryUnit {
 	private Troop parentUnit;
 	
 	private List<MilitaryUnit> units;
-	protected Officer officer;
+	private Officer officer;
 	
 	protected Troop(Troop parentUnit, int unitCapacity, String symbol) {
 		
 		this.unitCapacity = unitCapacity;
-		this.units = this.initUnits();
 		this.parentUnit = parentUnit;
 		this.symbol = symbol;
+		
+		this.units = this.initUnits();
+		this.officer = this.getOfficerInstance();
 	}
 	
 	@Contract(pure = true)
@@ -49,11 +51,14 @@ public abstract class Troop implements MilitaryUnit {
 	protected Troop(int unitCapacity, String symbol) {
 		
 		this.unitCapacity = unitCapacity;
-		this.units = this.initUnits();
 		this.symbol = symbol;
+		
+		this.units = this.initUnits();
+		this.officer = this.getOfficerInstance();
 	}
 
 	protected abstract int getChildUnitCapacity();
+	protected abstract Officer getOfficerInstance();
 	protected abstract MilitaryUnit getChildUnitInstance();
 	
 	@Contract(pure = true)
