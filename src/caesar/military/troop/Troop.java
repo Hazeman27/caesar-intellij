@@ -3,6 +3,7 @@ package caesar.military.troop;
 import caesar.game.engagement.EngagementController;
 import caesar.military.MilitaryUnit;
 import caesar.military.officer.Officer;
+import caesar.military.rome.Legion;
 import caesar.military.rome.RomanArmy;
 import caesar.military.soldier.Soldier;
 import caesar.ui.Message;
@@ -77,7 +78,7 @@ public abstract class Troop implements MilitaryUnit {
 	}
 	
 	@NotNull
-	private List<MilitaryUnit> initUnits() {
+	protected List<MilitaryUnit> initUnits() {
 		
 		List<MilitaryUnit> units = new LinkedList<>();
 		
@@ -192,8 +193,8 @@ public abstract class Troop implements MilitaryUnit {
 		
 		Troop unit = (Troop) this.getChildUnitInstance();
 		unit.setOfficer(officer);
-		unit.clearUnits();
 		
+		unit.clearUnits();
 		return unit;
 	}
 	
@@ -217,6 +218,34 @@ public abstract class Troop implements MilitaryUnit {
 		}
 	}
 	
+	private void populateChildTroop(
+		MilitaryUnit unit,
+		List<MilitaryUnit> unitsPool,
+		List<Officer> officersPool
+	) {
+		
+		MilitaryUnit unitToAdd;
+		
+		for (int j = 0; j < this.getChildUnitCapacity(); j++) {
+			
+			if (unitsPool.isEmpty() && officersPool.isEmpty()) {
+				return;
+			} else if (unitsPool.isEmpty()) {
+				
+				unitToAdd = officersPool.get(0);
+				unitToAdd.setParentUnit(unit);
+				officersPool.remove(0);
+			} else {
+				
+				unitToAdd = unitsPool.get(0);
+				unitToAdd.setParentUnit(unit);
+				unitsPool.remove(0);
+			}
+			
+			((Troop) unit).getUnits().add(unitToAdd);
+		}
+	}
+	
 	private void regroupUnits() {
 		
 		List<MilitaryUnit> unitsPool = new LinkedList<>();
@@ -236,14 +265,29 @@ public abstract class Troop implements MilitaryUnit {
 		for (int i = 0; i < this.unitCapacity; i++) {
 			
 			if (unitsPool.isEmpty() && officersPool.isEmpty())
-				break;
+				return;
 			
 			MilitaryUnit unit = this.initChildUnit(
 				officersPool,
 				unitsPool
 			);
 			
-			this.populateChildTroop(unit, unitsPool);
+			if (unitsPool.isEmpty() && officersPool.isEmpty()) {
+				this.units.add(unit);
+				return;
+			}
+			
+			if (((Troop) unit).getChildUnitCapacity() == 0) {
+				
+				this.populateChildTroop(
+					unit,
+					unitsPool,
+					officersPool
+				);
+			} else {
+				this.populateChildTroop(unit, unitsPool);
+			}
+			
 			this.units.add(unit);
 		}
 	}
@@ -279,17 +323,14 @@ public abstract class Troop implements MilitaryUnit {
 	@Contract(pure = true)
 	public static int countSoldiers(MilitaryUnit unit) {
 		
-		if (unit == null)
-			return 0;
+		if (unit == null) return 0;
+		if (unit instanceof Soldier) return 1;
 		
-		if (unit instanceof Soldier)
-			return 1;
-		
-		int total = 0;
 		Troop troop = (Troop) unit;
-		
-		for (MilitaryUnit u:  troop.units)
-			total += countSoldiers(u);
+		int total = troop.units
+			.stream()
+			.mapToInt(Troop::countSoldiers)
+			.sum();
 		
 		return total + (troop.officer == null ? 0 : 1);
 	}
@@ -323,7 +364,7 @@ public abstract class Troop implements MilitaryUnit {
 	
 	public static void main(String[] args) {
 		
-		Troop troop = new RomanArmy(10);
-		Printer.print(Troop.getFullSummary(troop));
+		Troop troop = new Legion();
+		Printer.print(Troop.countSoldiers(troop));
 	}
 }

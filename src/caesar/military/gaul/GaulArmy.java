@@ -12,7 +12,7 @@ public class GaulArmy extends Troop {
 	
 	@Override
 	protected int getChildUnitCapacity() {
-		return Triad.UNIT_CAPACITY;
+		return Nation.UNIT_CAPACITY;
 	}
 	
 	@Override
@@ -22,6 +22,6 @@ public class GaulArmy extends Troop {
 	
 	@Override
 	protected MilitaryUnit getChildUnitInstance() {
-		return new Triad(this);
+		return new Nation(this);
 	}
 }

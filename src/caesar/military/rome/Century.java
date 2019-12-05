@@ -14,11 +14,6 @@ public class Century extends Troop {
 		super(parentUnit, UNIT_CAPACITY, ":");
 	}
 	
-	Century(Troop parentUnit, int unitCapacity, String symbol) {
-		super(parentUnit, unitCapacity, symbol);
-		Century.UNIT_CAPACITY = unitCapacity;
-	}
-	
 	public Century() {
 		super(UNIT_CAPACITY, ":");
 	}
