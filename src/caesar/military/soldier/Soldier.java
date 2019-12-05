@@ -1,6 +1,7 @@
 package caesar.military.soldier;
 
 import caesar.game.Game;
+import caesar.game.status.Status;
 import caesar.military.MilitaryUnit;
 import caesar.military.troop.Troop;
 import caesar.ui.Printer;
@@ -18,9 +19,9 @@ public abstract class Soldier implements MilitaryUnit {
 	@Contract(pure = true)
 	protected Soldier(@NotNull Troop parentUnit) {
 		
-		this.health = new Status(100, 0);
-		this.morale = new Status(100, 0);
-		this.satiety = new Status(100, 0);
+		this.health = new Status();
+		this.morale = new Status();
+		this.satiety = new Status();
 		this.parentUnit = parentUnit;
 	}
 	
@@ -83,7 +84,7 @@ public abstract class Soldier implements MilitaryUnit {
 	
 	private int attackTarget(@NotNull Soldier target) {
 		
-		int damage = Game.getRandomInt(this.health.getMaxState());
+		int damage = Game.getRandomInt(Status.getMaxState());
 		damage += this.getDamageBoost();
 		
 		return target.receiveDamage(damage);
