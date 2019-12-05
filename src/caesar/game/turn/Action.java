@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public enum Action {
 	
-	NEW_GAME("New game", 0, game -> {
+	NEW_GAME("New game", game -> {
 		
 		game.start(10, 6, 4, 6, 100);
 		
@@ -23,36 +23,36 @@ public enum Action {
 		);
 	}),
 	
-	CONTINUE_GAME("Continue game", 0, game -> {
+	CONTINUE_GAME("Continue game", game -> {
 		
-		if (game.getPlayer() != null) {
-			
-			game.nextTurn(TurnType.TRAVEL);
+		if (game.getPlayer() == null) {
 			
 			return new Response(
-				Message.CONTINUE,
-				ResponseType.SUCCESS
+				Message.NO_CURRENT_GAME,
+				ResponseType.FAILURE
 			);
 		}
 		
+		game.nextTurn(TurnType.TRAVEL);
+		
 		return new Response(
-			Message.NO_CURRENT_GAME,
-			ResponseType.FAILURE
+			Message.CONTINUE,
+			ResponseType.SUCCESS
 		);
 	}),
 	
-	EXIT("Exit", 0, game -> {
+	EXIT("Exit", game -> {
 		game.exit();
 		return new Response(ResponseType.SUCCESS);
 	}),
 	
-	TO_MAIN_MENU("<< Main menu", 0, game -> {
+	TO_MAIN_MENU("<< Main menu", game -> {
 		
 		game.nextTurn(TurnType.MAIN_MENU);
 		return new Response(ResponseType.SUCCESS);
 	}),
 	
-	TO_NEXT_DAY("Next day >>", 0, game -> {
+	TO_NEXT_DAY("Next day >>", game -> {
 		
 		game.getEnemy().makeMove(game.getPlayer(), game.getMap());
 		game.incrementTurnsCount();
@@ -72,19 +72,19 @@ public enum Action {
 		);
 	}),
 	
-	TO_TRAVEL("<< Previous", 0, game -> {
+	TO_TRAVEL("<< Previous", game -> {
 		
 		game.nextTurn(TurnType.TRAVEL);
 		return new Response(ResponseType.SUCCESS);
 	}),
 	
-	TO_ENCOUNTER("<< Previous", 0, game -> {
+	TO_ENCOUNTER("<< Previous", game -> {
 		
 		game.nextTurn(TurnType.ENCOUNTER);
 		return new Response(ResponseType.SUCCESS);
 	}),
 	
-	ADVANCE("Advance", 0, game -> {
+	ADVANCE("Advance", game -> {
 		
 		game.nextTurn(TurnType.ADVANCE);
 		return new Response(ResponseType.SUCCESS);
@@ -112,13 +112,13 @@ public enum Action {
 		return new Response(ResponseType.SUCCESS);
 	}),
 	
-	ANALYZE_ARMY("Analyze your army", 0, game -> {
+	ANALYZE_ARMY("Analyze your army", game -> {
 		
 		game.nextTurn(TurnType.ANALYZE_ARMY);
 		return new Response(ResponseType.SUCCESS);
 	}),
 	
-	OPEN_JOURNAL("Open journal", 0, game -> {
+	OPEN_JOURNAL("Open journal", game -> {
 		
 		return new Response(
 			game.getLog(),
@@ -142,12 +142,11 @@ public enum Action {
 		);
 	}),
 	
-	BUILD_CAMP("Build camp", 10, game -> {
+	BUILD_CAMP("Build camp", game -> {
 		
 		if (Relief.isSolid(game.getPlayerRelief())) {
 			
-			game.getPlayer().setCamping(true);
-			
+			game.nextTurn(TurnType.CAMP);
 			return new Response(
 				Message.CAMP_BUILT,
 				ResponseType.SUCCESS
@@ -160,31 +159,49 @@ public enum Action {
 		);
 	}),
 	
-	PREPARE_FOR_BATTLE("Prepare for battle", 0, game -> {
+	REST("Rest", 3, game -> {
+		
+		game.replenishPlayerAP(9);
+		return new Response(
+			Message.RESTED,
+			ResponseType.SUCCESS
+		);
+	}),
+	
+	LEAVE_CAMP("Leave camp", 2, game -> {
+		
+		game.nextTurn(TurnType.TRAVEL);
+		return new Response(
+			Message.CAMP_LEFT,
+			ResponseType.SUCCESS
+		);
+	}),
+	
+	PREPARE_FOR_BATTLE("Prepare for battle", game -> {
 		
 		game.nextTurn(TurnType.PREPARE_FOR_BATTLE);
 		return new Response(ResponseType.SUCCESS);
 	}),
 	
-	SEND_MESSAGE("Send message", 0, game -> {
+	SEND_MESSAGE("Send message", game -> {
 		
 		game.nextTurn(TurnType.SEND_MESSAGE);
 		return new Response(ResponseType.SUCCESS);
 	}),
 	
-	RETREAT("Retreat", 0, game -> {
+	RETREAT("Retreat", game -> {
 		
 		game.nextTurn(TurnType.RETREAT);
 		return new Response(ResponseType.SUCCESS);
 	}),
 	
-	ATTACK("Attack", 0, game -> {
+	ATTACK("Attack", game -> {
 		
 		game.getPlayerArmy().engage(game.getEnemyArmy(), false);
 		return new Response(ResponseType.SUCCESS);
 	}),
 	
-	CHANGE_FORMATION("Change formation", 0, game -> {
+	CHANGE_FORMATION("Change formation", game -> {
 		return new Response(ResponseType.SUCCESS);
 	}),
 	
@@ -218,6 +235,14 @@ public enum Action {
 		
 		this.name = name;
 		this.value = value;
+		this.handler = handler;
+	}
+	
+	@Contract(pure = true)
+	Action(String name, ActionHandler handler) {
+		
+		this.name = name;
+		this.value = 0;
 		this.handler = handler;
 	}
 	

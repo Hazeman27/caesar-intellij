@@ -174,6 +174,10 @@ public class Game {
 		this.calendar.getWeather().change();
 	}
 	
+	public void replenishPlayerAP(int value) {
+		this.player.actionPoints.add(value);
+	}
+	
 	public void replenishEntitiesAP() {
 		
 		if (this.player.actionPoints.get() < 5) {
