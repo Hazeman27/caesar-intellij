@@ -1,38 +1,40 @@
 package caesar.military.rome;
 
 import caesar.military.MilitaryUnit;
+import caesar.military.officer.Officer;
 import caesar.military.officer.RomanOfficer;
 import caesar.military.officer.RomanRank;
 import caesar.military.troop.Troop;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
-
 public class Century extends Troop {
 	
-	Century(Troop parentTroop) {
-		super(parentTroop, 10, ":");
-		this.officer = new RomanOfficer(RomanRank.CENTURION, this);
+	static int UNIT_CAPACITY = 10;
+	
+	Century(Troop parentUnit) {
+		super(parentUnit, UNIT_CAPACITY, ":");
 	}
 	
-	Century(Troop parentTroop, int troopsAmount, String symbol) {
-		super(parentTroop, troopsAmount, symbol);
-		this.officer = new RomanOfficer(RomanRank.CENTURION, this);
+	Century(Troop parentUnit, int unitCapacity, String symbol) {
+		super(parentUnit, unitCapacity, symbol);
+		Century.UNIT_CAPACITY = unitCapacity;
 	}
 	
 	public Century() {
-		super(10, ":");
-		this.officer = new RomanOfficer(RomanRank.CENTURION, this);
+		super(UNIT_CAPACITY, ":");
 	}
 	
 	@Override
-	protected List<MilitaryUnit> initUnits() {
-		
-		List<MilitaryUnit> units = new ArrayList<>();
-		IntStream.range(0, this.unitsAmount)
-		         .forEach(i -> units.add(new Contubernium(this)));
-		
-		return units;
+	protected int getChildUnitCapacity() {
+		return Contubernium.UNIT_CAPACITY;
+	}
+	
+	@Override
+	protected Officer getOfficerInstance() {
+		return new RomanOfficer(RomanRank.CENTURION, this);
+	}
+	
+	@Override
+	protected MilitaryUnit getChildUnitInstance() {
+		return new Contubernium(this);
 	}
 }

@@ -3,32 +3,30 @@ package caesar.military.gaul;
 import caesar.military.MilitaryUnit;
 import caesar.military.officer.GaulOfficer;
 import caesar.military.officer.GaulRank;
+import caesar.military.officer.Officer;
 import caesar.military.soldier.Gaul;
 import caesar.military.troop.Troop;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
-
 public class Group extends Troop {
 	
-	Group(Troop parentTroop) {
-		super(parentTroop, 9, ".");
-		this.officer = new GaulOfficer(GaulRank.CHIEF, this);
-	}
+	static final int UNIT_CAPACITY = 9;
 	
-	public Group() {
-		super(19, ".");
-		this.officer = new GaulOfficer(GaulRank.CHIEF, this);
+	Group(Troop parentUnit) {
+		super(parentUnit, UNIT_CAPACITY, "x");
 	}
 	
 	@Override
-	protected List<MilitaryUnit> initUnits() {
-		
-		List<MilitaryUnit> units = new ArrayList<>();
-		IntStream.range(0, this.unitsAmount)
-		         .forEach(i -> units.add(new Gaul(this)));
-		
-		return units;
+	protected int getChildUnitCapacity() {
+		return 0;
+	}
+	
+	@Override
+	protected Officer getOfficerInstance() {
+		return new GaulOfficer(GaulRank.CHIEF, this);
+	}
+	
+	@Override
+	protected MilitaryUnit getChildUnitInstance() {
+		return new Gaul(this);
 	}
 }

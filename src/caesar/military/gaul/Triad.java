@@ -3,26 +3,29 @@ package caesar.military.gaul;
 import caesar.military.MilitaryUnit;
 import caesar.military.officer.GaulOfficer;
 import caesar.military.officer.GaulRank;
+import caesar.military.officer.Officer;
 import caesar.military.troop.Troop;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
 
 public class Triad extends Troop {
 	
-	Triad(Troop parentTroop) {
-		super(parentTroop, 3, ".");
-		this.officer = new GaulOfficer(GaulRank.CHIEF_WARLORD, this);
+	static final int UNIT_CAPACITY = 3;
+	
+	Triad(Troop parentUnit) {
+		super(parentUnit, UNIT_CAPACITY, "[XX]");
 	}
 	
 	@Override
-	protected List<MilitaryUnit> initUnits() {
-		
-		List<MilitaryUnit> units = new ArrayList<>();
-		IntStream.range(0, this.unitsAmount)
-		         .forEach(i -> units.add(new TribeGroup(this)));
-		
-		return units;
+	protected int getChildUnitCapacity() {
+		return TribeGroup.UNIT_CAPACITY;
+	}
+	
+	@Override
+	protected Officer getOfficerInstance() {
+		return new GaulOfficer(GaulRank.CHIEF_WARLORD, this);
+	}
+	
+	@Override
+	protected MilitaryUnit getChildUnitInstance() {
+		return new TribeGroup(this);
 	}
 }

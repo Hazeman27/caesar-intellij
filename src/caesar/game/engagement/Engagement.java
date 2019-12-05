@@ -1,7 +1,6 @@
 package caesar.game.engagement;
 
 import caesar.military.MilitaryUnit;
-import caesar.ui.Printer;
 import org.jetbrains.annotations.Contract;
 
 import java.util.concurrent.Callable;

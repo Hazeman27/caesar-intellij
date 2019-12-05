@@ -13,22 +13,21 @@ public abstract class Soldier implements MilitaryUnit {
 	protected Status morale;
 	protected Status satiety;
 	protected String name;
-	protected Troop troop;
+	protected Troop parentUnit;
 	
 	@Contract(pure = true)
-	protected Soldier(@NotNull Troop troop) {
+	protected Soldier(@NotNull Troop parentUnit) {
 		
 		this.health = new Status(100, 0);
 		this.morale = new Status(100, 0);
 		this.satiety = new Status(100, 0);
-		this.troop = troop;
+		this.parentUnit = parentUnit;
 	}
 	
 	@Override
 	public void perish() {
-		
-		this.troop.removeSoldier(this);
-		this.troop = null;
+		this.parentUnit.removeSoldier(this);
+		this.parentUnit = null;
 	}
 	
 	@Override
@@ -41,10 +40,14 @@ public abstract class Soldier implements MilitaryUnit {
 		int thisDamageDealt;
 		int targetDamageDealt;
 
-		while (!this.health.isAtMinimum() && !targetSoldier.health.isAtMinimum()) {
+		while (!this.health.isAtMinimum() &&
+			!targetSoldier.health.isAtMinimum()
+		) {
 			
-			thisDamageDealt = this.attackTarget(targetSoldier);
-			targetDamageDealt = targetSoldier.attackTarget(this);
+			thisDamageDealt =
+				this.attackTarget(targetSoldier);
+			targetDamageDealt =
+				targetSoldier.attackTarget(this);
 			
 			if (verbose) {
 				Printer.print(
@@ -71,8 +74,8 @@ public abstract class Soldier implements MilitaryUnit {
 		else return target;
 	}
 	
-	public void setTroop(Troop troop) {
-		this.troop = troop;
+	public void setParentUnit(MilitaryUnit parentUnit) {
+		this.parentUnit = (Troop) parentUnit;
 	}
 	
 	protected abstract int getDamageBoost();

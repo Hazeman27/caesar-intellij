@@ -84,7 +84,7 @@ public class EngagementController {
 		executorService.shutdown();
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String ...args) {
 		
 		Troop A = new Century();
 		Troop B = new Tribe();
@@ -92,11 +92,6 @@ public class EngagementController {
 		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
 		A.engage(B, false);
 		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-		A.engage(B, false);
-		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-		A.engage(B, false);
-		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-		A.engage(B, false);
-		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
+		Printer.print(Troop.getFullSummary(A));
 	}
 }

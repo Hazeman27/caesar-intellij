@@ -9,7 +9,7 @@ public abstract class Officer extends Soldier {
 	
 	private final int trainingBoost;
 	
-	public Officer(@NotNull Rank rank, Troop troop) {
+	Officer(@NotNull Rank rank, Troop troop) {
 		
 		super(troop);
 		this.trainingBoost = Game.getRandomInt(
@@ -20,8 +20,8 @@ public abstract class Officer extends Soldier {
 	
 	@Override
 	public void perish() {
-		this.troop.removeOfficer();
-		this.troop = null;
+		this.parentUnit.removeOfficer();
+		this.parentUnit = null;
 	}
 	
 	@Override
