@@ -20,8 +20,8 @@ public abstract class Officer extends Soldier {
 	
 	@Override
 	public void perish() {
-		this.troop.removeOfficer();
-		this.troop = null;
+		this.parentUnit.removeOfficer();
+		this.parentUnit = null;
 	}
 	
 	@Override

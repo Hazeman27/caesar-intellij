@@ -92,11 +92,6 @@ public class EngagementController {
 		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
 		A.engage(B, false);
 		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-		A.engage(B, false);
-		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-		A.engage(B, false);
-		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-		A.engage(B, false);
-		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
+		Printer.print(Troop.getFullSummary(A));
 	}
 }
