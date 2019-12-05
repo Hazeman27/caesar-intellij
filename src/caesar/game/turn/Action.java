@@ -146,8 +146,7 @@ public enum Action {
 		
 		if (Relief.isSolid(game.getPlayerRelief())) {
 			
-			game.getPlayer().setCamping(true);
-			
+			game.nextTurn(TurnType.CAMP);
 			return new Response(
 				Message.CAMP_BUILT,
 				ResponseType.SUCCESS
@@ -157,6 +156,24 @@ public enum Action {
 		return new Response(
 			Message.CANT_BUILD_CAMP,
 			ResponseType.FAILURE
+		);
+	}),
+	
+	REST("Rest", 3, game -> {
+		
+		game.replenishPlayerAP(9);
+		return new Response(
+			Message.RESTED,
+			ResponseType.SUCCESS
+		);
+	}),
+	
+	LEAVE_CAMP("Leave camp", 2, game -> {
+		
+		game.nextTurn(TurnType.TRAVEL);
+		return new Response(
+			Message.CAMP_LEFT,
+			ResponseType.SUCCESS
 		);
 	}),
 	

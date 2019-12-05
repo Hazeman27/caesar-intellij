@@ -17,8 +17,10 @@ public enum Message {
 	LOW_AP("Error", "Not enough action points..."),
 	CANT_REMOVE_TROOP("Error", "Can't remove troop with no parent..."),
 	CONSIDER_RESTING("You seem to be low on action points. Consider building a camp and letting your army rest..."),
+	RESTED("You and your army have rested. Wounds have been healed, morale is now higher..."),
 	ENEMY_NEARBY("You have spotted a gallic army!"),
 	CAMP_BUILT("You have built a camp, now you can rest there..."),
+	CAMP_LEFT("You have left your camp, now you can travel..."),
 	CANT_BUILD_CAMP("Can't build camp on this relief!"),
 	TEST("Really Long Text", "Contrary to popular belief, " +
 		"Lorem Ipsum is not simply random text. It has roots in a piece of classical " +
