@@ -6,12 +6,16 @@ import caesar.military.officer.GaulRank;
 import caesar.military.officer.Officer;
 import caesar.military.troop.Troop;
 
-public class Triad extends Troop {
+public class Nation extends Troop {
 	
-	static final int UNIT_CAPACITY = 3;
+	static final int UNIT_CAPACITY = 10;
 	
-	Triad(Troop parentUnit) {
+	Nation(Troop parentUnit) {
 		super(parentUnit, UNIT_CAPACITY, "[XX]");
+	}
+	
+	public Nation() {
+		super(UNIT_CAPACITY, "[XX]");
 	}
 	
 	@Override

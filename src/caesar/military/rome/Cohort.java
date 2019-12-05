@@ -8,15 +8,14 @@ import caesar.military.troop.Troop;
 
 public class Cohort extends Troop {
 	
-	static int UNIT_CAPACITY = 6;
+	static final int UNIT_CAPACITY = 6;
 	
 	Cohort(Troop parentUnit) {
 		super(parentUnit, UNIT_CAPACITY, "[:]");
 	}
 	
-	Cohort(Troop parentUnit, int unitCapacity, String symbol) {
-		super(parentUnit, unitCapacity, symbol);
-		Cohort.UNIT_CAPACITY = unitCapacity;
+	public Cohort() {
+		super(UNIT_CAPACITY, "[:]");
 	}
 	
 	@Override
