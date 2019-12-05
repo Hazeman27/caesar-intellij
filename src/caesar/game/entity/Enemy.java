@@ -6,7 +6,6 @@ import caesar.game.map.Relief;
 import caesar.game.map.Vector;
 import caesar.game.turn.Action;
 import caesar.military.gaul.GaulArmy;
-import org.jetbrains.annotations.NotNull;
 
 public class Enemy extends Entity {
 	
@@ -19,7 +18,10 @@ public class Enemy extends Entity {
 		this.army = new GaulArmy(troopsAmount);
 	}
 	
-	public void makeMove(@NotNull Player player, @NotNull Map map) {
+	public void makeMove(Player player, Map map) {
+		
+		if (player == null || map == null)
+			return;
 		
 		Vector vector = this.location.calcVector(player.location);
 		Direction direction = vector.getDirection();

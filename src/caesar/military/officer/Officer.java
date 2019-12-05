@@ -1,6 +1,7 @@
 package caesar.military.officer;
 
 import caesar.game.Game;
+import caesar.game.status.StateType;
 import caesar.military.soldier.Soldier;
 import caesar.military.troop.Troop;
 import org.jetbrains.annotations.NotNull;
@@ -27,8 +28,8 @@ public abstract class Officer extends Soldier {
 	@Override
 	protected int getDamageBoost() {
 		
-		return this.morale.getState() / 5 +
-			this.satiety.getState() / 20 +
+		return this.state.get(StateType.MORALE).getCurrent() / 5 +
+			this.state.get(StateType.SATIETY).getCurrent() / 20 +
 			this.trainingBoost;
 	};
 	

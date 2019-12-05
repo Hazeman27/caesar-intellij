@@ -1,6 +1,7 @@
 package caesar.military.soldier;
 
 import caesar.game.Game;
+import caesar.game.status.StateType;
 import caesar.military.troop.Troop;
 
 public class Gaul extends Soldier {
@@ -13,8 +14,8 @@ public class Gaul extends Soldier {
 	@Override
 	protected int getDamageBoost() {
 		
-		return this.morale.getState() / 10 +
-			this.satiety.getState() / 10;
+		return this.state.get(StateType.MORALE).getCurrent() / 10 +
+			this.state.get(StateType.SATIETY).getCurrent() / 10;
 	};
 	
 	@Override

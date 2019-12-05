@@ -15,7 +15,6 @@ import caesar.military.troop.Troop;
 import caesar.ui.Message;
 import caesar.ui.Printer;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.security.SecureRandom;
@@ -81,11 +80,9 @@ public class Game {
 		);
 		
 		this.enemy = this.spawnEnemy();
-		this.turn.next(TurnType.TRAVEL);
 	}
 	
 	@NotNull
-	@Contract(" -> new")
 	private Enemy spawnEnemy() {
 		
 		return new Enemy(
@@ -153,10 +150,6 @@ public class Game {
 			.getCurrentWeather();
 	}
 	
-	public void nextTurn(TurnType turnType) {
-		this.turn.next(turnType);
-	}
-	
 	public void log(Object item) {
 		this.log.addItem(item);
 	}
@@ -173,11 +166,8 @@ public class Game {
 		this.calendar.getWeather().change();
 	}
 	
-	public void decreaseEntitiesFoodResource() {
-	}
-	
-	public void replenishPlayerAP(int value) {
-		this.player.actionPoints.add(value);
+	public void replenishPlayerAP() {
+		this.player.actionPoints.set(15);
 	}
 	
 	public void replenishEntitiesAP() {
@@ -201,7 +191,6 @@ public class Game {
 	}
 	
 	public void exit() {
-		Printer.print(Message.EXIT);
 		System.exit(0);
 	}
 	

@@ -6,7 +6,6 @@ import caesar.military.gaul.TribeGroup;
 import caesar.military.rome.Cohort;
 import caesar.military.troop.Troop;
 import caesar.ui.Printer;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -15,33 +14,30 @@ public class EngagementController {
 	
 	private Map<MilitaryUnit, MilitaryUnit> engagements;
 	
-	public EngagementController(List<MilitaryUnit> sideA, List<MilitaryUnit> sideB) {
-		mapEngagements(sideA, sideB);
+	public EngagementController(List<MilitaryUnit> A, List<MilitaryUnit> B) {
+		mapEngagements(A, B);
 	}
 	
-	public EngagementController(MilitaryUnit unitA, MilitaryUnit unitB) {
+	public EngagementController(MilitaryUnit A, MilitaryUnit B) {
 		mapEngagements(
-			Collections.singletonList(unitA),
-			Collections.singletonList(unitB)
+			Collections.singletonList(A),
+			Collections.singletonList(B)
 		);
 	}
 	
-	private void mapEngagements(
-		@NotNull List<MilitaryUnit> sideA,
-		@NotNull List<MilitaryUnit> sideB
-	) {
+	private void mapEngagements(List<MilitaryUnit> A, List<MilitaryUnit> B) {
 		
 		this.engagements = new HashMap<>();
 		
 		List<MilitaryUnit> biggest;
 		List<MilitaryUnit> smallest;
 		
-		if (sideA.size() >= sideB.size()) {
-			biggest = sideA;
-			smallest = sideB;
+		if (A.size() >= B.size()) {
+			biggest = A;
+			smallest = B;
 		} else {
-			biggest = sideB;
-			smallest = sideA;
+			biggest = B;
+			smallest = A;
 		}
 		
 		int maxSize = biggest.size();
@@ -92,6 +88,5 @@ public class EngagementController {
 		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
 		A.engage(B, false);
 		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-		Printer.print(Troop.getFullSummary(A));
 	}
 }

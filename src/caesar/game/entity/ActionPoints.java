@@ -1,12 +1,11 @@
 package caesar.game.entity;
 
-import org.jetbrains.annotations.Contract;
-
 public class ActionPoints {
 	
+	private static final int MAX = 15;
+	private static final int MIN = 0;
 	private int amount;
 	
-	@Contract(pure = true)
 	public ActionPoints(int amount) {
 		this.amount = amount;
 	}
@@ -16,14 +15,22 @@ public class ActionPoints {
 	}
 	
 	public void set(int amount) {
-		this.amount = amount;
+		this.amount = Math.min(amount, MAX);
 	}
 	
 	public void add(int amount) {
-		this.amount += amount;
+		
+		if (this.amount + amount > MAX)
+			this.amount = MAX;
+		
+		else this.amount += amount;
 	}
 	
 	public void remove(int amount) {
-		this.amount -= amount;
+		
+		if (this.amount - amount < MIN)
+			this.amount = MIN;
+		
+		else this.amount -= amount;
 	}
 }

@@ -1,6 +1,5 @@
 package caesar.game;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ public class Log {
 	
 	private List<String> log;
 	
-	@Contract(pure = true)
 	Log() {
 		this.log = new ArrayList<>();
 	}

@@ -1,7 +1,6 @@
 package caesar.game.calendar;
 
 import caesar.game.weather.Weather;
-import org.jetbrains.annotations.NotNull;
 
 public class Calendar {
 	
@@ -11,12 +10,10 @@ public class Calendar {
 	private int year;
 	private boolean bce;
 	
-	public Calendar(
-		@NotNull Month month,
-		int day,
-		int year,
-		boolean bce
-	) {
+	public Calendar(Month month, int day, int year, boolean bce) {
+		
+		if (month == null)
+			return;
 		
 		if (day > month.getDays()) {
 			month = Month.next(month);

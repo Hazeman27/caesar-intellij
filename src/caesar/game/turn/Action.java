@@ -4,8 +4,9 @@ import caesar.game.Game;
 import caesar.game.map.Direction;
 import caesar.game.map.Location;
 import caesar.game.map.Relief;
+import caesar.game.response.Response;
+import caesar.game.response.ResponseType;
 import caesar.game.weather.WeatherType;
-import caesar.military.troop.Troop;
 import caesar.ui.Message;
 import caesar.ui.Printer;
 import org.jetbrains.annotations.Contract;
@@ -19,7 +20,8 @@ public enum Action {
 		
 		return new Response(
 			Message.NEW_GAME,
-			ResponseType.SUCCESS
+			ResponseType.SUCCESS,
+			TurnType.TRAVEL
 		);
 	}),
 	
@@ -33,23 +35,28 @@ public enum Action {
 			);
 		}
 		
-		game.nextTurn(TurnType.TRAVEL);
-		
 		return new Response(
 			Message.CONTINUE,
-			ResponseType.SUCCESS
+			ResponseType.SUCCESS,
+			TurnType.TRAVEL
 		);
 	}),
 	
 	EXIT("Exit", game -> {
-		game.exit();
-		return new Response(ResponseType.SUCCESS);
+		
+		return new Response(
+			Message.EXIT,
+			ResponseType.SUCCESS,
+			game::exit
+		);
 	}),
 	
 	TO_MAIN_MENU("<< Main menu", game -> {
 		
-		game.nextTurn(TurnType.MAIN_MENU);
-		return new Response(ResponseType.SUCCESS);
+		return new Response(
+			ResponseType.SUCCESS,
+			TurnType.MAIN_MENU
+		);
 	}),
 	
 	TO_NEXT_DAY("Next day >>", game -> {
@@ -61,33 +68,44 @@ public enum Action {
 		game.nextDay();
 		game.changeWeather();
 		
-		if (game.getEnemyLocation().equals(game.getPlayerLocation()))
-			game.nextTurn(TurnType.ENCOUNTER);
-		
-		else game.nextTurn(TurnType.TRAVEL);
+		if (game.getEnemyLocation().equals(game.getPlayerLocation())) {
+			
+			return new Response(
+				Message.NEXT_TURN,
+				ResponseType.SUCCESS,
+				TurnType.ENCOUNTER
+			);
+		}
 		
 		return new Response(
 			Message.NEXT_TURN,
-			ResponseType.SUCCESS
+			ResponseType.SUCCESS,
+			TurnType.TRAVEL
 		);
 	}),
 	
 	TO_TRAVEL("<< Previous", game -> {
 		
-		game.nextTurn(TurnType.TRAVEL);
-		return new Response(ResponseType.SUCCESS);
+		return new Response(
+			ResponseType.SUCCESS,
+			TurnType.TRAVEL
+		);
 	}),
 	
 	TO_ENCOUNTER("<< Previous", game -> {
 		
-		game.nextTurn(TurnType.ENCOUNTER);
-		return new Response(ResponseType.SUCCESS);
+		return new Response(
+			ResponseType.SUCCESS,
+			TurnType.ENCOUNTER
+		);
 	}),
 	
 	ADVANCE("Advance", game -> {
 		
-		game.nextTurn(TurnType.ADVANCE);
-		return new Response(ResponseType.SUCCESS);
+		return new Response(
+			ResponseType.SUCCESS,
+			TurnType.ADVANCE
+		);
 	}),
 	
 	LOOK_AROUND("Look around", 3, game -> {
@@ -114,8 +132,10 @@ public enum Action {
 	
 	ANALYZE_ARMY("Analyze your army", game -> {
 		
-		game.nextTurn(TurnType.ANALYZE_ARMY);
-		return new Response(ResponseType.SUCCESS);
+		return new Response(
+			ResponseType.SUCCESS,
+			TurnType.ANALYZE_ARMY
+		);
 	}),
 	
 	OPEN_JOURNAL("Open journal", game -> {
@@ -129,7 +149,7 @@ public enum Action {
 	GENERAL_ANALYSIS("General analysis", 1, game -> {
 		
 		return new Response(
-			Troop.getSummary(game.getPlayerArmy()),
+			game.getPlayerArmy().getSummary(),
 			ResponseType.SUCCESS
 		);
 	}),
@@ -137,62 +157,85 @@ public enum Action {
 	THOROUGH_ANALYSIS("Thorough analysis", 3, game -> {
 		
 		return new Response(
-			Troop.getFullSummary(game.getPlayerArmy()),
+			game.getPlayerArmy().getFullSummary(),
 			ResponseType.SUCCESS
 		);
 	}),
 	
-	BUILD_CAMP("Build camp", game -> {
+	BUILD_CAMP("Build camp", 10, game -> {
 		
-		if (Relief.isSolid(game.getPlayerRelief())) {
+		if (!Relief.isSolid(game.getPlayerRelief())) {
 			
-			game.nextTurn(TurnType.CAMP);
+			return new Response(
+				Message.CANT_BUILD_CAMP_NOT_SOLID_RELIEF,
+				ResponseType.FAILURE
+			);
+		}
+		
+		if (game.getPlayer().canBuildCamp()) {
+			
 			return new Response(
 				Message.CAMP_BUILT,
-				ResponseType.SUCCESS
+				ResponseType.SUCCESS,
+				TurnType.CAMP
 			);
 		}
 		
 		return new Response(
-			Message.CANT_BUILD_CAMP,
+			Message.CANT_BUILD_CAMP_NOT_ENOUGH_WOOD,
 			ResponseType.FAILURE
 		);
 	}),
 	
 	REST("Rest", 3, game -> {
 		
-		game.replenishPlayerAP(9);
+		Printer.print(Message.RESOURCES_GATHERED);
+		
 		return new Response(
 			Message.RESTED,
-			ResponseType.SUCCESS
+			ResponseType.SUCCESS,
+			game::replenishPlayerAP
 		);
 	}),
 	
+//	GATHER_RESOURCES("Gather resources", 3, game -> {
+//
+//		return new Response(
+//			Message.
+//		)
+//	})
+	
 	LEAVE_CAMP("Leave camp", 2, game -> {
 		
-		game.nextTurn(TurnType.TRAVEL);
 		return new Response(
 			Message.CAMP_LEFT,
-			ResponseType.SUCCESS
+			ResponseType.SUCCESS,
+			TurnType.TRAVEL
 		);
 	}),
 	
 	PREPARE_FOR_BATTLE("Prepare for battle", game -> {
 		
-		game.nextTurn(TurnType.PREPARE_FOR_BATTLE);
-		return new Response(ResponseType.SUCCESS);
+		return new Response(
+			ResponseType.SUCCESS,
+			TurnType.PREPARE_FOR_BATTLE
+		);
 	}),
 	
 	SEND_MESSAGE("Send message", game -> {
 		
-		game.nextTurn(TurnType.SEND_MESSAGE);
-		return new Response(ResponseType.SUCCESS);
+		return new Response(
+			ResponseType.SUCCESS,
+			TurnType.SEND_MESSAGE
+		);
 	}),
 	
 	RETREAT("Retreat", game -> {
 		
-		game.nextTurn(TurnType.RETREAT);
-		return new Response(ResponseType.SUCCESS);
+		return new Response(
+			ResponseType.SUCCESS,
+			TurnType.RETREAT
+		);
 	}),
 	
 	ATTACK("Attack", game -> {

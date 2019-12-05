@@ -7,6 +7,7 @@ import java.util.Scanner;
 import caesar.game.Game;
 import caesar.game.calendar.Month;
 import caesar.game.entity.ActionPoints;
+import caesar.game.response.Response;
 import caesar.ui.Message;
 import caesar.ui.Printer;
 import org.jetbrains.annotations.NotNull;
@@ -102,6 +103,12 @@ public class Turn {
 			
 			if (response.hasMessage())
 				Printer.print(response.getMessage());
+			
+			if (response.hasAction())
+				response.initAction();
+			
+			if (response.hasNextTurn())
+				this.next(response.getNextTurn());
 		} else {
 			Printer.print(Message.LOW_AP);
 		}

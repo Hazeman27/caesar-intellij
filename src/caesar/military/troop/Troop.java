@@ -1,10 +1,10 @@
 package caesar.military.troop;
 
 import caesar.game.engagement.EngagementController;
+import caesar.game.status.StateType;
 import caesar.military.MilitaryUnit;
 import caesar.military.officer.Officer;
 import caesar.military.rome.Legion;
-import caesar.military.rome.RomanArmy;
 import caesar.military.soldier.Soldier;
 import caesar.ui.Message;
 import caesar.ui.Printer;
@@ -310,14 +310,23 @@ public abstract class Troop implements MilitaryUnit {
 		return this;
 	}
 	
-	@Override
-	public String toString() {
-		return super.toString() +
-			"[" +
-			this.symbol +
-			"] (" +
-			(this.units.size()) +
-			")";
+	public static void updateUnitState(
+		MilitaryUnit unit,
+		StateType stateType,
+		int amount
+	) {
+		
+		if (unit == null)
+			return;
+		
+		if (unit instanceof Soldier) {
+			((Soldier) unit).modifyState(stateType, amount);
+			return;
+		}
+		
+		((Troop) unit).units.forEach(u -> {
+			updateUnitState(u, stateType, amount);
+		});
 	}
 	
 	@Contract(pure = true)
@@ -335,31 +344,43 @@ public abstract class Troop implements MilitaryUnit {
 		return total + (troop.officer == null ? 0 : 1);
 	}
 	
-	@NotNull
-	public static String getSummary(@NotNull Troop troop) {
+	@Override
+	public String getSummary() {
 		
-		return troop.getClass().getSimpleName() +
+		return this.getClass().getSimpleName() +
 			":\n" +
 			"-> Officer: " +
-			troop.officer +
+			this.officer +
 			"\n" +
 			"-> Units count: " +
-			troop.units.size() +
+			this.units.size() +
 			"\n";
 	}
 	
-	@NotNull
-	public static String getFullSummary(Troop troop) {
+	@Override
+	public String getFullSummary() {
 		
-		StringBuilder fullSummary = new StringBuilder(getSummary(troop));
+		StringBuilder fullSummary = new StringBuilder(
+			this.getSummary()
+		);
 		
-		IntStream.range(0, troop.units.size())
+		IntStream.range(0, this.units.size())
 		         .forEach(i -> {
-			         Troop current = (Troop) troop.units.get(i);
-			         fullSummary.append(getSummary(current));
+			         Troop current = (Troop) this.units.get(i);
+			         fullSummary.append(current.getSummary());
 		         });
 		
 		return fullSummary.toString();
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() +
+			"[" +
+			this.symbol +
+			"] (" +
+			(this.units.size()) +
+			")";
 	}
 	
 	public static void main(String[] args) {

@@ -1,7 +1,6 @@
 package caesar.game.engagement;
 
 import caesar.military.MilitaryUnit;
-import org.jetbrains.annotations.Contract;
 
 import java.util.concurrent.Callable;
 
@@ -11,7 +10,6 @@ public class Engagement implements Callable<MilitaryUnit> {
 	private MilitaryUnit unitB;
 	private boolean verbose;
 	
-	@Contract(pure = true)
 	Engagement(MilitaryUnit unitA, MilitaryUnit unitB, boolean verbose) {
 		
 		this.unitA = unitA;

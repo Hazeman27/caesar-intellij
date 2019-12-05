@@ -11,29 +11,21 @@ public enum Message {
 	CONTINUE("Continuing game..."),
 	NEXT_TURN("Moving to next turn..."),
 	EXIT("Exiting Caesar..."),
-	NO_CURRENT_GAME("Error", "No current game found..."),
-	UNKNOWN_DIRECTION("Error", "Unknown direction for movement..."),
-	UNKNOWN_COMMAND("Error", "Unknown command. Try again..."),
-	LOW_AP("Error", "Not enough action points..."),
-	CANT_REMOVE_TROOP("Error", "Can't remove troop with no parent..."),
 	CONSIDER_RESTING("You seem to be low on action points. Consider building a camp and letting your army rest..."),
 	RESTED("You and your army have rested. Wounds have been healed, morale is now higher..."),
+	RESOURCES_GATHERED("You have gathered following resources:"),
 	ENEMY_NEARBY("You have spotted a gallic army!"),
 	CAMP_BUILT("You have built a camp, now you can rest there..."),
 	CAMP_LEFT("You have left your camp, now you can travel..."),
-	CANT_BUILD_CAMP("Can't build camp on this relief!"),
-	TEST("Really Long Text", "Contrary to popular belief, " +
-		"Lorem Ipsum is not simply random text. It has roots in a piece of classical " +
-		"Latin literature from 45 BC, making it over 2000 years old. " +
-		"Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, " +
-		"looked up one of the more obscure Latin words, consectetur, from a " +
-		"Lorem Ipsum passage, and going through the cites of the word in classical literature, " +
-		"discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of " +
-		"\"de Finibus Bonorum et Malorum\" " +
-		"(The Extremes of Good and Evil) by Cicero, written in 45 BC. " +
-		"This book is a treatise on the theory of ethics, very popular during the Renaissance. " +
-		"The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", " +
-		"comes from a line in section 1.10.32.");
+	
+//	Errors and failures...
+	NO_CURRENT_GAME("No current game found..."),
+	UNKNOWN_DIRECTION("Error", "Unknown direction for movement..."),
+	UNKNOWN_COMMAND("Error", "Unknown command. Try again..."),
+	LOW_AP("Not enough action points..."),
+	CANT_REMOVE_TROOP("Error", "Can't remove troop with no parent..."),
+	CANT_BUILD_CAMP_NOT_ENOUGH_WOOD("Not enough wood to build camp!"),
+	CANT_BUILD_CAMP_NOT_SOLID_RELIEF("Can't build camp on this relief!");
 	
 	private final String title;
 	private final String content;
