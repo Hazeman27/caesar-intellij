@@ -1,12 +1,14 @@
 package caesar.military.officer;
 
 import caesar.game.Game;
-import caesar.game.status.StateType;
 import caesar.military.soldier.Soldier;
 import caesar.military.troop.Troop;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Officer extends Soldier {
+	
+	private static final int[] TRAINING_BOOST_RANGE = new int[] {5, 10};
+	private static final int DAMAGE_SATIETY_RELATION = 30;
 	
 	private final int trainingBoost;
 	
@@ -14,13 +16,13 @@ public abstract class Officer extends Soldier {
 		
 		super(troop);
 		this.trainingBoost = Game.getRandomInt(
-			rank.getIndex() * 5,
-			rank.getIndex() * 10
+			rank.getIndex() * TRAINING_BOOST_RANGE[0],
+			rank.getIndex() * TRAINING_BOOST_RANGE[1]
 		);
 	}
 	
 	@Override
-	public void perish() {
+	public void die() {
 		this.parentUnit.removeOfficer();
 		this.parentUnit = null;
 	}
@@ -28,14 +30,16 @@ public abstract class Officer extends Soldier {
 	@Override
 	protected int getDamageBoost() {
 		
-		return this.state.get(StateType.MORALE).getCurrent() / 5 +
-			this.state.get(StateType.SATIETY).getCurrent() / 20 +
+		return this.getMorale()
+		           .getCurrentState() +
+			this.getSatiety()
+			    .getCurrentState() / DAMAGE_SATIETY_RELATION +
 			this.trainingBoost;
-	};
+	}
 	
 	@Override
-	protected int block(int damageAmount) {
-		return Game.getRandomInt(damageAmount) +
+	protected int block(int damage) {
+		return Game.getRandomInt(damage) +
 			this.trainingBoost;
-	};
+	}
 }

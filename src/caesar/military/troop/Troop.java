@@ -1,7 +1,7 @@
 package caesar.military.troop;
 
 import caesar.game.engagement.EngagementController;
-import caesar.game.status.StateType;
+import caesar.game.status.StatusType;
 import caesar.military.MilitaryUnit;
 import caesar.military.officer.Officer;
 import caesar.military.rome.Legion;
@@ -91,7 +91,7 @@ public abstract class Troop implements MilitaryUnit {
 	}
 	
 	@Override
-	public void perish() {
+	public void die() {
 		
 		if (this.parentUnit != null) {
 			this.parentUnit.units.remove(this);
@@ -111,7 +111,7 @@ public abstract class Troop implements MilitaryUnit {
 		this.units.remove(soldier);
 		
 		if (this.units.size() == 0 && this.officer == null)
-			this.perish();
+			this.die();
 	}
 	
 	public void removeOfficer() {
@@ -119,7 +119,7 @@ public abstract class Troop implements MilitaryUnit {
 		this.officer.setParentUnit(null);
 		
 		if (this.units.size() == 0)
-			this.perish();
+			this.die();
 	}
 	
 	private void clearUnits() {
@@ -310,9 +310,9 @@ public abstract class Troop implements MilitaryUnit {
 		return this;
 	}
 	
-	public static void updateUnitState(
+	public static void updateUnitStatusState(
 		MilitaryUnit unit,
-		StateType stateType,
+		StatusType statusType,
 		int amount
 	) {
 		
@@ -320,12 +320,12 @@ public abstract class Troop implements MilitaryUnit {
 			return;
 		
 		if (unit instanceof Soldier) {
-			((Soldier) unit).modifyState(stateType, amount);
+			((Soldier) unit).updateStatusState(statusType, amount);
 			return;
 		}
 		
 		((Troop) unit).units.forEach(u -> {
-			updateUnitState(u, stateType, amount);
+			updateUnitStatusState(u, statusType, amount);
 		});
 	}
 	

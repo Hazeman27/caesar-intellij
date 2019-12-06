@@ -96,8 +96,4 @@ public enum Message {
 		stringBuilder.append(Printer.getBorder(this.maxLength, 0));
 		return stringBuilder.toString();
 	}
-	
-	public static void main(String[] args) {
-		Printer.print(Message.TEST);
-	}
 }

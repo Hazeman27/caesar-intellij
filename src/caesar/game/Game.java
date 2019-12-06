@@ -21,8 +21,15 @@ import java.security.SecureRandom;
 
 public class Game {
 	
-	private static final SecureRandom random = new SecureRandom();
-	private final Turn turn = new Turn(this);
+	private static final SecureRandom RANDOM = new SecureRandom();
+	
+	private static final int[] ENEMY_ARMY_SIZE = new int[] {10, 40};
+	private static final int[] ENEMY_AP = new int[] {5, 20};
+	private static final int PLAYER_MAX_AP = 15;
+	private static final int ENTITY_AP_REPLENISH_THRESHOLD = 5;
+	private static final int EXIT_CODE = 0;
+	
+	private final Turn turn;
 	
 	private Map map;
 	private Player player;
@@ -39,6 +46,7 @@ public class Game {
 		boolean calendarBCE
 	) {
 		
+		this.turn = new Turn(this);
 		this.log = new Log();
 		
 		this.calendar = new Calendar(
@@ -52,7 +60,6 @@ public class Game {
 	}
 	
 	public void start(
-		int playerActionPointsAmount,
 		int playerTroopsAmount,
 		int playerLocationX,
 		int playerLocationY,
@@ -63,7 +70,7 @@ public class Game {
 		
 		this.player = new Player(
 			playerTroopsAmount,
-			playerActionPointsAmount,
+			PLAYER_MAX_AP,
 			playerLocationX,
 			playerLocationY
 		);
@@ -86,10 +93,10 @@ public class Game {
 	private Enemy spawnEnemy() {
 		
 		return new Enemy(
-			random.nextInt(40) + 10,
-			random.nextInt(20) + 5,
-			random.nextInt(this.map.getSize()),
-			random.nextInt(this.map.getSize())
+			getRandomInt(ENEMY_ARMY_SIZE),
+			getRandomInt(ENEMY_AP),
+			getRandomInt(this.map.getSize()),
+			getRandomInt(this.map.getSize())
 		);
 	}
 	
@@ -167,38 +174,42 @@ public class Game {
 	}
 	
 	public void replenishPlayerAP() {
-		this.player.actionPoints.set(15);
+		this.player.actionPoints.set(PLAYER_MAX_AP);
 	}
 	
 	public void replenishEntitiesAP() {
 		
-		if (this.player.actionPoints.get() < 5) {
+		if (this.player.actionPoints.get() < ENTITY_AP_REPLENISH_THRESHOLD) {
 			
 			Printer.print(Message.CONSIDER_RESTING);
 			
-			int value = random.nextInt(4) + 1;
+			int value = getRandomInt(1, ENTITY_AP_REPLENISH_THRESHOLD);
 			this.player.actionPoints.add(value);
 			
 			Printer.print("Action points gained: " + value + "!");
 		}
 		
-		if (this.enemy.actionPoints.get() < 4) {
+		if (this.enemy.actionPoints.get() < ENTITY_AP_REPLENISH_THRESHOLD) {
 			
 			this.enemy.actionPoints.add(
-				random.nextInt(6) + 1
+				getRandomInt(2, ENTITY_AP_REPLENISH_THRESHOLD)
 			);
 		}
 	}
 	
 	public void exit() {
-		System.exit(0);
+		System.exit(EXIT_CODE);
 	}
 	
 	public static int getRandomInt(int bound) {
-		return random.nextInt(bound);
+		return RANDOM.nextInt(bound);
 	}
 	
 	public static int getRandomInt(int min, int max) {
-		return random.nextInt(max - min) + min;
+		return RANDOM.nextInt(max - min) + min;
+	}
+	
+	public static int getRandomInt(@NotNull int[] range) {
+		return RANDOM.nextInt(range[1] - range[0]) + range[0];
 	}
 }

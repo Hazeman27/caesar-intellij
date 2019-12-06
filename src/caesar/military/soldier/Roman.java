@@ -1,45 +1,39 @@
 package caesar.military.soldier;
 
 import caesar.game.Game;
-import caesar.game.status.State;
-import caesar.game.status.StateType;
-import caesar.military.rome.Contubernium;
 import caesar.military.troop.Troop;
 
 public class Roman extends Soldier {
 	
+	private static final int[] TRAINING_BOOST_RANGE = new int[] {5, 15};
+	private static final int DAMAGE_SATIETY_RELATION = 20;
+	
 	private final int trainingBoost;
-	private State shieldCondition;
 	
 	public Roman(Troop troop) {
 		
 		super(troop);
-		this.shieldCondition = new State(10);
 		
 		this.name = Name.getRandomRoman();
-		this.trainingBoost = Game.getRandomInt(5, 15);
+		this.trainingBoost = Game.getRandomInt(
+			TRAINING_BOOST_RANGE
+		);
 	}
 	
 	@Override
 	protected int getDamageBoost() {
 		
-		return this.state.get(StateType.MORALE).getCurrent() / 5 +
-			this.state.get(StateType.SATIETY).getCurrent() / 20 +
+		return this.getMorale()
+		           .getCurrentState() +
+			this.getSatiety()
+			    .getCurrentState() / DAMAGE_SATIETY_RELATION +
 			this.trainingBoost;
-	};
+	}
 	
 	@Override
-	protected int block(int damageAmount) {
+	protected int block(int damage) {
 		
-		int blocked = Game.getRandomInt(damageAmount) +
-			this.trainingBoost +
-			this.shieldCondition.getCurrent();
-		
-		this.shieldCondition.modify(-1);
-		return blocked;
-	};
-	
-	public static void main(String[] args) {
-		System.out.println(new Roman(new Contubernium()));
+		return Game.getRandomInt(damage) +
+			this.trainingBoost;
 	}
 }

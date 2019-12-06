@@ -6,17 +6,20 @@ import caesar.game.map.Location;
 import caesar.game.map.Relief;
 import caesar.game.response.Response;
 import caesar.game.response.ResponseType;
+import caesar.game.status.StatusType;
 import caesar.game.weather.WeatherType;
 import caesar.ui.Message;
 import caesar.ui.Printer;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+
 public enum Action {
 	
 	NEW_GAME("New game", game -> {
 		
-		game.start(10, 6, 4, 6, 100);
+		game.start(6, 4, 6, 100);
 		
 		return new Response(
 			Message.NEW_GAME,
@@ -65,6 +68,7 @@ public enum Action {
 		game.incrementTurnsCount();
 		
 		game.replenishEntitiesAP();
+		game.getPlayer().feedArmy();
 		game.nextDay();
 		game.changeWeather();
 		
@@ -189,8 +193,6 @@ public enum Action {
 	
 	REST("Rest", 3, game -> {
 		
-		Printer.print(Message.RESOURCES_GATHERED);
-		
 		return new Response(
 			Message.RESTED,
 			ResponseType.SUCCESS,
@@ -198,12 +200,18 @@ public enum Action {
 		);
 	}),
 	
-//	GATHER_RESOURCES("Gather resources", 3, game -> {
-//
-//		return new Response(
-//			Message.
-//		)
-//	})
+	GATHER_RESOURCES("Gather resources", 3, game -> {
+		
+		Printer.print(Message.RESOURCES_GATHERED);
+		
+		Map<StatusType, Integer> resourcesGathered =
+			game.getPlayer().gatherResources();
+		
+		Printer.print("Wood: " + resourcesGathered.get(StatusType.WOOD_RESOURCE));
+		Printer.print("Food: " + resourcesGathered.get(StatusType.FOOD_RESOURCE));
+		
+		return new Response(ResponseType.SUCCESS);
+	}),
 	
 	LEAVE_CAMP("Leave camp", 2, game -> {
 		

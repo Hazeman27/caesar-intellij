@@ -1,8 +1,8 @@
 package caesar.military.soldier;
 
 import caesar.game.Game;
-import caesar.game.status.State;
-import caesar.game.status.StateType;
+import caesar.game.status.Status;
+import caesar.game.status.StatusType;
 import caesar.military.MilitaryUnit;
 import caesar.military.troop.Troop;
 import caesar.ui.Printer;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 public abstract class Soldier implements MilitaryUnit {
 	
-	protected Map<StateType, State> state;
+	protected Map<StatusType, Status> state;
 	protected String name;
 	protected Troop parentUnit;
 	
@@ -23,68 +23,92 @@ public abstract class Soldier implements MilitaryUnit {
 		
 		this.state = new HashMap<>();
 		
-		this.state.put(StateType.HEALTH, new State());
-		this.state.put(StateType.MORALE, new State());
-		this.state.put(StateType.SATIETY, new State());
+		this.state.put(
+			StatusType.HEALTH,
+			new Status(StatusType.HEALTH)
+		);
+		
+		this.state.put(
+			StatusType.MORALE,
+			new Status(StatusType.MORALE)
+		);
+		
+		this.state.put(
+			StatusType.SATIETY,
+			new Status(StatusType.SATIETY)
+		);
 		
 		this.parentUnit = parentUnit;
 	}
 	
 	protected abstract int getDamageBoost();
-	protected abstract int block(int damageAmount);
+	protected abstract int block(int damage);
 	
-	public void modifyState(StateType type, int amount) {
-		this.state.get(type).modify(amount);
+	protected Status getHealth() {
+		return this.state.get(StatusType.HEALTH);
+	}
+	
+	protected Status getMorale() {
+		return this.state.get(StatusType.MORALE);
+	}
+	
+	protected Status getSatiety() {
+		return this.state.get(StatusType.SATIETY);
+	}
+	
+	public void updateStatusState(StatusType type, int amount) {
+		this.state.get(type).updateState(amount);
+	}
+	
+	private boolean isDead() {
+		return this.state.get(StatusType.HEALTH).atMinState();
 	}
 	
 	@Override
-	public void perish() {
+	public void die() {
 		this.parentUnit.removeSoldier(this);
 		this.parentUnit = null;
 	}
 	
 	@Override
-	public MilitaryUnit engage(MilitaryUnit target, boolean verbose) {
+	public MilitaryUnit engage(MilitaryUnit targetUnit, boolean verbose) {
 		
-		if (target == null)
+		if (targetUnit == null)
 			return this;
 		
-		Soldier targetSoldier = (Soldier) target;
-		int thisDamageDealt;
-		int targetDamageDealt;
+		Soldier target = (Soldier) targetUnit;
+		
+		int damageDealt;
+		int damageReceived;
 
-		while (!this.state.get(StateType.HEALTH).isAtMinimum() &&
-			!targetSoldier.state.get(StateType.HEALTH).isAtMinimum()
-		) {
+		while (!this.isDead() && !target.isDead()) {
 			
-			thisDamageDealt =
-				this.attackTarget(targetSoldier);
-			targetDamageDealt =
-				targetSoldier.attackTarget(this);
+			damageDealt = this.attack(target);
+			damageReceived = target.attack(this);
 			
 			if (verbose) {
 				Printer.print(
 					this +
 					" dealt " +
-					thisDamageDealt +
+					damageDealt +
 					" damage to " +
-					targetSoldier
+					target
 				);
 				
 				Printer.print(
-					targetSoldier +
+					target +
 					" dealt " +
-					targetDamageDealt +
+					damageReceived +
 					" damage to " +
 					this
 				);
 			}
 		}
 		
-		if (targetSoldier.state.get(StateType.HEALTH).isAtMinimum())
+		if (target.isDead())
 			return this;
 		
-		else return target;
+		return targetUnit;
 	}
 	
 	@Override
@@ -92,26 +116,25 @@ public abstract class Soldier implements MilitaryUnit {
 		this.parentUnit = (Troop) parentUnit;
 	}
 	
-	private int attackTarget(@NotNull Soldier target) {
+	private int attack(@NotNull Soldier target) {
 		
 		int damage = Game.getRandomInt(
-			this.state.get(StateType.HEALTH).getMax()
+			this.getHealth().getMaxState()
 		);
 		
 		damage += this.getDamageBoost();
-		
 		return target.receiveDamage(damage);
-	};
+	}
 	
-	private int receiveDamage(int damageAmount) {
+	private int receiveDamage(int damage) {
 		
-		damageAmount = Math.max(damageAmount - this.block(damageAmount), 0);
-		this.state.get(StateType.HEALTH).modify(-damageAmount);
+		damage = Math.max(damage - this.block(damage), 0);
+		this.getHealth().updateState(-damage);
 		
-		if (this.state.get(StateType.HEALTH).isAtMinimum())
-			this.perish();
+		if (this.isDead())
+			this.die();
 		
-		return damageAmount;
+		return damage;
 	}
 	
 	@Override
@@ -136,22 +159,26 @@ public abstract class Soldier implements MilitaryUnit {
 			"\n-> Unit: " +
 			this.parentUnit +
 			"\n-> Health: [" +
-			this.state.get(StateType.HEALTH).getCurrent() +
+			this.getHealth().getCurrentState() +
 			"/" +
-			this.state.get(StateType.HEALTH).getMax() +
+			this.getHealth().getMaxState() +
 			"]\n-> Morale: [" +
-			this.state.get(StateType.MORALE).getCurrent() +
+			this.getMorale().getCurrentState() +
 			"/" +
-			this.state.get(StateType.MORALE).getMax() +
+			this.getMorale().getMaxState() +
 			"]\n-> Satiety: [" +
-			this.state.get(StateType.SATIETY).getCurrent() +
+			this.getSatiety().getCurrentState() +
 			"/" +
-			this.state.get(StateType.SATIETY).getMax() +
+			this.getSatiety().getMaxState() +
 			"]\n";
 	}
 	
 	@Override
 	public String toString() {
-		return "[" + this.getClass().getSimpleName() + "] " + this.name;
+		
+		return "[" +
+			this.getClass().getSimpleName() +
+			"] " +
+			this.name;
 	}
 }

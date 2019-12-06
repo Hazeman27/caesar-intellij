@@ -2,7 +2,7 @@ package caesar.military;
 
 public interface MilitaryUnit {
 	
-	void perish();
+	void die();
 	void setParentUnit(MilitaryUnit parentUnit);
 	
 	String getSummary();
