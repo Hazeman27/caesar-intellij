@@ -68,9 +68,11 @@ public enum Action {
 		game.incrementTurnsCount();
 		
 		game.replenishEntitiesAP();
-		game.getPlayer().feedArmy();
 		game.nextDay();
 		game.changeWeather();
+		
+		Response armyFeeding = game.getPlayer().feedArmy();
+		Printer.print(armyFeeding.getMessage());
 		
 		if (game.getEnemyLocation().equals(game.getPlayerLocation())) {
 			
@@ -168,26 +170,12 @@ public enum Action {
 	
 	BUILD_CAMP("Build camp", 10, game -> {
 		
-		if (!Relief.isSolid(game.getPlayerRelief())) {
-			
-			return new Response(
-				Message.CANT_BUILD_CAMP_NOT_SOLID_RELIEF,
-				ResponseType.FAILURE
-			);
-		}
-		
-		if (game.getPlayer().canBuildCamp()) {
-			
-			return new Response(
-				Message.CAMP_BUILT,
-				ResponseType.SUCCESS,
-				TurnType.CAMP
-			);
-		}
+		Response campBuilding = game.getPlayer().buildCamp();
 		
 		return new Response(
-			Message.CANT_BUILD_CAMP_NOT_ENOUGH_WOOD,
-			ResponseType.FAILURE
+			campBuilding.getMessage(),
+			campBuilding.getType(),
+			TurnType.CAMP
 		);
 	}),
 	
@@ -214,6 +202,8 @@ public enum Action {
 	}),
 	
 	LEAVE_CAMP("Leave camp", 2, game -> {
+		
+		game.getPlayer().leaveCamp();
 		
 		return new Response(
 			Message.CAMP_LEFT,

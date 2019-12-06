@@ -47,11 +47,15 @@ public class Response {
 	}
 	
 	public String getMessage() {
-		return message;
+		return this.message;
+	}
+	
+	public ResponseType getType() {
+		return this.type;
 	}
 	
 	public TurnType getNextTurn() {
-		return nextTurn;
+		return this.nextTurn;
 	}
 	
 	public void initAction() {

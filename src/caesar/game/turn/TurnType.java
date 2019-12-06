@@ -23,6 +23,7 @@ public enum TurnType {
 		Action.ADVANCE, 
 		Action.LOOK_AROUND,
 		Action.ANALYZE_ARMY,
+		Action.GATHER_RESOURCES,
 		Action.BUILD_CAMP,
 		Action.OPEN_JOURNAL,
 		Action.TO_NEXT_DAY,
@@ -31,6 +32,7 @@ public enum TurnType {
 	
 	CAMP("Camp", Arrays.asList(
 		Action.REST,
+		Action.GATHER_RESOURCES,
 		Action.LEAVE_CAMP,
 		Action.OPEN_JOURNAL,
 		Action.TO_NEXT_DAY,

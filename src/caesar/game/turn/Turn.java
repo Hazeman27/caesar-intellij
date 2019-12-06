@@ -98,17 +98,19 @@ public class Turn {
 			this.game.log(action);
 			Response response = action.handle(this.game);
 			
-			if (response.isSuccessful())
-				this.actionPoints.remove(actionValue);
-			
 			if (response.hasMessage())
 				Printer.print(response.getMessage());
 			
-			if (response.hasAction())
-				response.initAction();
-			
-			if (response.hasNextTurn())
-				this.next(response.getNextTurn());
+			if (response.isSuccessful()) {
+				
+				this.actionPoints.remove(actionValue);
+				
+				if (response.hasAction())
+					response.initAction();
+				
+				if (response.hasNextTurn())
+					this.next(response.getNextTurn());
+			}
 		} else {
 			Printer.print(Message.LOW_AP);
 		}

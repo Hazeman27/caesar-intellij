@@ -17,6 +17,8 @@ public enum Message {
 	ENEMY_NEARBY("You have spotted a gallic army!"),
 	CAMP_BUILT("You have built a camp, now you can rest there..."),
 	CAMP_LEFT("You have left your camp, now you can travel..."),
+	ARMY_FED("Your army have been successfully fed!"),
+	MORALE_UP("Your army's morale is up!"),
 	
 //	Errors and failures...
 	NO_CURRENT_GAME("No current game found..."),
@@ -25,7 +27,9 @@ public enum Message {
 	LOW_AP("Not enough action points..."),
 	CANT_REMOVE_TROOP("Error", "Can't remove troop with no parent..."),
 	CANT_BUILD_CAMP_NOT_ENOUGH_WOOD("Not enough wood to build camp!"),
-	CANT_BUILD_CAMP_NOT_SOLID_RELIEF("Can't build camp on this relief!");
+	CANT_BUILD_CAMP_NOT_SOLID_RELIEF("Can't build camp on this relief!"),
+	NOT_ENOUGH_FOOD("You don't have enough food to feed your entire army!"),
+	MORALE_DOWN("Your army's morale is down");
 	
 	private final String title;
 	private final String content;
