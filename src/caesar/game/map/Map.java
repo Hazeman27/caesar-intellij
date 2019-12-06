@@ -3,8 +3,6 @@ package caesar.game.map;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.stream.IntStream;
-
 public class Map {
 	
 	private final Relief[][] relief;

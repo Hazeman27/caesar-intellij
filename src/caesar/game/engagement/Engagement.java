@@ -6,9 +6,9 @@ import java.util.concurrent.Callable;
 
 public class Engagement implements Callable<MilitaryUnit> {
 	
-	private MilitaryUnit unitA;
-	private MilitaryUnit unitB;
-	private boolean verbose;
+	private final MilitaryUnit unitA;
+	private final MilitaryUnit unitB;
+	private final boolean verbose;
 	
 	Engagement(MilitaryUnit unitA, MilitaryUnit unitB, boolean verbose) {
 		

@@ -67,9 +67,9 @@ public class EngagementController {
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		List<Engagement> engagements = new ArrayList<>();
 		
-		this.engagements.forEach((unitA, unitB) -> {
-			engagements.add(new Engagement(unitA, unitB, verbose));
-		});
+		this.engagements.forEach((unitA, unitB) -> engagements
+			.add(new Engagement(unitA, unitB, verbose))
+		);
 		
 		try {
 			executorService.invokeAll(engagements);

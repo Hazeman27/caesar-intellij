@@ -4,8 +4,8 @@ import org.jetbrains.annotations.Contract;
 
 public class Vector {
 	
-	private int x;
-	private int y;
+	private final int x;
+	private final int y;
 	
 	@Contract(pure = true)
 	Vector(int x1, int y1, int x2, int y2) {

@@ -36,8 +36,8 @@ public class Game {
 	private Enemy enemy;
 	private int turnsCount;
 	
-	private Log log;
-	private Calendar calendar;
+	private final Log log;
+	private final Calendar calendar;
 	
 	public Game(
 		Month calendarMonth,

@@ -8,7 +8,7 @@ import caesar.military.troop.Troop;
 
 public class Century extends Troop {
 	
-	static int UNIT_CAPACITY = 10;
+	static final int UNIT_CAPACITY = 10;
 	
 	Century(Troop parentUnit) {
 		super(parentUnit, UNIT_CAPACITY, ":");

@@ -22,7 +22,7 @@ public abstract class Troop implements MilitaryUnit {
 	private final String symbol;
 	private Troop parentUnit;
 	
-	private List<MilitaryUnit> units;
+	private final List<MilitaryUnit> units;
 	private Officer officer;
 	
 	protected Troop(Troop parentUnit, int unitCapacity, String symbol) {
@@ -120,6 +120,10 @@ public abstract class Troop implements MilitaryUnit {
 		
 		if (this.units.size() == 0)
 			this.die();
+	}
+	
+	public int getAverageMoraleState() {
+		return getUnitTotalMoralStateSum(this) / countSoldiers(this);
 	}
 	
 	private void clearUnits() {
@@ -324,9 +328,33 @@ public abstract class Troop implements MilitaryUnit {
 			return;
 		}
 		
-		((Troop) unit).units.forEach(u -> {
-			updateUnitStatusState(u, statusType, amount);
-		});
+		((Troop) unit).units.forEach(
+			u -> updateUnitStatusState(u, statusType, amount)
+		);
+	}
+	
+	public static int getUnitTotalMoralStateSum(MilitaryUnit unit) {
+		
+		if (unit == null)
+			return 0;
+		
+		if (unit instanceof Soldier)
+			return ((Soldier) unit)
+				.getMorale()
+				.getCurrentState();
+		
+		Troop troop = (Troop) unit;
+		
+		int moraleState = troop.units
+			.stream()
+			.mapToInt(Troop::getUnitTotalMoralStateSum)
+			.sum();
+		
+		moraleState += troop.officer == null ? 0 :
+			troop.officer.getMorale()
+			             .getCurrentState();
+		
+		return moraleState;
 	}
 	
 	@Contract(pure = true)

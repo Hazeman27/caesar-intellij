@@ -64,7 +64,7 @@ public enum Action {
 	
 	TO_NEXT_DAY("Next day >>", game -> {
 		
-		game.getEnemy().makeMove(game.getPlayer(), game.getMap());
+		game.getEnemy().act(game.getPlayer(), game.getMap());
 		game.incrementTurnsCount();
 		
 		game.replenishEntitiesAP();

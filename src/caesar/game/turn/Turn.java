@@ -16,9 +16,9 @@ import org.jetbrains.annotations.Nullable;
 public class Turn {
 	
 	private TurnType type;
-	private Game game;
+	private final Game game;
 	private ActionPoints actionPoints;
-	private Scanner scanner;
+	private final Scanner scanner;
 	private int minCostAction;
 	
 	public Turn(@NotNull Game game) {
@@ -147,7 +147,7 @@ public class Turn {
 		
 		Printer.print("press enter to continue...");
 		this.scanner.nextLine();
-	};
+	}
 	
 	private boolean isNumeric(String candidate) {
 		

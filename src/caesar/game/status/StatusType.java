@@ -8,11 +8,19 @@ public enum StatusType {
 	WOOD_RESOURCE(0, 65536),
 	FOOD_RESOURCE(0, 256372);
 	
-	final int minState;
-	final int maxState;
+	private final int minState;
+	private final int maxState;
 	
 	StatusType(int minState, int maxState) {
 		this.minState = minState;
 		this.maxState = maxState;
+	}
+	
+	public int getMinState() {
+		return this.minState;
+	}
+	
+	public int getMaxState() {
+		return this.maxState;
 	}
 }

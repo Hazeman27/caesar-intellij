@@ -14,7 +14,7 @@ import java.util.Map;
 
 public abstract class Soldier implements MilitaryUnit {
 	
-	protected Map<StatusType, Status> state;
+	protected final Map<StatusType, Status> state;
 	protected String name;
 	protected Troop parentUnit;
 	
@@ -48,7 +48,7 @@ public abstract class Soldier implements MilitaryUnit {
 		return this.state.get(StatusType.HEALTH);
 	}
 	
-	protected Status getMorale() {
+	public Status getMorale() {
 		return this.state.get(StatusType.MORALE);
 	}
 	

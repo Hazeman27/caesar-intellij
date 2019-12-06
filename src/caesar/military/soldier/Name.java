@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Name {
 	
-	private static String[] praenominas = new String[] {
+	private static final String[] praenominas = new String[] {
 		"Appius",
 		"Aulus",
 		"Caelus",
@@ -62,7 +62,7 @@ public class Name {
 		"Vopiscus"
 	};
 	
-	private static String[] nominas = new String[] {
+	private static final String[] nominas = new String[] {
 		"Abronius",
 		"Abudius",
 		"Aburius",
@@ -778,7 +778,7 @@ public class Name {
 		"Vulius"
 	};
 	
-	private static String[] gaulNames = new String[] {
+	private static final String[] gaulNames = new String[] {
 		"Segomaros",
 		"Adcanaunos",
 		"Carantillo",

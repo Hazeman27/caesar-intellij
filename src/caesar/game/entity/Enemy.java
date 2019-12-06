@@ -18,7 +18,7 @@ public class Enemy extends Entity {
 		this.army = new GaulArmy(troopsAmount);
 	}
 	
-	public void makeMove(Player player, Map map) {
+	public void act(Player player, Map map) {
 		
 		if (player == null || map == null)
 			return;

@@ -27,11 +27,11 @@ public abstract class Entity {
 	private static final int[] WOOD_RESOURCE_GATHER_RANGE = new int[] {20, 25};
 	private static final int[] FOOD_RESOURCE_GATHER_RANGE = new int[] {42, 50};
 	
-	public ActionPoints actionPoints;
-	public Location location;
+	public final ActionPoints actionPoints;
+	public final Location location;
 	public Troop army;
-	private Status woodResource;
-	private Status foodResource;
+	private final Status woodResource;
+	private final Status foodResource;
 	private boolean camping;
 	
 	Entity(int actionPointsAmount, int x, int y) {
@@ -186,12 +186,24 @@ public abstract class Entity {
 		
 		return ":: AP: " +
 			this.actionPoints.get() +
-			", POS: " +
+			", POSITION: " +
 			this.location +
-			", REL: " +
+			", RELIEF: " +
 			this.location.getRelief() +
 			", ARMY: " +
 			Troop.countSoldiers(this.army) +
-			" ::";
+			", MORALE (AVG): [" +
+			this.army.getAverageMoraleState() +
+			"/" +
+			StatusType.MORALE.getMaxState() +
+			"], WOOD: [" +
+			this.woodResource.getCurrentState() +
+			"/" +
+			StatusType.WOOD_RESOURCE.getMaxState() +
+			"], FOOD: [" +
+			this.foodResource.getCurrentState() +
+			"/" +
+			StatusType.FOOD_RESOURCE.getMaxState() +
+			"] ::";
 	}
 }

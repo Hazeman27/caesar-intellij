@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 public class Log {
 	
-	private List<String> log;
+	private final List<String> log;
 	
 	Log() {
 		this.log = new ArrayList<>();
