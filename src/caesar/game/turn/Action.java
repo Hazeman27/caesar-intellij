@@ -11,7 +11,6 @@ import caesar.game.status.StatusType;
 import caesar.game.weather.WeatherType;
 import caesar.ui.Message;
 import caesar.ui.Printer;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -196,8 +195,13 @@ public enum Action {
 		Map<StatusType, Integer> resourcesGathered =
 			game.getPlayer().gatherResources();
 		
-		Printer.print("Wood: " + resourcesGathered.get(StatusType.WOOD_RESOURCE));
-		Printer.print("Food: " + resourcesGathered.get(StatusType.FOOD_RESOURCE));
+		Printer.print("Wood: " + resourcesGathered.get(
+			StatusType.WOOD_RESOURCE)
+		);
+		
+		Printer.print("Food: " + resourcesGathered.get(
+			StatusType.FOOD_RESOURCE)
+		);
 		
 		return new Response(ResponseType.SUCCESS);
 	}),
@@ -278,7 +282,6 @@ public enum Action {
 	private final String name;
 	private final ActionHandler handler;
 	
-	@Contract(pure = true)
 	Action(String name, int value, ActionHandler handler) {
 		
 		this.name = name;
@@ -286,7 +289,6 @@ public enum Action {
 		this.handler = handler;
 	}
 	
-	@Contract(pure = true)
 	Action(String name, ActionHandler handler) {
 		
 		this.name = name;
@@ -294,7 +296,6 @@ public enum Action {
 		this.handler = handler;
 	}
 	
-	@Contract(pure = true)
 	public int getValue() {
 		return this.value;
 	}
@@ -303,14 +304,12 @@ public enum Action {
 		return this.handler.handle(game);
 	}
 	
-	@Contract(pure = true)
 	@Override
 	public String toString() {
 		return this.name;
 	}
 	
 	@NotNull
-	@Contract(pure = true)
 	public String toString(boolean addValue) {
 		return this.name + (
 			addValue && this.value != 0 ? " [" + this.value + "]" : ""
@@ -318,7 +317,6 @@ public enum Action {
 	}
 	
 	@NotNull
-	@Contract("_ -> new")
 	private static Response advance(@NotNull Game game) {
 		
 		Direction direction = Direction.valueOf(

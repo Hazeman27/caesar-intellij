@@ -24,12 +24,13 @@ public abstract class Entity {
 	private static final int SATIETY_MODIFIER = 25;
 	private static final int HEALTH_MODIFIER = 50;
 	
-	private static final int[] WOOD_RESOURCE_GATHER_RANGE = new int[] {20, 25};
-	private static final int[] FOOD_RESOURCE_GATHER_RANGE = new int[] {42, 50};
+	private static final int[] WOOD_GATHER_RANGE = new int[] {20, 25};
+	private static final int[] FOOD_GATHER_RANGE = new int[] {42, 50};
 	
-	public final ActionPoints actionPoints;
-	public final Location location;
-	public Troop army;
+	protected final ActionPoints actionPoints;
+	protected final Location location;
+	protected Troop army;
+	
 	private final Status woodResource;
 	private final Status foodResource;
 	private boolean camping;
@@ -49,6 +50,18 @@ public abstract class Entity {
 			StatusType.FOOD_RESOURCE,
 			FOOD_RESOURCE_INITIAL_STATE
 		);
+	}
+	
+	public ActionPoints getActionPoints() {
+		return actionPoints;
+	}
+	
+	public Location getLocation() {
+		return location;
+	}
+	
+	public Troop getArmy() {
+		return army;
 	}
 	
 	public void move(Direction direction, Relief relief) {
@@ -160,15 +173,21 @@ public abstract class Entity {
 		
 		Map<StatusType, Integer> resourcesGathered = new HashMap<>();
 		
-		resourcesGathered.put(StatusType.WOOD_RESOURCE, (int) Math.round(Math.pow(
-			Game.getRandomInt(WOOD_RESOURCE_GATHER_RANGE) / 10.0,
-			resourceIndex
-		)) * modifier);
+		resourcesGathered.put(
+			StatusType.WOOD_RESOURCE,
+			(int) Math.round(Math.pow(Game.getRandomInt(
+				WOOD_GATHER_RANGE) / 10.0,
+				resourceIndex
+			)) * modifier
+		);
 		
-		resourcesGathered.put(StatusType.FOOD_RESOURCE, (int) Math.round(Math.pow(
-			Game.getRandomInt(FOOD_RESOURCE_GATHER_RANGE) / 10.0,
-			resourceIndex
-		)) * modifier);
+		resourcesGathered.put(
+			StatusType.FOOD_RESOURCE,
+			(int) Math.round(Math.pow(Game.getRandomInt(
+				FOOD_GATHER_RANGE) / 10.0,
+				resourceIndex
+			)) * modifier
+		);
 		
 		this.woodResource.updateState(
 			resourcesGathered.get(StatusType.WOOD_RESOURCE)

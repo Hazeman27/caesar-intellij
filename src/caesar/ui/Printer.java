@@ -8,7 +8,11 @@ import org.jetbrains.annotations.NotNull;
 public class Printer {
 	
 	@NotNull
-	public static String getBorder(@NotNull String title, int maxLength, int whiteSpace) {
+	public static String getBorder(
+		@NotNull String title,
+		int maxLength,
+		int whiteSpace
+	) {
 		
 		int i;
 		int lengthDifference = maxLength + whiteSpace - title.length();
@@ -55,7 +59,10 @@ public class Printer {
 	}
 	
 	@NotNull
-	public static String getFillingSpaces(@NotNull String string, int maxLength) {
+	public static String getFillingSpaces(
+		@NotNull String string,
+		int maxLength
+	) {
 		
 		StringBuilder spaces = new StringBuilder();
 		

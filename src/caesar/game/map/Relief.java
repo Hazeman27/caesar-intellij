@@ -15,8 +15,6 @@ public enum Relief {
 	SWAMP("sw", 1),
 	FOREST("ff", 7);
 	
-	// 3.3 min - 4 max
-	
 	private final String symbol;
 	private final int resourceIndex;
 	

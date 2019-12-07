@@ -44,7 +44,7 @@ public enum Season {
 		WeatherType.MIST
 	));
 	
-	//	Temperature unit: celsius
+//	Temperature unit: celsius
 	private final List<WeatherType> weatherTypes;
 	
 	@Contract(pure = true)

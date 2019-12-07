@@ -1,12 +1,10 @@
 package caesar.game.turn;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
 import caesar.game.Game;
 import caesar.game.calendar.Month;
-import caesar.game.entity.ActionPoints;
 import caesar.game.response.Response;
 import caesar.ui.Message;
 import caesar.ui.Printer;
@@ -16,25 +14,14 @@ import org.jetbrains.annotations.Nullable;
 public class Turn {
 	
 	private TurnType type;
+	
 	private final Game game;
-	private ActionPoints actionPoints;
 	private final Scanner scanner;
-	private int minCostAction;
 	
 	public Turn(@NotNull Game game) {
 		
 		this.game = game;
-		this.actionPoints = new ActionPoints(0);
 		this.scanner = new Scanner(System.in);
-	}
-	
-	private int getMinCostAction(@NotNull List<Action> actions) {
-		
-		Optional<Action> min =
-			actions.stream()
-			       .reduce((a, b) -> a.getValue() < b.getValue() ? a : b);
-		
-		return min.map(Action::getValue).orElse(-1);
 	}
 	
 	private void printMessage() {
@@ -59,29 +46,35 @@ public class Turn {
 		Printer.print("Enter your choice: ", false);
 	}
 	
+	private boolean incorrectInputValue(int value) {
+		return value < 1 || value > this.type.getActions().size();
+	}
+	
 	@Nullable
 	private Action scanInput() {
 		
-		String input = this.scanner.nextLine();
-		input = input.toLowerCase().trim();
+		final String input = this.scanner
+			.nextLine()
+			.toLowerCase()
+			.trim();
 		
 		if (this.isNumeric(input)) {
 			
 			int inputValue = Integer.parseInt(input);
 			
-			if (inputValue < 1 || inputValue > this.type.getActions().size())
+			if (this.incorrectInputValue(inputValue))
 				return null;
 			
 			return this.type.getAction(inputValue - 1);
 		}
 		
-		for (Action action: this.type.getActions()) {
-			
-			if (input.equalsIgnoreCase(action.toString()))
-				return action;
-		}
+		Optional<Action> actionOptional = this.type
+			.getActions()
+			.stream()
+			.filter(a -> a.toString().equalsIgnoreCase(input))
+			.findFirst();
 		
-		return null;
+		return actionOptional.orElse(null);
 	}
 	
 	private void handleInput(Action action) {
@@ -93,54 +86,36 @@ public class Turn {
 		
 		int actionValue = action.getValue();
 		
-		if (this.actionPoints.get() >= actionValue) {
-			
-			this.game.log(action);
-			Response response = action.handle(this.game);
-			
-			if (response.hasMessage())
-				Printer.print(response.getMessage());
-			
-			if (response.isSuccessful()) {
-				
-				this.actionPoints.remove(actionValue);
-				
-				if (response.hasAction())
-					response.initAction();
-				
-				if (response.hasNextTurn())
-					this.next(response.getNextTurn());
-			}
-		} else {
+		if (this.game.getPlayerAP().get() < actionValue) {
 			Printer.print(Message.LOW_AP);
+			return;
 		}
-	}
-	
-	private void startInteraction() {
-		
-		while (this.actionPoints.get() >= this.minCostAction) {
 			
-			this.printMessage();
-			this.handleInput(this.scanInput());
-			this.awaitInput();
-		}
+		this.game.log(action);
+		Response response = action.handle(this.game);
 		
-		Action.TO_NEXT_DAY.handle(this.game);
+		if (response.hasMessage())
+			Printer.print(response.getMessage());
+		
+		if (response.isSuccessful()) {
+			
+			this.game.getPlayerAP().remove(actionValue);
+			
+			if (response.hasAction())
+				response.initAction();
+			
+			if (response.hasNextTurn())
+				this.next(response.getNextTurn());
+		}
 	}
 	
 	public void next(TurnType type) {
 		
 		this.type = type;
 		
-		this.minCostAction = this.getMinCostAction(
-			this.type.getActions()
-		);
-		
-		this.startInteraction();
-	}
-	
-	public void setActionPoints(ActionPoints actionPoints) {
-		this.actionPoints = actionPoints;
+		this.printMessage();
+		this.handleInput(this.scanInput());
+		this.awaitInput();
 	}
 	
 	private void awaitInput() {

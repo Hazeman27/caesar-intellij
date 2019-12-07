@@ -67,25 +67,30 @@ public class BattleController {
 	
 	public BattleReport start(boolean verbose) {
 		
+		int recieved = 0;
+		
 		ExecutorService executorService = Executors.newCachedThreadPool();
+		CompletionService<Soldier> completionService =
+			new ExecutorCompletionService<>(executorService);
 		
-		List<Battle> battles = new ArrayList<>();
-		List<Future<Soldier>> reportFutures = new ArrayList<>();
+		List<Soldier> battleVictors = new LinkedList<>();
 		
-		this.engagements.forEach((soldierA, soldierB) -> battles
-			.add(new Battle(soldierA, soldierB, verbose))
+		this.engagements.forEach((A, B) -> completionService.submit(
+			new Battle(A, B, verbose))
 		);
 		
-		try {
-			reportFutures = executorService.invokeAll(battles);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		while (recieved < engagements.size()) {
+			
+			try {
+				battleVictors.add(completionService.take().get());
+				recieved++;
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
 		}
 		
-		executorService.shutdown();
-		
 		return new BattleReport(
-			reportFutures,
+			battleVictors,
 			this.committedSoldiersCount
 		);
 	}
@@ -96,7 +101,8 @@ public class BattleController {
 		Troop B = new GaulArmy(10);
 
 		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-		A.engage(B, false);
+		BattleReport report = A.engage(B, false);
+		Printer.print(report);
 		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
 	}
 }

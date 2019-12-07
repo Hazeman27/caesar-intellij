@@ -5,8 +5,6 @@ import caesar.military.soldier.Soldier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 public class BattleReport {
 	
@@ -18,27 +16,21 @@ public class BattleReport {
 	private final UnitOrigin battleVictor;
 	
 	BattleReport(
-		@NotNull List<Future<Soldier>> battleFutures,
+		@NotNull List<Soldier> battleVictors,
 		int committedSoldiersCount
 	) {
 		
 		this.committedSoldiersCount = committedSoldiersCount;
-		this.survivedSoldiersCount = battleFutures.size();
+		this.survivedSoldiersCount = battleVictors.size();
 		
-		battleFutures.forEach(future -> {
+		battleVictors.forEach(victor -> {
 			
-			try {
-				Soldier victor = future.get();
-				UnitOrigin origin = victor.getOrigin();
-				
-				if (origin == UnitOrigin.ROME)
-					this.romanVictorsCount++;
-				
-				else this.gallicVictorsCount++;
-				
-			} catch (InterruptedException | ExecutionException e) {
-				e.printStackTrace();
-			}
+			UnitOrigin origin = victor.getOrigin();
+			
+			if (origin == UnitOrigin.ROME)
+				this.romanVictorsCount++;
+			
+			else this.gallicVictorsCount++;
 		});
 		
 		if (this.romanVictorsCount > this.gallicVictorsCount)
@@ -50,7 +42,7 @@ public class BattleReport {
 	@Override
 	public String toString() {
 		
-		return "--> Battle report: " +
+		return ":::: Battle report: " +
 			"\n--> Enemies defeated: " + romanVictorsCount +
 			"\n--> Soldiers lost: " + gallicVictorsCount +
 			"\n--> Total battle participants: " + committedSoldiersCount +

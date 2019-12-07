@@ -1,6 +1,7 @@
 package caesar.military.officer;
 
 import caesar.game.Game;
+import caesar.military.UnitOrigin;
 import caesar.military.soldier.Soldier;
 import caesar.military.troop.Troop;
 import org.jetbrains.annotations.NotNull;
@@ -12,9 +13,9 @@ public abstract class Officer extends Soldier {
 	
 	private final int trainingBoost;
 	
-	Officer(@NotNull Rank rank, Troop troop) {
+	Officer(@NotNull Rank rank, Troop parentUnit, UnitOrigin origin) {
 		
-		super(troop);
+		super(parentUnit, origin);
 		this.trainingBoost = Game.getRandomInt(
 			rank.getIndex() * TRAINING_BOOST_RANGE[0],
 			rank.getIndex() * TRAINING_BOOST_RANGE[1]

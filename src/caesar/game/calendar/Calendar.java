@@ -71,19 +71,4 @@ public class Calendar {
 			this.year +
 			(this.bce ? " A.D." : "");
 	}
-	
-	public static void main(String[] args) {
-		
-		Calendar calendar = new Calendar(Month.NOVEMBER, 29, 54, true);
-		System.out.println(calendar);
-		
-		calendar.nextYear();
-		System.out.println(calendar);
-		
-		calendar.nextDay();
-		System.out.println(calendar);
-		
-		calendar.nextMonth();
-		System.out.println(calendar);
-	}
 }

@@ -2,9 +2,9 @@ package caesar.game;
 
 import caesar.game.calendar.Calendar;
 import caesar.game.calendar.Month;
+import caesar.game.entity.ActionPoints;
 import caesar.game.entity.Enemy;
 import caesar.game.map.Location;
-import caesar.game.map.Relief;
 import caesar.game.turn.Turn;
 import caesar.game.turn.TurnType;
 import caesar.game.map.Map;
@@ -26,10 +26,8 @@ public class Game {
 	private static final int[] ENEMY_ARMY_SIZE = new int[] {10, 40};
 	private static final int[] ENEMY_AP = new int[] {5, 20};
 	private static final int PLAYER_MAX_AP = 15;
-	private static final int ENTITY_AP_REPLENISH_THRESHOLD = 5;
+	private static final int AP_REPLENISH_THRESHOLD = 5;
 	private static final int EXIT_CODE = 0;
-	
-	private final Turn turn;
 	
 	private Map map;
 	private Player player;
@@ -46,7 +44,7 @@ public class Game {
 		boolean calendarBCE
 	) {
 		
-		this.turn = new Turn(this);
+		Turn turn = new Turn(this);
 		this.log = new Log();
 		
 		this.calendar = new Calendar(
@@ -56,7 +54,7 @@ public class Game {
 			calendarBCE
 		);
 		
-		this.turn.next(TurnType.MAIN_MENU);
+		turn.next(TurnType.MAIN_MENU);
 	}
 	
 	public void start(
@@ -75,28 +73,30 @@ public class Game {
 			playerLocationY
 		);
 		
-		this.player.location.setRelief(
+		this.player.getLocation().setRelief(
 			this.map.getRelief(
 				playerLocationX,
 				playerLocationY
 			)
 		);
 		
-		this.turn.setActionPoints(
-			this.player.actionPoints
-		);
-		
-		this.enemy = this.spawnEnemy();
+		this.spawnEnemy();
 	}
 	
-	@NotNull
-	private Enemy spawnEnemy() {
+	private void spawnEnemy() {
 		
-		return new Enemy(
+		this.enemy = new Enemy(
 			getRandomInt(ENEMY_ARMY_SIZE),
 			getRandomInt(ENEMY_AP),
 			getRandomInt(this.map.getSize()),
 			getRandomInt(this.map.getSize())
+		);
+		
+		this.enemy.getLocation().setRelief(
+			this.map.getRelief(
+				this.enemy.getLocation().getX(),
+				this.enemy.getLocation().getY()
+			)
 		);
 	}
 	
@@ -109,15 +109,15 @@ public class Game {
 	}
 	
 	public Location getPlayerLocation() {
-		return this.player.location;
+		return this.player.getLocation();
 	}
 	
 	public Troop getPlayerArmy() {
-		return this.player.army;
+		return this.player.getArmy();
 	}
 	
-	public Relief getPlayerRelief() {
-		return this.player.location.getRelief();
+	public ActionPoints getPlayerAP() {
+		return this.player.getActionPoints();
 	}
 	
 	public Enemy getEnemy() {
@@ -125,11 +125,11 @@ public class Game {
 	}
 	
 	public Location getEnemyLocation() {
-		return this.enemy.location;
+		return this.enemy.getLocation();
 	}
 	
 	public Troop getEnemyArmy() {
-		return this.enemy.army;
+		return this.enemy.getArmy();
 	}
 	
 	public int getTurnsCount() {
@@ -174,27 +174,25 @@ public class Game {
 	}
 	
 	public void replenishPlayerAP() {
-		this.player.actionPoints.set(PLAYER_MAX_AP);
+		this.player.getActionPoints().set(PLAYER_MAX_AP);
 	}
 	
 	public void replenishEntitiesAP() {
 		
-		if (this.player.actionPoints.get() < ENTITY_AP_REPLENISH_THRESHOLD) {
+		ActionPoints playerAP = this.player.getActionPoints();
+		ActionPoints enemyAP = this.enemy.getActionPoints();
+		
+		if (playerAP.get() < AP_REPLENISH_THRESHOLD) {
+			
+			int value = getRandomInt(1, AP_REPLENISH_THRESHOLD);
+			playerAP.add(value);
 			
 			Printer.print(Message.CONSIDER_RESTING);
-			
-			int value = getRandomInt(1, ENTITY_AP_REPLENISH_THRESHOLD);
-			this.player.actionPoints.add(value);
-			
 			Printer.print("Action points gained: " + value + "!");
 		}
 		
-		if (this.enemy.actionPoints.get() < ENTITY_AP_REPLENISH_THRESHOLD) {
-			
-			this.enemy.actionPoints.add(
-				getRandomInt(2, ENTITY_AP_REPLENISH_THRESHOLD)
-			);
-		}
+		if (enemyAP.get() < AP_REPLENISH_THRESHOLD)
+			enemyAP.add(getRandomInt(2, AP_REPLENISH_THRESHOLD));
 	}
 	
 	public void exit() {

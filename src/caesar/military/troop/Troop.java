@@ -321,8 +321,7 @@ public abstract class Troop implements Unit {
 		List<Soldier> soldiers = getSoldiers(this);
 		
 		soldiers.addAll(getSoldiers(target));
-		soldiers.add(this.officer);
-		soldiers.add(targetTroop.officer);
+		System.out.println(soldiers.size());
 		
 		return new BattleController(
 			soldiers.toArray(new Soldier[0])
@@ -360,6 +359,8 @@ public abstract class Troop implements Unit {
 		Troop troop = (Troop) unit;
 		
 		troop.units.forEach(u -> units.addAll(getSoldiers(u)));
+		units.add(troop.officer);
+		
 		return units;
 	}
 	
