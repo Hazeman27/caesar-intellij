@@ -15,10 +15,6 @@ public class Response {
 		this.type = type;
 	}
 	
-	public Response(ResponseType type) {
-		this.type = type;
-	}
-	
 	public Response(ResponseType type, TurnType turnType) {
 		this.type = type;
 		this.nextTurn = turnType;
@@ -44,6 +40,19 @@ public class Response {
 		this.message = message.toString();
 		this.action = action;
 		this.type = type;
+	}
+	
+	public <T> Response(
+		@NotNull T message,
+		ResponseType type,
+		ResponseAction action,
+		TurnType turnType
+	) {
+		
+		this.message = message.toString();
+		this.action = action;
+		this.type = type;
+		this.nextTurn = turnType;
 	}
 	
 	public String getMessage() {

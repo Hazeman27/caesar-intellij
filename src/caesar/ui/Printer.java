@@ -1,9 +1,12 @@
 package caesar.ui;
 
-import caesar.game.map.Location;
-import caesar.game.map.Map;
-import caesar.game.map.Relief;
+import caesar.game.relief.Direction;
+import caesar.game.relief.Location;
+import caesar.game.relief.ReliefMap;
+import caesar.game.relief.Relief;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
 
 public class Printer {
 	
@@ -73,38 +76,39 @@ public class Printer {
 		return spaces.toString();
 	}
 	
-	public static void printRelief(@NotNull Map map, Location location) {
+	public static void printRelief(@NotNull ReliefMap reliefMap, Location location) {
 		
-		Relief[] relief = map.getReliefAround(location);
+		Map<Direction, Relief> reliefAroundMap =
+			reliefMap.getReliefAround(location);
 		
 		System.out.println();
-		System.out.println("North       - " + relief[0] + ";");
-		System.out.println("Northwest   - " + relief[1] + ";");
-		System.out.println("Northeast   - " + relief[2] + ";");
-		System.out.println("West        - " + relief[3] + ";");
-		System.out.println("East        - " + relief[4] + ";");
-		System.out.println("South       - " + relief[5] + ";");
-		System.out.println("Southwest   - " + relief[6] + ";");
-		System.out.println("Southeast   - " + relief[7] + ".");
+		System.out.println("North       - " + reliefAroundMap.get(Direction.NORTH) + ";");
+		System.out.println("Northwest   - " + reliefAroundMap.get(Direction.NORTHWEST) + ";");
+		System.out.println("Northeast   - " + reliefAroundMap.get(Direction.NORTHEAST) + ";");
+		System.out.println("West        - " + reliefAroundMap.get(Direction.WEST) + ";");
+		System.out.println("East        - " + reliefAroundMap.get(Direction.EAST) + ";");
+		System.out.println("South       - " + reliefAroundMap.get(Direction.SOUTH) + ";");
+		System.out.println("Southwest   - " + reliefAroundMap.get(Direction.SOUTHWEST) + ";");
+		System.out.println("Southeast   - " + reliefAroundMap.get(Direction.SOUTHEAST) + ".");
 		
 		System.out.println("----------------");
 		System.out.println("  NW   N    NE  ");
 		System.out.println(
-			"  " + relief[1].toString(true) + "   " +
-				relief[0].toString(true) + "   " +
-				relief[2].toString(true) + "  "
+			"  " + reliefAroundMap.get(Direction.NORTHWEST).toString(true) + "   " +
+				reliefAroundMap.get(Direction.NORTH).toString(true) + "   " +
+				reliefAroundMap.get(Direction.NORTHEAST).toString(true) + "  "
 		);
 		
 		System.out.println(
-			"W " + relief[3].toString(true) + "   " +
+			"W " + reliefAroundMap.get(Direction.WEST).toString(true) + "   " +
 				"P " + "   " +
-				relief[4].toString(true) + " E"
+				reliefAroundMap.get(Direction.EAST).toString(true) + " E"
 		);
 		
 		System.out.println(
-			"  " + relief[6].toString(true) + "   " +
-				relief[5].toString(true) + "   " +
-				relief[7].toString(true) + "  "
+			"  " + reliefAroundMap.get(Direction.SOUTHWEST).toString(true) + "   " +
+				reliefAroundMap.get(Direction.SOUTH).toString(true) + "   " +
+				reliefAroundMap.get(Direction.SOUTHEAST).toString(true) + "  "
 		);
 		
 		System.out.println("  SW   S    SE  ");

@@ -1,4 +1,4 @@
-package caesar.game.map;
+package caesar.game.relief;
 
 import org.jetbrains.annotations.Contract;
 

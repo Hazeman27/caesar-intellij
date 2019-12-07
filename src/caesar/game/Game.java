@@ -4,10 +4,10 @@ import caesar.game.calendar.Calendar;
 import caesar.game.calendar.Month;
 import caesar.game.entity.ActionPoints;
 import caesar.game.entity.Enemy;
-import caesar.game.map.Location;
+import caesar.game.relief.Location;
 import caesar.game.turn.Turn;
 import caesar.game.turn.TurnType;
-import caesar.game.map.Map;
+import caesar.game.relief.ReliefMap;
 import caesar.game.entity.Player;
 import caesar.game.weather.Weather;
 import caesar.game.weather.WeatherType;
@@ -29,11 +29,12 @@ public class Game {
 	private static final int AP_REPLENISH_THRESHOLD = 5;
 	private static final int EXIT_CODE = 0;
 	
-	private Map map;
+	private ReliefMap reliefMap;
 	private Player player;
 	private Enemy enemy;
 	private int turnsCount;
 	
+	private final Turn turn;
 	private final Log log;
 	private final Calendar calendar;
 	
@@ -41,11 +42,14 @@ public class Game {
 		Month calendarMonth,
 		int calendarDay,
 		int calendarYear,
-		boolean calendarBCE
+		boolean calendarBCE,
+		int playerTroopsAmount,
+		int playerLocationX,
+		int playerLocationY,
+		int mapSize
 	) {
 		
-		Turn turn = new Turn(this);
-		this.log = new Log();
+		this.reliefMap = new ReliefMap(mapSize);
 		
 		this.calendar = new Calendar(
 			calendarMonth,
@@ -54,19 +58,8 @@ public class Game {
 			calendarBCE
 		);
 		
-		turn.next(TurnType.MAIN_MENU);
-	}
-	
-	public void start(
-		int playerTroopsAmount,
-		int playerLocationX,
-		int playerLocationY,
-		int mapSize
-	) {
-		
-		this.map = new Map(mapSize);
-		
 		this.player = new Player(
+			this.reliefMap,
 			playerTroopsAmount,
 			PLAYER_MAX_AP,
 			playerLocationX,
@@ -74,34 +67,47 @@ public class Game {
 		);
 		
 		this.player.getLocation().setRelief(
-			this.map.getRelief(
+			this.reliefMap.getRelief(
 				playerLocationX,
 				playerLocationY
 			)
 		);
 		
+		this.turn = new Turn(this);
+		this.log = new Log();
+		
+		turn.next(TurnType.MAIN_MENU);
+	}
+	
+	public void start() {
 		this.spawnEnemy();
 	}
 	
 	private void spawnEnemy() {
 		
 		this.enemy = new Enemy(
+			this.player,
+			this.reliefMap,
 			getRandomInt(ENEMY_ARMY_SIZE),
 			getRandomInt(ENEMY_AP),
-			getRandomInt(this.map.getSize()),
-			getRandomInt(this.map.getSize())
+			4,
+			6
 		);
 		
 		this.enemy.getLocation().setRelief(
-			this.map.getRelief(
+			this.reliefMap.getRelief(
 				this.enemy.getLocation().getX(),
 				this.enemy.getLocation().getY()
 			)
 		);
 	}
 	
-	public Map getMap() {
-		return this.map;
+	public ReliefMap getReliefMap() {
+		return this.reliefMap;
+	}
+	
+	public TurnType getCurrentTurn() {
+		return this.turn.getCurrent();
 	}
 	
 	public Player getPlayer() {

@@ -85,7 +85,7 @@ public enum Message {
 	@Override
 	public String toString() {
 		
-		StringBuilder stringBuilder = new StringBuilder("\n");
+		StringBuilder stringBuilder = new StringBuilder();
 		
 		if (this.title != null) stringBuilder.append(
 			Printer.getBorder(this.title, this.maxLength, 0)

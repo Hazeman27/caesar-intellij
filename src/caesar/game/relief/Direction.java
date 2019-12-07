@@ -1,7 +1,8 @@
-package caesar.game.map;
+package caesar.game.relief;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
 
 public enum Direction {
 	
@@ -18,7 +19,6 @@ public enum Direction {
 	private final int x;
 	private final int y;
 	
-	@Contract(pure = true)
 	Direction(String name, int x, int y) {
 		
 		this.name = name;
@@ -26,31 +26,24 @@ public enum Direction {
 		this.y = y;
 	}
 	
-	@Contract(pure = true)
 	public int getX() {
 		return this.x;
 	}
 	
-	@Contract(pure = true)
 	public int getY() {
 		return y;
 	}
 	
-	@Contract(pure = true)
 	@Override
 	public String toString() {
 		return this.name;
 	}
 	
 	@Nullable
-	@Contract(pure = true)
 	public static Direction valueOf(int x, int y) {
 		
-		for (Direction direction: values()) {
-			if (direction.x == x && direction.y == y)
-				return direction;
-		}
-		
-		return null;
+		return Arrays.stream(values())
+		      .filter(direction -> direction.x == x && direction.y == y)
+		      .findFirst().orElse(null);
 	}
 }

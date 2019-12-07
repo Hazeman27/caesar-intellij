@@ -331,8 +331,8 @@ public abstract class Troop implements Unit {
 			soldiers.toArray(new Soldier[0])
 		).start(verbose);
 		
-		this.regroupUnits(this);
-		targetTroop.regroupUnits(target);
+//		this.regroupUnits(this);
+//		targetTroop.regroupUnits(target);
 		
 		return report;
 	}

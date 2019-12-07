@@ -2,9 +2,9 @@ package caesar.game.turn;
 
 import caesar.game.Game;
 import caesar.game.battle.BattleReport;
-import caesar.game.map.Direction;
-import caesar.game.map.Location;
-import caesar.game.map.Relief;
+import caesar.game.relief.Direction;
+import caesar.game.relief.Location;
+import caesar.game.relief.Relief;
 import caesar.game.response.Response;
 import caesar.game.response.ResponseType;
 import caesar.game.status.StatusType;
@@ -19,7 +19,7 @@ public enum Action {
 	
 	NEW_GAME("New game", game -> {
 		
-		game.start(6, 4, 6, 100);
+		game.start();
 		
 		return new Response(
 			Message.NEW_GAME,
@@ -30,11 +30,12 @@ public enum Action {
 	
 	CONTINUE_GAME("Continue game", game -> {
 		
-		if (game.getPlayer() == null) {
+		if (game.getTurnsCount() == 0) {
 			
 			return new Response(
 				Message.NO_CURRENT_GAME,
-				ResponseType.FAILURE
+				ResponseType.FAILURE,
+				game.getCurrentTurn()
 			);
 		}
 		
@@ -64,7 +65,8 @@ public enum Action {
 	
 	TO_NEXT_DAY("Next day >>", game -> {
 		
-		game.getEnemy().act(game.getPlayer(), game.getMap());
+//		game.getEnemy().act();
+		game.getEnemy().feedArmy();
 		game.incrementTurnsCount();
 		
 		game.replenishEntitiesAP();
@@ -86,7 +88,7 @@ public enum Action {
 		return new Response(
 			Message.NEXT_TURN,
 			ResponseType.SUCCESS,
-			TurnType.TRAVEL
+			game.getCurrentTurn()
 		);
 	}),
 	
@@ -122,7 +124,7 @@ public enum Action {
 		int deltaX = enemyLocation.getX() - playerLocation.getX();
 		int deltaY = enemyLocation.getY() - playerLocation.getY();
 		
-		Printer.printRelief(game.getMap(), playerLocation);
+		Printer.printRelief(game.getReliefMap(), playerLocation);
 		
 		if (WeatherType.isClear(game.getCurrentWeather()) &&
 			(Math.abs(deltaX) == 1 || Math.abs(deltaY) == 1)) {
@@ -133,7 +135,10 @@ public enum Action {
 			Printer.print("Enemy is " + direction + " of you...");
 		}
 		
-		return new Response(ResponseType.SUCCESS);
+		return new Response(
+			ResponseType.SUCCESS,
+			game.getCurrentTurn()
+		);
 	}),
 	
 	ANALYZE_ARMY("Analyze your army", game -> {
@@ -148,7 +153,8 @@ public enum Action {
 		
 		return new Response(
 			game.getLog(),
-			ResponseType.SUCCESS
+			ResponseType.SUCCESS,
+			game.getCurrentTurn()
 		);
 	}),
 	
@@ -156,7 +162,8 @@ public enum Action {
 		
 		return new Response(
 			game.getPlayerArmy().getSummary(),
-			ResponseType.SUCCESS
+			ResponseType.SUCCESS,
+			TurnType.ANALYZE_ARMY
 		);
 	}),
 	
@@ -164,7 +171,8 @@ public enum Action {
 		
 		return new Response(
 			game.getPlayerArmy().getFullSummary(),
-			ResponseType.SUCCESS
+			ResponseType.SUCCESS,
+			TurnType.ANALYZE_ARMY
 		);
 	}),
 	
@@ -172,10 +180,19 @@ public enum Action {
 		
 		Response campBuilding = game.getPlayer().buildCamp();
 		
+		if (campBuilding.isSuccessful()) {
+			
+			return new Response(
+				campBuilding.getMessage(),
+				ResponseType.SUCCESS,
+				TurnType.CAMP
+			);
+		}
+		
 		return new Response(
 			campBuilding.getMessage(),
-			campBuilding.getType(),
-			TurnType.CAMP
+			ResponseType.FAILURE,
+			game.getCurrentTurn()
 		);
 	}),
 	
@@ -184,7 +201,8 @@ public enum Action {
 		return new Response(
 			Message.RESTED,
 			ResponseType.SUCCESS,
-			game::replenishPlayerAP
+			game::replenishPlayerAP,
+			TurnType.CAMP
 		);
 	}),
 	
@@ -203,7 +221,10 @@ public enum Action {
 			StatusType.FOOD_RESOURCE)
 		);
 		
-		return new Response(ResponseType.SUCCESS);
+		return new Response(
+			ResponseType.SUCCESS,
+			game.getCurrentTurn()
+		);
 	}),
 	
 	LEAVE_CAMP("Leave camp", 2, game -> {
@@ -250,23 +271,43 @@ public enum Action {
 			.engage(game.getEnemyArmy(), false);
 		
 		Printer.print(report);
-		return new Response(ResponseType.SUCCESS);
+		
+		return new Response(
+			ResponseType.SUCCESS,
+			TurnType.PREPARE_FOR_BATTLE
+		);
 	}),
 	
 	CHANGE_FORMATION("Change formation", game -> {
-		return new Response(ResponseType.SUCCESS);
+		
+		return new Response(
+			ResponseType.SUCCESS,
+			game.getCurrentTurn()
+		);
 	}),
 	
 	PROPOSE_ALLIANCE("Propose alliance", 2, game -> {
-		return new Response(ResponseType.SUCCESS);
+		
+		return new Response(
+			ResponseType.SUCCESS,
+			TurnType.ENCOUNTER
+		);
 	}),
 	
 	DEMAND_SURRENDER("Demand surrender", 2, game -> {
-		return new Response(ResponseType.SUCCESS);
+		
+		return new Response(
+			ResponseType.SUCCESS,
+			TurnType.ENCOUNTER
+		);
 	}),
 	
 	ASK_FOR_SUPPLIES("Ask for supplies", 2, game -> {
-		return new Response(ResponseType.SUCCESS);
+		
+		return new Response(
+			ResponseType.SUCCESS,
+			TurnType.ENCOUNTER
+		);
 	}),
 	
 	NORTH("North", 1, Action::advance),
@@ -323,23 +364,23 @@ public enum Action {
 			game.getLogLastItem().toUpperCase()
 		);
 		
-		Relief relief = game.getMap().getRelief(
-			direction.getX() + game.getPlayerLocation().getX(),
-			direction.getY() + game.getPlayerLocation().getY()
-		);
+		Relief relief = game.getPlayer().getDirectionRelief(direction);
 		
 		if (relief == Relief.UNKNOWN) {
 			
 			return new Response(
 				Message.UNKNOWN_DIRECTION,
-				ResponseType.FAILURE
+				ResponseType.FAILURE,
+				game.getCurrentTurn()
 			);
 		}
 		
 		game.getPlayer().move(direction, relief);
+		
 		return new Response(
 			Message.PLAYER_MOVED,
-			ResponseType.SUCCESS
+			ResponseType.SUCCESS,
+			game.getCurrentTurn()
 		);
 	}
 }

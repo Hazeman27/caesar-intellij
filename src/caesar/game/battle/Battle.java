@@ -38,8 +38,10 @@ public class Battle {
 			.stream(soldiers)
 			.filter(UnitOrigin::isGallic)
 			.collect(Collectors.toList());
-	
-		IntStream.range(0, Math.min(romans.size(), gauls.size()))
+		
+		int minSize = Math.min(romans.size(), gauls.size());
+		
+		IntStream.range(0, minSize)
 		         .forEach(i -> this.battle.put(
 		         	romans.get(i), gauls.get(i)
 		         ));
@@ -78,7 +80,7 @@ public class Battle {
 		
 		CompletableFuture<List<Soldier>> allBattleVictors =
 			
-			allBattleFutures.thenApply(v -> battleFutures
+			allBattleFutures.thenApplyAsync(v -> battleFutures
 				.stream()
 				.map(CompletableFuture::join)
 				.collect(Collectors.toList())
@@ -86,7 +88,7 @@ public class Battle {
 		
 		CompletableFuture<BattleReport> battleReport =
 			
-			allBattleVictors.thenApply(soldiers -> {
+			allBattleVictors.thenApplyAsync(soldiers -> {
 				
 				this.survivedSoldiersCount = soldiers.size();
 				
@@ -121,7 +123,7 @@ public class Battle {
 		Troop B = new GaulArmy(1);
 
 		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-		BattleReport report = A.engage(B, true);
+		BattleReport report = A.engage(B, false);
 		Printer.print(report);
 		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
 	}
