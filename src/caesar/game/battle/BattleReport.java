@@ -1,39 +1,29 @@
 package caesar.game.battle;
 
 import caesar.military.UnitOrigin;
-import caesar.military.soldier.Soldier;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class BattleReport {
 	
-	private int romanVictorsCount = 0;
-	private int gallicVictorsCount = 0;
+	private final int romanVictorsCount;
+	private final int gallicVictorsCount;
 	private final int committedSoldiersCount;
 	private final int survivedSoldiersCount;
 	
 	private final UnitOrigin battleVictor;
 	
 	BattleReport(
-		@NotNull List<Soldier> battleVictors,
-		int committedSoldiersCount
+		int romanVictorsCount,
+		int gallicVictorsCount,
+		int committedSoldiersCount,
+		int survivedSoldiersCount
 	) {
 		
+		this.romanVictorsCount = romanVictorsCount;
+		this.gallicVictorsCount = gallicVictorsCount;
 		this.committedSoldiersCount = committedSoldiersCount;
-		this.survivedSoldiersCount = battleVictors.size();
+		this.survivedSoldiersCount = survivedSoldiersCount;
 		
-		battleVictors.forEach(victor -> {
-			
-			UnitOrigin origin = victor.getOrigin();
-			
-			if (origin == UnitOrigin.ROME)
-				this.romanVictorsCount++;
-			
-			else this.gallicVictorsCount++;
-		});
-		
-		if (this.romanVictorsCount > this.gallicVictorsCount)
+		if (romanVictorsCount > gallicVictorsCount)
 			this.battleVictor = UnitOrigin.ROME;
 		
 		else this.battleVictor = UnitOrigin.GAUL;
@@ -42,7 +32,7 @@ public class BattleReport {
 	@Override
 	public String toString() {
 		
-		return ":::: Battle report: " +
+		return "::: Battle report: " +
 			"\n--> Enemies defeated: " + romanVictorsCount +
 			"\n--> Soldiers lost: " + gallicVictorsCount +
 			"\n--> Total battle participants: " + committedSoldiersCount +

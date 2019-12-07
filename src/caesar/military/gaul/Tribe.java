@@ -15,6 +15,10 @@ public class Tribe extends Troop {
 		super(parentUnit, UNIT_CAPACITY, "[x]", UnitOrigin.GAUL);
 	}
 	
+	public Tribe() {
+		super(UNIT_CAPACITY, "[x]", UnitOrigin.GAUL);
+	}
+	
 	@Override
 	protected int getChildUnitCapacity() {
 		return Group.UNIT_CAPACITY;

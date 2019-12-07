@@ -15,6 +15,10 @@ public class Century extends Troop {
 		super(parentUnit, UNIT_CAPACITY, ":", UnitOrigin.ROME);
 	}
 	
+	public Century() {
+		super(UNIT_CAPACITY, ":", UnitOrigin.ROME);
+	}
+	
 	@Override
 	protected int getChildUnitCapacity() {
 		return Contubernium.UNIT_CAPACITY;

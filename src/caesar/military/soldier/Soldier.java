@@ -57,7 +57,7 @@ public abstract class Soldier implements Unit {
 		return this.state.get(StatusType.SATIETY);
 	}
 	
-	public void updateStatusState(StatusType type, int amount) {
+	public void updateStatus(StatusType type, int amount) {
 		this.state.get(type).updateState(amount);
 	}
 	
@@ -76,7 +76,7 @@ public abstract class Soldier implements Unit {
 		this.parentUnit = null;
 	}
 	
-	public Soldier engage(Soldier target, boolean verbose) {
+	public Soldier engage(Soldier target, boolean verbose, boolean fullVerbose) {
 		
 		if (target == null)
 			return this;
@@ -89,7 +89,7 @@ public abstract class Soldier implements Unit {
 			damageDealt = this.attack(target);
 			damageReceived = target.attack(this);
 			
-			if (verbose) {
+			if (fullVerbose) {
 				Printer.print(
 					this +
 					" dealt " +
@@ -97,7 +97,7 @@ public abstract class Soldier implements Unit {
 					" damage to " +
 					target
 				);
-				
+
 				Printer.print(
 					target +
 					" dealt " +
@@ -108,8 +108,35 @@ public abstract class Soldier implements Unit {
 			}
 		}
 		
-		if (target.isDead())
+		if (target.isDead()) {
+			if (verbose) System.out.println(this + " has eliminated" + target);
 			return this;
+		}
+		
+		if (verbose) System.out.println(target + " has eliminated" + this);
+		return target;
+	}
+	
+	public Soldier engage(Soldier target, boolean verbose) {
+		
+		if (target == null)
+			return this;
+		
+		while (!this.isDead() && !target.isDead()) {
+			this.attack(target);
+			target.attack(this);
+		}
+		
+		if (target.isDead()) {
+			
+			if (verbose)
+				Printer.print(this + " has eliminated " + target);
+			
+			return this;
+		}
+		
+		if (verbose)
+			Printer.print(target + " has eliminated " + this);
 		
 		return target;
 	}
@@ -117,16 +144,6 @@ public abstract class Soldier implements Unit {
 	@Override
 	public void setParentUnit(Unit parentUnit) {
 		this.parentUnit = (Troop) parentUnit;
-	}
-	
-	private int attack(@NotNull Soldier target) {
-		
-		int damage = Game.getRandomInt(
-			this.getHealth().getMaxState()
-		);
-		
-		damage += this.getDamageBoost();
-		return target.receiveDamage(damage);
 	}
 	
 	private int receiveDamage(int damage) {
@@ -138,6 +155,19 @@ public abstract class Soldier implements Unit {
 			this.die();
 		
 		return damage;
+	}
+	
+	private int attack(@NotNull Soldier target) {
+		
+		if (this.isDead())
+			return 0;
+		
+		int damage = Game.getRandomInt(
+			StatusType.HEALTH.getMaxState()
+		);
+		
+		damage += this.getDamageBoost();
+		return target.receiveDamage(damage);
 	}
 	
 	@Override
@@ -164,15 +194,15 @@ public abstract class Soldier implements Unit {
 			"\n-> Health: [" +
 			this.getHealth().getCurrentState() +
 			"/" +
-			this.getHealth().getMaxState() +
+			StatusType.HEALTH.getMaxState() +
 			"]\n-> Morale: [" +
 			this.getMorale().getCurrentState() +
 			"/" +
-			this.getMorale().getMaxState() +
+			StatusType.MORALE.getMaxState() +
 			"]\n-> Satiety: [" +
 			this.getSatiety().getCurrentState() +
 			"/" +
-			this.getSatiety().getMaxState() +
+			StatusType.SATIETY.getMaxState() +
 			"]\n";
 	}
 	

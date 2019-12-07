@@ -26,10 +26,6 @@ public class Status {
 		return this.currentState;
 	}
 	
-	public int getMaxState() {
-		return this.maxState;
-	}
-	
 	public boolean atMinState() {
 		return this.currentState == this.minState;
 	}
