@@ -3,23 +3,23 @@ package caesar.military.soldier;
 import caesar.game.Game;
 import caesar.game.status.Status;
 import caesar.game.status.StatusType;
-import caesar.military.MilitaryUnit;
+import caesar.military.Unit;
+import caesar.military.UnitOrigin;
 import caesar.military.troop.Troop;
 import caesar.ui.Printer;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Soldier implements MilitaryUnit {
+public abstract class Soldier implements Unit {
 	
 	protected final Map<StatusType, Status> state;
+	protected final UnitOrigin origin;
 	protected String name;
 	protected Troop parentUnit;
 	
-	@Contract(pure = true)
-	protected Soldier(@NotNull Troop parentUnit) {
+	protected Soldier(@NotNull Troop parentUnit, UnitOrigin origin) {
 		
 		this.state = new HashMap<>();
 		
@@ -39,6 +39,7 @@ public abstract class Soldier implements MilitaryUnit {
 		);
 		
 		this.parentUnit = parentUnit;
+		this.origin = origin;
 	}
 	
 	protected abstract int getDamageBoost();
@@ -65,18 +66,20 @@ public abstract class Soldier implements MilitaryUnit {
 	}
 	
 	@Override
+	public UnitOrigin getOrigin() {
+		return this.origin;
+	}
+	
+	@Override
 	public void die() {
 		this.parentUnit.removeSoldier(this);
 		this.parentUnit = null;
 	}
 	
-	@Override
-	public MilitaryUnit engage(MilitaryUnit targetUnit, boolean verbose) {
+	public Soldier engage(Soldier target, boolean verbose) {
 		
-		if (targetUnit == null)
+		if (target == null)
 			return this;
-		
-		Soldier target = (Soldier) targetUnit;
 		
 		int damageDealt;
 		int damageReceived;
@@ -108,11 +111,11 @@ public abstract class Soldier implements MilitaryUnit {
 		if (target.isDead())
 			return this;
 		
-		return targetUnit;
+		return target;
 	}
 	
 	@Override
-	public void setParentUnit(MilitaryUnit parentUnit) {
+	public void setParentUnit(Unit parentUnit) {
 		this.parentUnit = (Troop) parentUnit;
 	}
 	

@@ -1,6 +1,7 @@
 package caesar.military.rome;
 
-import caesar.military.MilitaryUnit;
+import caesar.military.Unit;
+import caesar.military.UnitOrigin;
 import caesar.military.officer.Officer;
 import caesar.military.officer.RomanOfficer;
 import caesar.military.officer.RomanRank;
@@ -9,7 +10,7 @@ import caesar.military.troop.Troop;
 public class RomanArmy extends Troop {
 	
 	public RomanArmy(int unitCapacity) {
-		super(unitCapacity, "[>R<]");
+		super(unitCapacity, "[>R<]", UnitOrigin.ROME);
 	}
 	
 	@Override
@@ -23,7 +24,7 @@ public class RomanArmy extends Troop {
 	}
 	
 	@Override
-	protected MilitaryUnit getChildUnitInstance() {
+	protected Unit getChildUnitInstance() {
 		return new Legion(this);
 	}
 }

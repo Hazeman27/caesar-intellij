@@ -1,6 +1,7 @@
 package caesar.military.gaul;
 
-import caesar.military.MilitaryUnit;
+import caesar.military.Unit;
+import caesar.military.UnitOrigin;
 import caesar.military.officer.GaulOfficer;
 import caesar.military.officer.GaulRank;
 import caesar.military.officer.Officer;
@@ -12,7 +13,7 @@ public class Group extends Troop {
 	static final int UNIT_CAPACITY = 9;
 	
 	Group(Troop parentUnit) {
-		super(parentUnit, UNIT_CAPACITY, "x");
+		super(parentUnit, UNIT_CAPACITY, "x", UnitOrigin.GAUL);
 	}
 	
 	@Override
@@ -26,7 +27,7 @@ public class Group extends Troop {
 	}
 	
 	@Override
-	protected MilitaryUnit getChildUnitInstance() {
+	protected Unit getChildUnitInstance() {
 		return new Gaul(this);
 	}
 }

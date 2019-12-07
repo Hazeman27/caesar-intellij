@@ -1,10 +1,11 @@
 package caesar.military.troop;
 
-import caesar.game.engagement.EngagementController;
+import caesar.game.battle.BattleController;
+import caesar.game.battle.BattleReport;
 import caesar.game.status.StatusType;
-import caesar.military.MilitaryUnit;
+import caesar.military.Unit;
+import caesar.military.UnitOrigin;
 import caesar.military.officer.Officer;
-import caesar.military.rome.Legion;
 import caesar.military.soldier.Soldier;
 import caesar.ui.Message;
 import caesar.ui.Printer;
@@ -16,20 +17,28 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.IntStream;
 
-public abstract class Troop implements MilitaryUnit {
+public abstract class Troop implements Unit {
 	
 	private final int unitCapacity;
 	private final String symbol;
-	private Troop parentUnit;
+	private final List<Unit> units;
+	private final UnitOrigin origin;
 	
-	private final List<MilitaryUnit> units;
+	private Troop parentUnit;
 	private Officer officer;
 	
-	protected Troop(Troop parentUnit, int unitCapacity, String symbol) {
+	protected Troop(
+		Troop parentUnit,
+		int unitCapacity,
+		String symbol,
+		UnitOrigin origin
+	) {
 		
 		this.unitCapacity = unitCapacity;
 		this.parentUnit = parentUnit;
+		
 		this.symbol = symbol;
+		this.origin = origin;
 		
 		this.units = this.initUnits();
 		this.officer = this.getOfficerInstance();
@@ -39,30 +48,35 @@ public abstract class Troop implements MilitaryUnit {
 	protected Troop(
 		Troop parentUnit,
 		int unitCapacity,
-		List<MilitaryUnit> units,
-		String symbol
+		List<Unit> units,
+		String symbol,
+		UnitOrigin origin
 	) {
 		
 		this.unitCapacity = unitCapacity;
 		this.units = units;
 		this.parentUnit = parentUnit;
 		this.symbol = symbol;
+		this.origin = origin;
 	}
 	
-	protected Troop(int unitCapacity, String symbol) {
+	protected Troop(
+		int unitCapacity,
+		String symbol,
+		UnitOrigin origin
+	) {
 		
 		this.unitCapacity = unitCapacity;
 		this.symbol = symbol;
-		
+		this.origin = origin;
 		this.units = this.initUnits();
 		this.officer = this.getOfficerInstance();
 	}
 
 	protected abstract int getChildUnitCapacity();
 	protected abstract Officer getOfficerInstance();
-	protected abstract MilitaryUnit getChildUnitInstance();
+	protected abstract Unit getChildUnitInstance();
 	
-	@Contract(pure = true)
 	public Officer getOfficer() {
 		return this.officer;
 	}
@@ -72,15 +86,14 @@ public abstract class Troop implements MilitaryUnit {
 		this.officer.setParentUnit(this);
 	}
 	
-	@Contract(pure = true)
-	private List<MilitaryUnit> getUnits() {
+	private List<Unit> getTroops() {
 		return this.units;
 	}
 	
 	@NotNull
-	protected List<MilitaryUnit> initUnits() {
+	protected List<Unit> initUnits() {
 		
-		List<MilitaryUnit> units = new LinkedList<>();
+		List<Unit> units = new LinkedList<>();
 		
 		IntStream.range(0, this.unitCapacity)
 		         .forEach(i -> units.add(
@@ -102,8 +115,13 @@ public abstract class Troop implements MilitaryUnit {
 	}
 	
 	@Override
-	public void setParentUnit(MilitaryUnit parentUnit) {
+	public void setParentUnit(Unit parentUnit) {
 		this.parentUnit = (Troop) parentUnit;
+	}
+	
+	@Override
+	public UnitOrigin getOrigin() {
+		return this.origin;
 	}
 	
 	public void removeSoldier(@NotNull Soldier soldier) {
@@ -123,15 +141,14 @@ public abstract class Troop implements MilitaryUnit {
 	}
 	
 	public int getAverageMoraleState() {
-		return getUnitTotalMoralStateSum(this) / countSoldiers(this);
+		return getUnitTotalMoraleStateSum(this) / countSoldiers(this);
 	}
 	
 	private void clearUnits() {
 		this.units.clear();
 	}
 	
-	@Contract("null -> null")
-	private Officer getUnitOfficer(MilitaryUnit unit) {
+	private Officer getUnitOfficer(Unit unit) {
 		
 		if (unit instanceof Troop)
 			return ((Troop) unit).getOfficer();
@@ -140,9 +157,7 @@ public abstract class Troop implements MilitaryUnit {
 	}
 	
 	@Nullable
-	private Officer findReplacementOfficer(
-		@NotNull List<MilitaryUnit> units
-	) {
+	private Officer findReplacementOfficer(@NotNull List<Unit> units) {
 		
 		if (units.isEmpty())
 			return null;
@@ -155,7 +170,7 @@ public abstract class Troop implements MilitaryUnit {
 			return officer;
 		}
 		
-		Optional<MilitaryUnit> optional =
+		Optional<Unit> optional =
 			units.parallelStream()
 			     .filter(u -> ((Troop) u).getOfficer() != null)
 			     .findFirst();
@@ -166,14 +181,14 @@ public abstract class Troop implements MilitaryUnit {
 			Officer officer = this.getUnitOfficer(unit);
 			
 			unit.removeOfficer();
-			this.findReplacementOfficer(unit.getUnits());
+			this.findReplacementOfficer(unit.getTroops());
 			
 			return officer;
 		}
 		
-		for (MilitaryUnit unit: units) {
+		for (Unit unit: units) {
 			return this.findReplacementOfficer(
-				((Troop) unit).getUnits()
+				((Troop) unit).getTroops()
 			);
 		}
 		
@@ -181,9 +196,9 @@ public abstract class Troop implements MilitaryUnit {
 	}
 	
 	@NotNull
-	private MilitaryUnit initChildUnit(
+	private Unit initChildUnit(
 		@NotNull List<Officer> officersPool,
-		@NotNull List<MilitaryUnit> unitsPool
+		@NotNull List<Unit> unitsPool
 	) {
 		
 		Officer officer;
@@ -202,12 +217,9 @@ public abstract class Troop implements MilitaryUnit {
 		return unit;
 	}
 	
-	private void populateChildTroop(
-		MilitaryUnit unit,
-		List<MilitaryUnit> unitsPool
-	) {
+	private void populateChildTroop(Unit unit, List<Unit> unitsPool) {
 		
-		MilitaryUnit unitToAdd;
+		Unit unitToAdd;
 		
 		for (int j = 0; j < this.getChildUnitCapacity(); j++) {
 			
@@ -217,18 +229,18 @@ public abstract class Troop implements MilitaryUnit {
 			unitToAdd = unitsPool.get(0);
 			unitToAdd.setParentUnit(unit);
 	
-			((Troop) unit).getUnits().add(unitToAdd);
+			((Troop) unit).getTroops().add(unitToAdd);
 			unitsPool.remove(0);
 		}
 	}
 	
 	private void populateChildTroop(
-		MilitaryUnit unit,
-		List<MilitaryUnit> unitsPool,
+		Unit unit,
+		List<Unit> unitsPool,
 		List<Officer> officersPool
 	) {
 		
-		MilitaryUnit unitToAdd;
+		Unit unitToAdd;
 		
 		for (int j = 0; j < this.getChildUnitCapacity(); j++) {
 			
@@ -246,19 +258,19 @@ public abstract class Troop implements MilitaryUnit {
 				unitsPool.remove(0);
 			}
 			
-			((Troop) unit).getUnits().add(unitToAdd);
+			((Troop) unit).getTroops().add(unitToAdd);
 		}
 	}
 	
 	private void regroupUnits() {
 		
-		List<MilitaryUnit> unitsPool = new LinkedList<>();
+		List<Unit> unitsPool = new LinkedList<>();
 		List<Officer> officersPool = new LinkedList<>();
 		
 		IntStream.range(0, this.unitCapacity).forEach(i -> {
 			
 			Troop troop = (Troop) this.units.get(i);
-			unitsPool.addAll(troop.getUnits());
+			unitsPool.addAll(troop.getTroops());
 			
 			if (troop.getOfficer() != null)
 				officersPool.add(troop.getOfficer());
@@ -271,7 +283,7 @@ public abstract class Troop implements MilitaryUnit {
 			if (unitsPool.isEmpty() && officersPool.isEmpty())
 				return;
 			
-			MilitaryUnit unit = this.initChildUnit(
+			Unit unit = this.initChildUnit(
 				officersPool,
 				unitsPool
 			);
@@ -296,26 +308,29 @@ public abstract class Troop implements MilitaryUnit {
 		}
 	}
 	
-	@Override
-	public MilitaryUnit engage(MilitaryUnit target, boolean verbose) {
+	public BattleReport engage(Unit target, boolean verbose) {
 		
 		if (target == null)
-			return this;
+			return null;
 		
 		Troop targetTroop = (Troop) target;
 		
-		new EngagementController(this.officer, targetTroop.officer)
+		new BattleController(this.officer, targetTroop.officer)
 			.start(verbose);
 		
-		new EngagementController(this.units, targetTroop.units)
-			.start(verbose);
+		List<Soldier> soldiers = getSoldiers(this);
 		
-		this.regroupUnits();
-		return this;
+		soldiers.addAll(getSoldiers(target));
+		soldiers.add(this.officer);
+		soldiers.add(targetTroop.officer);
+		
+		return new BattleController(
+			soldiers.toArray(new Soldier[0])
+		).start(verbose);
 	}
 	
-	public static void updateUnitStatusState(
-		MilitaryUnit unit,
+	public static void updateUnitStatus(
+		Unit unit,
 		StatusType statusType,
 		int amount
 	) {
@@ -329,11 +344,26 @@ public abstract class Troop implements MilitaryUnit {
 		}
 		
 		((Troop) unit).units.forEach(
-			u -> updateUnitStatusState(u, statusType, amount)
+			u -> updateUnitStatus(u, statusType, amount)
 		);
 	}
 	
-	public static int getUnitTotalMoralStateSum(MilitaryUnit unit) {
+	public static List<Soldier> getSoldiers(Unit unit) {
+		
+		if (unit == null)
+			return null;
+		
+		if (unit instanceof Soldier)
+			return Collections.singletonList((Soldier) unit);
+		
+		List<Soldier> units = new LinkedList<>();
+		Troop troop = (Troop) unit;
+		
+		troop.units.forEach(u -> units.addAll(getSoldiers(u)));
+		return units;
+	}
+	
+	public static int getUnitTotalMoraleStateSum(Unit unit) {
 		
 		if (unit == null)
 			return 0;
@@ -347,7 +377,7 @@ public abstract class Troop implements MilitaryUnit {
 		
 		int moraleState = troop.units
 			.stream()
-			.mapToInt(Troop::getUnitTotalMoralStateSum)
+			.mapToInt(Troop::getUnitTotalMoraleStateSum)
 			.sum();
 		
 		moraleState += troop.officer == null ? 0 :
@@ -358,7 +388,7 @@ public abstract class Troop implements MilitaryUnit {
 	}
 	
 	@Contract(pure = true)
-	public static int countSoldiers(MilitaryUnit unit) {
+	public static int countSoldiers(Unit unit) {
 		
 		if (unit == null) return 0;
 		if (unit instanceof Soldier) return 1;
@@ -409,11 +439,5 @@ public abstract class Troop implements MilitaryUnit {
 			"] (" +
 			(this.units.size()) +
 			")";
-	}
-	
-	public static void main(String[] args) {
-		
-		Troop troop = new Legion();
-		Printer.print(Troop.countSoldiers(troop));
 	}
 }

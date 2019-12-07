@@ -1,6 +1,7 @@
 package caesar.game.turn;
 
 import caesar.game.Game;
+import caesar.game.battle.BattleReport;
 import caesar.game.map.Direction;
 import caesar.game.map.Location;
 import caesar.game.map.Relief;
@@ -238,7 +239,13 @@ public enum Action {
 	
 	ATTACK("Attack", game -> {
 		
-		game.getPlayerArmy().engage(game.getEnemyArmy(), false);
+		Printer.print(Message.ENGAGING);
+		
+		BattleReport report = game
+			.getPlayerArmy()
+			.engage(game.getEnemyArmy(), false);
+		
+		Printer.print(report);
 		return new Response(ResponseType.SUCCESS);
 	}),
 	
@@ -312,7 +319,7 @@ public enum Action {
 	
 	@NotNull
 	@Contract("_ -> new")
-	static Response advance(@NotNull Game game) {
+	private static Response advance(@NotNull Game game) {
 		
 		Direction direction = Direction.valueOf(
 			game.getLogLastItem().toUpperCase()

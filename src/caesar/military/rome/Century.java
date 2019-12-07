@@ -1,6 +1,7 @@
 package caesar.military.rome;
 
-import caesar.military.MilitaryUnit;
+import caesar.military.Unit;
+import caesar.military.UnitOrigin;
 import caesar.military.officer.Officer;
 import caesar.military.officer.RomanOfficer;
 import caesar.military.officer.RomanRank;
@@ -11,11 +12,7 @@ public class Century extends Troop {
 	static final int UNIT_CAPACITY = 10;
 	
 	Century(Troop parentUnit) {
-		super(parentUnit, UNIT_CAPACITY, ":");
-	}
-	
-	public Century() {
-		super(UNIT_CAPACITY, ":");
+		super(parentUnit, UNIT_CAPACITY, ":", UnitOrigin.ROME);
 	}
 	
 	@Override
@@ -29,7 +26,7 @@ public class Century extends Troop {
 	}
 	
 	@Override
-	protected MilitaryUnit getChildUnitInstance() {
+	protected Unit getChildUnitInstance() {
 		return new Contubernium(this);
 	}
 }

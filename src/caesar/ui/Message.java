@@ -19,6 +19,7 @@ public enum Message {
 	CAMP_LEFT("You have left your camp, now you can travel..."),
 	ARMY_FED("Your army have been successfully fed!"),
 	MORALE_UP("Your army's morale is up!"),
+	ENGAGING("Engaging with enemy army!"),
 	
 //	Errors and failures...
 	NO_CURRENT_GAME("No current game found..."),

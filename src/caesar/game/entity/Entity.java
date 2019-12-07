@@ -66,7 +66,7 @@ public abstract class Entity {
 	
 	private void updateArmyMorale(int modifier) {
 		
-		Troop.updateUnitStatusState(
+		Troop.updateUnitStatus(
 			this.army,
 			StatusType.MORALE,
 			modifier
@@ -75,7 +75,7 @@ public abstract class Entity {
 	
 	private void updateArmySatiety(int modifier) {
 		
-		Troop.updateUnitStatusState(
+		Troop.updateUnitStatus(
 			this.army,
 			StatusType.SATIETY,
 			modifier * SATIETY_MODIFIER
@@ -146,7 +146,7 @@ public abstract class Entity {
 	
 	public void healSoldiers() {
 		
-		Troop.updateUnitStatusState(
+		Troop.updateUnitStatus(
 			this.army,
 			StatusType.HEALTH,
 			HEALTH_MODIFIER

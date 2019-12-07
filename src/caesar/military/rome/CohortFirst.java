@@ -1,6 +1,7 @@
 package caesar.military.rome;
 
-import caesar.military.MilitaryUnit;
+import caesar.military.Unit;
+import caesar.military.UnitOrigin;
 import caesar.military.officer.Officer;
 import caesar.military.officer.RomanOfficer;
 import caesar.military.officer.RomanRank;
@@ -11,7 +12,7 @@ public class CohortFirst extends Troop {
 	private static final int UNIT_CAPACITY = 5;
 	
 	CohortFirst(Troop parentUnit) {
-		super(parentUnit, UNIT_CAPACITY, "[::]");
+		super(parentUnit, UNIT_CAPACITY, "[::]", UnitOrigin.ROME);
 	}
 	
 	@Override
@@ -25,7 +26,7 @@ public class CohortFirst extends Troop {
 	}
 	
 	@Override
-	protected MilitaryUnit getChildUnitInstance() {
+	protected Unit getChildUnitInstance() {
 		return new CenturyFirstCohort(this);
 	}
 }

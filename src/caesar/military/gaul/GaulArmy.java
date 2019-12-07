@@ -1,13 +1,14 @@
 package caesar.military.gaul;
 
-import caesar.military.MilitaryUnit;
+import caesar.military.Unit;
+import caesar.military.UnitOrigin;
 import caesar.military.officer.*;
 import caesar.military.troop.Troop;
 
 public class GaulArmy extends Troop {
 	
 	public GaulArmy(int unitCapacity) {
-		super(unitCapacity, "[XGX]");
+		super(unitCapacity, "[XGX]", UnitOrigin.GAUL);
 	}
 	
 	@Override
@@ -21,7 +22,7 @@ public class GaulArmy extends Troop {
 	}
 	
 	@Override
-	protected MilitaryUnit getChildUnitInstance() {
+	protected Unit getChildUnitInstance() {
 		return new Nation(this);
 	}
 }
