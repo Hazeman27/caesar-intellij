@@ -103,17 +103,13 @@ public abstract class Troop implements Unit, UnitParent {
 	protected abstract Unit getEmptyChildInstance();
 	
 	@Override
-	public void setParent(UnitParent parent) {
-		this.parent = parent;
+	public List<Soldier> getOfficers() {
+		return this.officers;
 	}
 	
 	@Override
-	public void perish() {
-		
-		if (this.parent == null)
-			return;
-		
-		this.parent.removeChild(this);
+	public List<Unit> getChildren() {
+		return this.children;
 	}
 	
 	@Override
@@ -162,17 +158,22 @@ public abstract class Troop implements Unit, UnitParent {
 	}
 	
 	@Override
-	public List<Unit> getChildren() {
-		return this.children;
+	public void setParent(UnitParent parent) {
+		this.parent = parent;
+	}
+	
+	@Override
+	public void perish() {
+		
+		if (this.parent == null)
+			return;
+		
+		this.parent.removeChild(this);
 	}
 	
 	@Override
 	public UnitOrigin getOrigin() {
 		return this.origin;
-	}
-	
-	List<Soldier> getOfficers() {
-		return this.officers;
 	}
 	
 	static void transferOfficer(

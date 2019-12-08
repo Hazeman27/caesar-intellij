@@ -28,7 +28,7 @@ public abstract class Grouper {
 		List<Unit> unitsPool = new LinkedList<>();
 		
 		notFullUnits.stream()
-		            .map(Unit::getChildren)
+		            .map(unit -> ((Troop) unit).getChildren())
 		            .forEach(unitsPool::addAll);
 		
 		return unitsPool;
@@ -60,7 +60,7 @@ public abstract class Grouper {
 			for (Unit unit : unitsPool) {
 				
 				return getNewOfficer(
-					(Troop) unit, unit.getChildren()
+					(Troop) unit, ((Troop) unit).getChildren()
 				);
 			}
 		}

@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface UnitParent {
 	
+	List<Unit> getChildren();
+	
+	List<Soldier> getOfficers();
+	
 	void addChild(Unit child);
 	
 	void removeChild(Unit child);

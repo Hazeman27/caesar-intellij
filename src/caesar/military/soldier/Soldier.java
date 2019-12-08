@@ -64,11 +64,6 @@ public abstract class Soldier implements Unit {
 	}
 	
 	@Override
-	public List<Unit> getChildren() {
-		return null;
-	}
-	
-	@Override
 	public UnitOrigin getOrigin() {
 		return this.origin;
 	}
