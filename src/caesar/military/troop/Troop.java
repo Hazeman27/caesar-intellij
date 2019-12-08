@@ -9,6 +9,7 @@ import caesar.military.UnitParent;
 import caesar.military.UnitOrigin;
 import caesar.military.officer.Rank;
 import caesar.military.rome.Cohort;
+import caesar.military.rome.Legion;
 import caesar.military.soldier.Soldier;
 
 import org.jetbrains.annotations.NotNull;
@@ -377,7 +378,7 @@ public abstract class Troop implements Unit, UnitParent {
 	
 	public static void main(String ...args) {
 		
-		Troop troop = new Cohort(null);
+		Troop troop = new Legion(null);
 		System.out.println(troop.getFullSummary());
 		
 		troop.children.forEach(child -> {

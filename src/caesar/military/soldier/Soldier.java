@@ -11,7 +11,6 @@ import caesar.ui.Printer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class Soldier implements Unit {
@@ -22,7 +21,7 @@ public abstract class Soldier implements Unit {
 	protected UnitParent parent;
 	protected Rank rank;
 	
-	protected Soldier(@NotNull UnitParent parent, Rank rank, UnitOrigin origin) {
+	protected Soldier(Rank rank, UnitParent parent, UnitOrigin origin) {
 		
 		this.state = new HashMap<>();
 		

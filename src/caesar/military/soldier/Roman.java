@@ -12,9 +12,9 @@ public class Roman extends Soldier {
 	
 	private final int trainingBoost;
 	
-	public Roman(UnitParent parent, Rank rank) {
+	public Roman(Rank rank, UnitParent parent) {
 		
-		super(parent, rank, UnitOrigin.ROME);
+		super(rank, parent, UnitOrigin.ROME);
 		
 		this.name = Name.getRandomRoman();
 		this.trainingBoost = Game.getRandomInt(

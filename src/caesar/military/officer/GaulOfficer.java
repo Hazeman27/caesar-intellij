@@ -6,9 +6,9 @@ import caesar.military.troop.Troop;
 
 public class GaulOfficer extends Officer {
 	
-	public GaulOfficer(Troop parentUnit, GaulRank rank) {
+	public GaulOfficer(GaulRank rank, Troop parentUnit) {
 		
-		super(parentUnit, rank, UnitOrigin.GAUL);
+		super(rank, parentUnit, UnitOrigin.GAUL);
 		this.name = Name.getRandomGallic();
 	}
 }

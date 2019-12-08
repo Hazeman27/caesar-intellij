@@ -20,8 +20,8 @@ public class Century extends Troop {
 		super(parentUnit, UNIT_CAPACITY, ":", UnitOrigin.ROME);
 	}
 	
-	Century(UnitParent parentUnit, List<Unit> units, List<Soldier> officers) {
-		super(parentUnit, units, officers, UNIT_CAPACITY, ":", UnitOrigin.ROME);
+	Century(UnitParent parentUnit, List<Unit> children, List<Soldier> officers) {
+		super(parentUnit, children, officers, UNIT_CAPACITY, ":", UnitOrigin.ROME);
 	}
 	
 	@Override
@@ -31,7 +31,7 @@ public class Century extends Troop {
 	
 	@Override
 	protected Soldier getOfficerInstance() {
-		return new RomanOfficer(this, RomanRank.CENTURION);
+		return new RomanOfficer(RomanRank.CENTURION, this);
 	}
 	
 	@Override

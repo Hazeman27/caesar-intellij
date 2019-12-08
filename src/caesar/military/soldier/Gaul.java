@@ -9,9 +9,9 @@ public class Gaul extends Soldier {
 	
 	private static final int DAMAGE_SATIETY_RELATION = 10;
 	
-	public Gaul(UnitParent parent, Rank rank) {
+	public Gaul(Rank rank, UnitParent parent) {
 		
-		super(parent, rank, UnitOrigin.GAUL);
+		super(rank, parent, UnitOrigin.GAUL);
 		this.name = Name.getRandomGallic();
 	}
 	

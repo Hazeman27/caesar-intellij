@@ -20,8 +20,8 @@ public class Contubernium extends Troop {
 		super(parent, UNIT_CAPACITY, ".", UnitOrigin.ROME);
 	}
 	
-	Contubernium(UnitParent parent, List<Unit> units, List<Soldier> officers) {
-		super(parent, units, officers, UNIT_CAPACITY, ".", UnitOrigin.ROME);
+	Contubernium(UnitParent parent, List<Unit> children, List<Soldier> officers) {
+		super(parent, children, officers, UNIT_CAPACITY, ".", UnitOrigin.ROME);
 	}
 	
 	@Override
@@ -31,7 +31,7 @@ public class Contubernium extends Troop {
 	
 	@Override
 	protected Soldier getOfficerInstance() {
-		return new RomanOfficer(this, RomanRank.DECANUS);
+		return new RomanOfficer(RomanRank.DECANUS, this);
 	}
 	
 	@Override
@@ -41,11 +41,11 @@ public class Contubernium extends Troop {
 	
 	@Override
 	protected Soldier getChildInstance() {
-		return new Roman(this, RomanRank.LEGIONARY);
+		return new Roman(RomanRank.LEGIONARY, this);
 	}
 	
 	@Override
 	protected Soldier getEmptyChildInstance() {
-		return new Roman(this, RomanRank.LEGIONARY);
+		return new Roman(RomanRank.LEGIONARY, this);
 	}
 }

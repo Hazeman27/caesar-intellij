@@ -12,40 +12,40 @@ import caesar.military.troop.Troop;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Cohort extends Troop {
+public class Legion extends Troop {
 	
-	static final int UNIT_CAPACITY = 6;
+	static final int UNIT_CAPACITY = 10;
 	
-	Cohort(UnitParent parent) {
-		super(parent, UNIT_CAPACITY, "[::]", UnitOrigin.ROME);
+	public Legion(UnitParent parent) {
+		super(parent, UNIT_CAPACITY, "[><]", UnitOrigin.ROME);
 	}
 	
-	Cohort(UnitParent parent, List<Unit> children, List<Soldier> officers) {
-		super(parent, children, officers, UNIT_CAPACITY, "[::]", UnitOrigin.ROME);
+	Legion(UnitParent parent, List<Unit> children, List<Soldier> officers) {
+		super(parent, children, officers, UNIT_CAPACITY, "[><]", UnitOrigin.ROME);
 	}
 	
 	@Override
 	protected int getChildCapacity() {
-		return Century.UNIT_CAPACITY;
+		return Cohort.UNIT_CAPACITY;
 	}
 	
 	@Override
 	protected Soldier getOfficerInstance() {
-		return new RomanOfficer(RomanRank.LEAD_CENTURION, this);
+		return new RomanOfficer(RomanRank.LEGATE, this);
 	}
 	
 	@Override
 	protected Rank getOfficerRank() {
-		return RomanRank.LEAD_CENTURION;
+		return RomanRank.LEGATE;
 	}
 	
 	@Override
 	protected Unit getChildInstance() {
-		return new Century(this);
+		return new Cohort(this, new LinkedList<>(), new LinkedList<>());
 	}
 	
 	@Override
 	protected Unit getEmptyChildInstance() {
-		return new Century(this, new LinkedList<>(), new LinkedList<>());
+		return null;
 	}
 }

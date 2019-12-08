@@ -12,9 +12,9 @@ public abstract class Officer extends Soldier {
 	
 	private final int trainingBoost;
 	
-	Officer(UnitParent parent, Rank rank, UnitOrigin origin) {
+	Officer(Rank rank, UnitParent parent, UnitOrigin origin) {
 		
-		super(parent, rank, origin);
+		super(rank, parent, origin);
 		this.trainingBoost = Game.getRandomInt(
 			rank.getIndex() * TRAINING_BOOST_RANGE[0],
 			rank.getIndex() * TRAINING_BOOST_RANGE[1]
