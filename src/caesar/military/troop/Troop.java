@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public abstract class Troop implements Unit, UnitParent {
 	
@@ -53,8 +52,8 @@ public abstract class Troop implements Unit, UnitParent {
 		this.capacity = capacity;
 		this.symbol = symbol;
 		this.origin = origin;
-		this.children = this.initChildren();
 		this.officer = this.initOfficer();
+		this.children = this.initChildren();
 	}
 	
 	protected Troop(int capacity, String symbol, UnitOrigin origin) {
@@ -62,8 +61,12 @@ public abstract class Troop implements Unit, UnitParent {
 		this.capacity = capacity;
 		this.symbol = symbol;
 		this.origin = origin;
-		this.children = this.initChildren();
 		this.officer = this.initOfficer();
+		this.children = this.initChildren();
+	}
+	
+	private Soldier initOfficer() {
+		return this.getOfficerInstance();
 	}
 
 	@NotNull
@@ -77,10 +80,6 @@ public abstract class Troop implements Unit, UnitParent {
 		return units;
 	}
 	
-	private Soldier initOfficer() {
-		return this.getOfficerInstance();
-	}
-	
 	protected abstract int getChildCapacity();
 	
 	protected abstract Soldier getOfficerInstance();
@@ -88,24 +87,6 @@ public abstract class Troop implements Unit, UnitParent {
 	protected abstract Unit getChildInstance();
 	
 	protected abstract Unit getEmptyChildInstance();
-	
-	protected abstract Soldier getNewOfficer(List<Unit> unitsPool);
-	
-	protected abstract List<Unit> getNotFullUnits();
-	
-	protected abstract List<Unit> getNotFullUnitsPool(
-		List<Unit> notFullUnits
-	);
-	
-	protected abstract List<Soldier> getNotFullOfficersPool(
-		List<Unit> notFullUnits
-	);
-	
-	protected abstract void assignOfficer(
-		Troop child,
-		List<Unit> unitsPool,
-		List<Soldier> officersPool
-	);
 	
 	protected abstract void regroupUnits();
 	

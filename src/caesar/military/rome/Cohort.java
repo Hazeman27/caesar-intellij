@@ -6,6 +6,7 @@ import caesar.military.UnitParent;
 import caesar.military.officer.RomanOfficer;
 import caesar.military.officer.RomanRank;
 import caesar.military.soldier.Soldier;
+import caesar.military.troop.Grouper;
 import caesar.military.troop.Troop;
 
 import java.util.LinkedList;
@@ -44,40 +45,7 @@ public class Cohort extends Troop {
 	}
 	
 	@Override
-	protected Soldier getNewOfficer(List<Unit> unitsPool) {
-		return null;
-	}
-	
-	@Override
-	protected List<Unit> getNotFullUnits() {
-		return null;
-	}
-	
-	@Override
-	protected List<Unit> getNotFullUnitsPool(
-		List<Unit> notFullUnits
-	) {
-		return null;
-	}
-	
-	@Override
-	protected List<Soldier> getNotFullOfficersPool(
-		List<Unit> notFullUnits
-	) {
-		return null;
-	}
-	
-	@Override
-	protected void assignOfficer(
-		Troop child,
-		List<Unit> unitsPool,
-		List<Soldier> officersPool
-	) {
-	
-	}
-	
-	@Override
 	protected void regroupUnits() {
-	
+		Grouper.regroup(this);
 	}
 }
