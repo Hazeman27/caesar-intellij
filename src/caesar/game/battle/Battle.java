@@ -127,6 +127,12 @@ public class Battle {
 		report = A.engage(B, false);
 		Printer.print(report);
 		
+		report = A.engage(B, false);
+		Printer.print(report);
+		
+		report = A.engage(B, false);
+		Printer.print(report);
+		
 		Printer.print(B.getSummary());
 		Printer.print(A.getSummary());
 	}
