@@ -21,8 +21,8 @@ public abstract class Troop implements Unit, UnitParent {
 	private final String symbol;
 	private final UnitOrigin origin;
 	
-	protected List<Unit> children;
-	protected List<Soldier> officers;
+	protected final List<Unit> children;
+	protected final List<Soldier> officers;
 	protected UnitParent parent;
 	
 	protected Troop(

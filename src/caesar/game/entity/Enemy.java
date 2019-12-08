@@ -56,7 +56,6 @@ public class Enemy extends Entity {
 			
 			Relief relief = this.getDirectionRelief(direction);
 			this.move(direction, relief);
-			return;
 		}
 	}
 	
