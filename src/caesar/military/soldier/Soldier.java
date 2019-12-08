@@ -54,11 +54,6 @@ public abstract class Soldier implements Unit {
 	}
 	
 	@Override
-	public UnitParent getParent() {
-		return this.parent;
-	}
-	
-	@Override
 	public void setParent(UnitParent parent) {
 		this.parent = parent;
 	}
@@ -80,6 +75,10 @@ public abstract class Soldier implements Unit {
 	
 	public Status getMorale() {
 		return this.state.get(StatusType.MORALE);
+	}
+	
+	public void setRank(Rank rank) {
+		this.rank = rank;
 	}
 	
 	public void updateStatus(StatusType type, int amount) {

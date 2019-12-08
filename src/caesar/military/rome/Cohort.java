@@ -3,6 +3,7 @@ package caesar.military.rome;
 import caesar.military.Unit;
 import caesar.military.UnitOrigin;
 import caesar.military.UnitParent;
+import caesar.military.officer.Rank;
 import caesar.military.officer.RomanOfficer;
 import caesar.military.officer.RomanRank;
 import caesar.military.soldier.Soldier;
@@ -31,6 +32,11 @@ public class Cohort extends Troop {
 	@Override
 	protected Soldier getOfficerInstance() {
 		return new RomanOfficer(this, RomanRank.LEAD_CENTURION);
+	}
+	
+	@Override
+	protected Rank getOfficerRank() {
+		return RomanRank.LEAD_CENTURION;
 	}
 	
 	@Override

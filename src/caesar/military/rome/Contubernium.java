@@ -3,6 +3,7 @@ package caesar.military.rome;
 import caesar.military.Unit;
 import caesar.military.UnitOrigin;
 import caesar.military.UnitParent;
+import caesar.military.officer.Rank;
 import caesar.military.officer.RomanOfficer;
 import caesar.military.officer.RomanRank;
 import caesar.military.soldier.Roman;
@@ -31,6 +32,11 @@ public class Contubernium extends Troop {
 	@Override
 	protected Soldier getOfficerInstance() {
 		return new RomanOfficer(this, RomanRank.DECANUS);
+	}
+	
+	@Override
+	protected Rank getOfficerRank() {
+		return RomanRank.DECANUS;
 	}
 	
 	@Override

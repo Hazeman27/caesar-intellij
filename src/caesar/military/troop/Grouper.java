@@ -81,10 +81,10 @@ public abstract class Grouper {
 		
 		if (officersPool.isEmpty()) {
 			
-			Troop.transferOfficer(
-				getNewOfficer(child, unitsPool),
-				child
-			);
+			Soldier officer = getNewOfficer(child, unitsPool);
+			officer.setRank(child.getOfficerRank());
+			
+			Troop.transferOfficer(officer, child);
 		}
 		
 		else {

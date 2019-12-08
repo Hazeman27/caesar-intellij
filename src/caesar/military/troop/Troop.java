@@ -7,6 +7,7 @@ import caesar.game.status.StatusType;
 import caesar.military.Unit;
 import caesar.military.UnitParent;
 import caesar.military.UnitOrigin;
+import caesar.military.officer.Rank;
 import caesar.military.rome.Cohort;
 import caesar.military.soldier.Soldier;
 
@@ -95,14 +96,11 @@ public abstract class Troop implements Unit, UnitParent {
 	
 	protected abstract Soldier getOfficerInstance();
 	
+	protected abstract Rank getOfficerRank();
+	
 	protected abstract Unit getChildInstance();
 	
 	protected abstract Unit getEmptyChildInstance();
-	
-	@Override
-	public UnitParent getParent() {
-		return parent;
-	}
 	
 	@Override
 	public void setParent(UnitParent parent) {
@@ -148,14 +146,6 @@ public abstract class Troop implements Unit, UnitParent {
 	public void removeOfficer(Soldier officer) {
 		
 		this.officers.remove(officer);
-		
-		if (this.isEmpty()) this.perish();
-	}
-	
-	@Override
-	public void removeAllOfficers(List<Soldier> officers) {
-		
-		this.officers.removeAll(officers);
 		
 		if (this.isEmpty()) this.perish();
 	}
