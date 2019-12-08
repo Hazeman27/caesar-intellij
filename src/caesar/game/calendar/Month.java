@@ -1,8 +1,6 @@
 package caesar.game.calendar;
 
 import caesar.game.weather.Season;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.Nullable;
 
 public enum Month {
 	
@@ -23,7 +21,6 @@ public enum Month {
 	private final int days;
 	private final Season season;
 	
-	@Contract(pure = true)
 	Month(int number, int days, Season season) {
 		
 		this.number = number;
@@ -31,18 +28,14 @@ public enum Month {
 		this.season = season;
 	}
 	
-	@Contract(pure = true)
 	public int getDays() {
 		return this.days;
 	}
 	
-	@Contract(pure = true)
 	public Season getSeason() {
 		return this.season;
 	}
 	
-	@Nullable
-	@Contract(pure = true)
 	static Month next(Month current) {
 		
 		if (current == DECEMBER)
@@ -53,6 +46,6 @@ public enum Month {
 				return month;
 		}
 		
-		return null;
+		return current;
 	}
 }

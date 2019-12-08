@@ -1,102 +1,207 @@
 package caesar.military.soldier;
 
-import caesar.military.MilitaryUnit;
-import caesar.military.troop.Troop;
+import caesar.game.Game;
+import caesar.game.status.Status;
+import caesar.game.status.StatusType;
+import caesar.military.Unit;
+import caesar.military.UnitOrigin;
+import caesar.military.UnitParent;
+import caesar.military.officer.Rank;
 import caesar.ui.Printer;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class Soldier implements MilitaryUnit {
+import java.util.HashMap;
+import java.util.Map;
+
+public abstract class Soldier implements Unit {
 	
-	Status health;
-	Status morale;
-	Status satiety;
-	Troop troop;
-	private String origin;
+	protected final Map<StatusType, Status> state;
+	protected final UnitOrigin origin;
+	protected String name;
+	protected UnitParent parent;
+	protected Rank rank;
 	
-	@Contract(pure = true)
-	Soldier(@NotNull Troop troop) {
+	protected Soldier(Rank rank, UnitParent parent, UnitOrigin origin) {
 		
-		this.health = new Status(100, 0);
-		this.morale = new Status(100, 0);
-		this.satiety = new Status(100, 0);
+		this.state = new HashMap<>();
 		
-		this.origin = troop.getOrigin();
-		this.troop = troop;
+		this.state.put(
+			StatusType.HEALTH,
+			new Status(StatusType.HEALTH)
+		);
+		
+		this.state.put(
+			StatusType.MORALE,
+			new Status(StatusType.MORALE)
+		);
+		
+		this.state.put(
+			StatusType.SATIETY,
+			new Status(StatusType.SATIETY)
+		);
+		
+		this.parent = parent;
+		this.rank = rank;
+		this.origin = origin;
+	}
+	
+	protected abstract int getDamageBoost();
+	protected abstract int block(int damage);
+	
+	private boolean isDead() {
+		return this.state.get(StatusType.HEALTH).atMinState();
+	}
+	
+	@Override
+	public void setParent(UnitParent parent) {
+		this.parent = parent;
 	}
 	
 	@Override
 	public void perish() {
-		
-		this.troop.removeSoldier(this);
-		this.troop = null;
+		this.parent.removeChild(this);
 	}
 	
 	@Override
-	public void flee() {
-		this.troop.removeSoldier(this);
+	public UnitOrigin getOrigin() {
+		return this.origin;
 	}
 	
-	@Override
-	public MilitaryUnit engage(MilitaryUnit target, boolean verbose) {
+	public Status getMorale() {
+		return this.state.get(StatusType.MORALE);
+	}
+	
+	public void setRank(Rank rank) {
+		this.rank = rank;
+	}
+	
+	public void updateStatus(StatusType type, int amount) {
+		this.state.get(type).updateState(amount);
+	}
+	
+	protected Status getHealth() {
+		return this.state.get(StatusType.HEALTH);
+	}
+	
+	protected Status getSatiety() {
+		return this.state.get(StatusType.SATIETY);
+	}
+	
+	public Soldier engage(Soldier target, boolean verbose, boolean fullVerbose) {
 		
 		if (target == null)
 			return this;
 		
-		Soldier targetSoldier = (Soldier) target;
-		int thisDamageDealt;
-		int targetDamageDealt;
+		int damageDealt;
+		int damageReceived;
 
-		while (!this.health.isAtMinimum() && !targetSoldier.health.isAtMinimum()) {
+		while (!this.isDead() && !target.isDead()) {
 			
-			thisDamageDealt = this.attackTarget(targetSoldier);
-			targetDamageDealt = targetSoldier.attackTarget(this);
+			damageDealt = this.attack(target);
+			damageReceived = target.attack(this);
 			
-			if (verbose) {
+			if (fullVerbose) {
 				Printer.print(
 					this +
 					" dealt " +
-					thisDamageDealt +
+					damageDealt +
 					" damage to " +
-					targetSoldier
+					target
 				);
-				
+
 				Printer.print(
-					targetSoldier +
+					target +
 					" dealt " +
-					targetDamageDealt +
+					damageReceived +
 					" damage to " +
 					this
 				);
 			}
 		}
 		
-		if (targetSoldier.health.isAtMinimum())
+		if (target.isDead()) {
+			if (verbose) System.out.println(this + " has eliminated" + target);
+			return this;
+		}
+		
+		if (verbose) System.out.println(target + " has eliminated" + this);
+		return target;
+	}
+	
+	public Soldier engage(Soldier target, boolean verbose) {
+		
+		if (target == null)
 			return this;
 		
-		else return target;
+		while (!this.isDead() && !target.isDead()) {
+			this.attack(target);
+			target.attack(this);
+		}
+		
+		if (target.isDead()) {
+			
+			if (verbose)
+				Printer.print(this + " has eliminated " + target);
+			
+			return this;
+		}
+		
+		if (verbose)
+			Printer.print(target + " has eliminated " + this);
+		
+		return target;
 	}
 	
-	public void setTroop(Troop troop) {
-		this.troop = troop;
-	}
-	
-	abstract int attackTarget(Soldier target);
-	abstract int block(int damageAmount);
-	
-	int receiveDamage(int damageAmount) {
+	private int receiveDamage(int damage) {
 		
-		damageAmount = Math.max(damageAmount - this.block(damageAmount), 0);
-		this.health.decrease(damageAmount);
+		damage = Math.max(damage - this.block(damage), 0);
+		this.getHealth().updateState(-damage);
 		
-		if (this.health.isAtMinimum())
+		if (this.isDead())
 			this.perish();
 		
-		return damageAmount;
+		return damage;
+	}
+	
+	private int attack(@NotNull Soldier target) {
+		
+		if (this.isDead())
+			return 0;
+		
+		int damage = Game.getRandomInt(
+			StatusType.HEALTH.getMaxState()
+		);
+		
+		damage += this.getDamageBoost();
+		return target.receiveDamage(damage);
+	}
+	
+	@Override
+	public String getSummary() {
+		return "[" + this.rank + "] " + this.name +
+			"\n-> Unit: " + this.parent + "\n";
+	}
+	
+	@Override
+	public String getFullSummary() {
+		
+		return this.getSummary() + "-> Health: [" +
+			this.getHealth().getCurrentState() +
+			"/" +
+			StatusType.HEALTH.getMaxState() +
+			"]\n-> Morale: [" +
+			this.getMorale().getCurrentState() +
+			"/" +
+			StatusType.MORALE.getMaxState() +
+			"]\n-> Satiety: [" +
+			this.getSatiety().getCurrentState() +
+			"/" +
+			StatusType.SATIETY.getMaxState() +
+			"]\n";
 	}
 	
 	@Override
 	public String toString() {
-		return "[" + this.origin + "] ";
+		return "[" + this.rank + "] " + this.name;
 	}
 }

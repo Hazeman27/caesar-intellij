@@ -1,7 +1,6 @@
 package caesar.game.calendar;
 
 import caesar.game.weather.Weather;
-import org.jetbrains.annotations.NotNull;
 
 public class Calendar {
 	
@@ -11,28 +10,20 @@ public class Calendar {
 	private int year;
 	private boolean bce;
 	
-	public Calendar(
-		@NotNull Month month,
-		int day,
-		int year,
-		boolean bce
-	) {
+	public Calendar(Month month, int day, int year, boolean bce) {
+		
+		if (month == null)
+			return;
 		
 		if (day > month.getDays()) {
-			
-			this.month = Month.next(month);
-			this.day = day - month.getDays();
+			month = Month.next(month);
+			day -= month.getDays();
 		}
 		
-		else {
-			
-			this.month = month;
-			this.day = Math.max(day, 1);
-		}
+		this.month = month;
+		this.day = Math.max(day, 1);
 		
-		if (this.month != null)
-			this.weather = new Weather(this.month.getSeason());
-		
+		this.weather = new Weather(this.month.getSeason());
 		this.year = Math.max(year, 1);
 		this.bce = bce;
 	}
@@ -48,9 +39,7 @@ public class Calendar {
 	private void nextMonth() {
 		
 		this.month = Month.next(this.month);
-		
-		if (this.month != null)
-			this.weather.setSeason(this.month.getSeason());
+		this.weather.setSeason(this.month.getSeason());
 		
 		this.day = 1;
 		
@@ -61,7 +50,6 @@ public class Calendar {
 	private void nextYear() {
 		
 		if (bce) this.year--;
-		
 		else this.year++;
 		
 		if (this.year == 0) {
@@ -82,20 +70,5 @@ public class Calendar {
 			", " +
 			this.year +
 			(this.bce ? " A.D." : "");
-	}
-	
-	public static void main(String[] args) {
-		
-		Calendar calendar = new Calendar(Month.NOVEMBER, 29, 54, true);
-		System.out.println(calendar);
-		
-		calendar.nextYear();
-		System.out.println(calendar);
-		
-		calendar.nextDay();
-		System.out.println(calendar);
-		
-		calendar.nextMonth();
-		System.out.println(calendar);
 	}
 }

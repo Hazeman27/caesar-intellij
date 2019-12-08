@@ -1,4 +1,4 @@
-package caesar.game.turn;
+package caesar.game.response;
 
 public enum ResponseType {
 	SUCCESS, FAILURE

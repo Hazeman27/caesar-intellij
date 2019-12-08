@@ -2,46 +2,54 @@ package caesar.game;
 
 import caesar.game.calendar.Calendar;
 import caesar.game.calendar.Month;
+import caesar.game.entity.ActionPoints;
 import caesar.game.entity.Enemy;
-import caesar.game.map.Location;
-import caesar.game.map.Relief;
+import caesar.game.relief.Location;
 import caesar.game.turn.Turn;
 import caesar.game.turn.TurnType;
-import caesar.game.map.Map;
+import caesar.game.relief.ReliefMap;
 import caesar.game.entity.Player;
 import caesar.game.weather.Weather;
 import caesar.game.weather.WeatherType;
-import caesar.military.troop.ArmyType;
 import caesar.military.troop.Troop;
 import caesar.ui.Message;
 import caesar.ui.Printer;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.security.SecureRandom;
 
 public class Game {
 	
-	private static final SecureRandom random = new SecureRandom();
-	private final Turn turn = new Turn(this);
+	private static final SecureRandom RANDOM = new SecureRandom();
 	
-	private Map map;
+	private static final int[] ENEMY_ARMY_SIZE = new int[] {10, 40};
+	private static final int[] ENEMY_AP = new int[] {5, 20};
+	private static final int PLAYER_MAX_AP = 15;
+	private static final int AP_REPLENISH_THRESHOLD = 5;
+	private static final int EXIT_CODE = 0;
+	
+	private ReliefMap reliefMap;
 	private Player player;
 	private Enemy enemy;
 	private int turnsCount;
 	
-	private Log log;
-	private Calendar calendar;
+	private final Turn turn;
+	private final Log log;
+	private final Calendar calendar;
 	
 	public Game(
 		Month calendarMonth,
 		int calendarDay,
 		int calendarYear,
-		boolean calendarBCE
+		boolean calendarBCE,
+		int playerTroopsAmount,
+		int playerLocationX,
+		int playerLocationY,
+		int mapSize
 	) {
 		
-		this.log = new Log();
+		this.reliefMap = new ReliefMap(mapSize);
 		
 		this.calendar = new Calendar(
 			calendarMonth,
@@ -50,57 +58,56 @@ public class Game {
 			calendarBCE
 		);
 		
-		this.turn.next(TurnType.MAIN_MENU);
-	}
-	
-	public void start(
-		int playerActionPointsAmount,
-		int playerTroopsAmount,
-		int playerLocationX,
-		int playerLocationY,
-		int mapSize
-	) {
-		
-		this.map = new Map(mapSize);
-		
 		this.player = new Player(
-			ArmyType.ROMAN,
+			this.reliefMap,
 			playerTroopsAmount,
-			playerActionPointsAmount,
+			PLAYER_MAX_AP,
 			playerLocationX,
 			playerLocationY
 		);
 		
-		this.player.location.setRelief(
-			this.map.getRelief(
+		this.player.getLocation().setRelief(
+			this.reliefMap.getRelief(
 				playerLocationX,
 				playerLocationY
 			)
 		);
 		
-		this.turn.setActionPoints(
-			this.player.actionPoints
-		);
+		this.turn = new Turn(this);
+		this.log = new Log();
 		
-		this.enemy = this.spawnEnemy();
-		this.turn.next(TurnType.TRAVEL);
+		turn.next(TurnType.MAIN_MENU);
 	}
 	
-	@NotNull
-	@Contract(" -> new")
-	private Enemy spawnEnemy() {
+	public void start() {
+		this.spawnEnemy();
+	}
+	
+	private void spawnEnemy() {
 		
-		return new Enemy(
-			ArmyType.GALLIC,
-			random.nextInt(40) + 10,
-			random.nextInt(20) + 5,
-			random.nextInt(this.map.getSize()),
-			random.nextInt(this.map.getSize())
+		this.enemy = new Enemy(
+			this.player,
+			this.reliefMap,
+			getRandomInt(ENEMY_ARMY_SIZE),
+			getRandomInt(ENEMY_AP),
+			4,
+			6
+		);
+		
+		this.enemy.getLocation().setRelief(
+			this.reliefMap.getRelief(
+				this.enemy.getLocation().getX(),
+				this.enemy.getLocation().getY()
+			)
 		);
 	}
 	
-	public Map getMap() {
-		return this.map;
+	public ReliefMap getReliefMap() {
+		return this.reliefMap;
+	}
+	
+	public TurnType getCurrentTurn() {
+		return this.turn.getCurrent();
 	}
 	
 	public Player getPlayer() {
@@ -108,15 +115,15 @@ public class Game {
 	}
 	
 	public Location getPlayerLocation() {
-		return this.player.location;
+		return this.player.getLocation();
 	}
 	
 	public Troop getPlayerArmy() {
-		return this.player.army;
+		return this.player.getArmy();
 	}
 	
-	public Relief getPlayerRelief() {
-		return this.player.location.getRelief();
+	public ActionPoints getPlayerAP() {
+		return this.player.getActionPoints();
 	}
 	
 	public Enemy getEnemy() {
@@ -124,11 +131,11 @@ public class Game {
 	}
 	
 	public Location getEnemyLocation() {
-		return this.enemy.location;
+		return this.enemy.getLocation();
 	}
 	
 	public Troop getEnemyArmy() {
-		return this.enemy.army;
+		return this.enemy.getArmy();
 	}
 	
 	public int getTurnsCount() {
@@ -152,13 +159,8 @@ public class Game {
 	}
 	
 	public WeatherType getCurrentWeather() {
-		
 		return this.calendar.getWeather()
 			.getCurrentWeather();
-	}
-	
-	public void nextTurn(TurnType turnType) {
-		this.turn.next(turnType);
 	}
 	
 	public void log(Object item) {
@@ -177,36 +179,41 @@ public class Game {
 		this.calendar.getWeather().change();
 	}
 	
+	public void replenishPlayerAP() {
+		this.player.getActionPoints().set(PLAYER_MAX_AP);
+	}
+	
 	public void replenishEntitiesAP() {
 		
-		if (this.player.actionPoints.get() < 5) {
+		ActionPoints playerAP = this.player.getActionPoints();
+		ActionPoints enemyAP = this.enemy.getActionPoints();
+		
+		if (playerAP.get() < AP_REPLENISH_THRESHOLD) {
+			
+			int value = getRandomInt(1, AP_REPLENISH_THRESHOLD);
+			playerAP.add(value);
 			
 			Printer.print(Message.CONSIDER_RESTING);
-			
-			int value = random.nextInt(4) + 1;
-			this.player.actionPoints.add(value);
-			
 			Printer.print("Action points gained: " + value + "!");
 		}
 		
-		if (this.enemy.actionPoints.get() < 4) {
-			
-			this.enemy.actionPoints.add(
-				random.nextInt(6) + 1
-			);
-		}
+		if (enemyAP.get() < AP_REPLENISH_THRESHOLD)
+			enemyAP.add(getRandomInt(2, AP_REPLENISH_THRESHOLD));
 	}
 	
 	public void exit() {
-		Printer.print(Message.EXIT);
-		System.exit(0);
+		System.exit(EXIT_CODE);
 	}
 	
 	public static int getRandomInt(int bound) {
-		return random.nextInt(bound);
+		return RANDOM.nextInt(bound);
 	}
 	
 	public static int getRandomInt(int min, int max) {
-		return random.nextInt(max - min) + min;
+		return RANDOM.nextInt(max - min) + min;
+	}
+	
+	public static int getRandomInt(@NotNull int[] range) {
+		return RANDOM.nextInt(range[1] - range[0]) + range[0];
 	}
 }

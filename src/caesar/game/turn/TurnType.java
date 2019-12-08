@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import caesar.ui.Printer;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public enum TurnType {
@@ -22,6 +22,17 @@ public enum TurnType {
 		Action.ADVANCE, 
 		Action.LOOK_AROUND,
 		Action.ANALYZE_ARMY,
+		Action.GATHER_RESOURCES,
+		Action.BUILD_CAMP,
+		Action.OPEN_JOURNAL,
+		Action.TO_NEXT_DAY,
+		Action.TO_MAIN_MENU
+	)),
+	
+	CAMP("Camp", Arrays.asList(
+		Action.REST,
+		Action.GATHER_RESOURCES,
+		Action.LEAVE_CAMP,
 		Action.OPEN_JOURNAL,
 		Action.TO_NEXT_DAY,
 		Action.TO_MAIN_MENU
@@ -113,12 +124,10 @@ public enum TurnType {
 		return Math.max(titleLength, actionNamesMaxLength);
 	}
 	
-	@Contract(pure = true)
 	public List<Action> getActions() {
 		return this.actions;
 	}
 	
-	@Contract(pure = true)
 	public Action getAction(int index) {
 		return this.actions.get(index);
 	}
@@ -138,19 +147,19 @@ public enum TurnType {
 			Printer.getEmptyLine(this.actionNamesMaxLength, 5)
 		);
 		
-	        for (int i = 0; i < actionNames.size(); i++) {
-	            
-	            String actionName = actionNames.get(i);
-	
-	            stringBuilder.append("| ")
-	                         .append(i + 1)
-	                         .append(": ")
-	                         .append(actionName)
-	                         .append(Printer.getFillingSpaces(
-	                         	actionName,
-		                         this.actionNamesMaxLength
-	                         ));
-	        }
+		IntStream.range(0, actionNames.size()).forEach(i -> {
+			
+			String actionName = actionNames.get(i);
+			
+			stringBuilder.append("| ")
+			             .append(i + 1)
+			             .append(": ")
+			             .append(actionName)
+			             .append(Printer.getFillingSpaces(
+				             actionName,
+				             this.actionNamesMaxLength
+			             ));
+		});
 	        
 	        stringBuilder.append(
 	                Printer.getEmptyLine(this.actionNamesMaxLength, 5)

@@ -1,35 +1,30 @@
 package caesar.military.soldier;
 
 import caesar.game.Game;
-import caesar.military.troop.Troop;
-import org.jetbrains.annotations.NotNull;
+import caesar.military.UnitOrigin;
+import caesar.military.UnitParent;
+import caesar.military.officer.Rank;
 
 public class Gaul extends Soldier {
 	
-	private final String name;
+	private static final int DAMAGE_SATIETY_RELATION = 10;
 	
-	public Gaul(Troop troop) {
-		super(troop);
+	public Gaul(Rank rank, UnitParent parent) {
+		
+		super(rank, parent, UnitOrigin.GAUL);
 		this.name = Name.getRandomGallic();
 	}
 	
 	@Override
-	int attackTarget(@NotNull Soldier target) {
+	protected int getDamageBoost() {
 		
-		int damage = Game.getRandomInt(this.health.getMaxState());
-		damage += this.morale.getState() / 10 +
-			this.satiety.getState() / 20;
-		
-		return target.receiveDamage(damage);
-	};
+		return this.getMorale().getCurrentState() +
+			this.getSatiety()
+			    .getCurrentState() / DAMAGE_SATIETY_RELATION;
+	}
 	
 	@Override
-	int block(int damageAmount) {
-		return Game.getRandomInt(damageAmount);
-	};
-	
-	@Override
-	public String toString() {
-		return super.toString() + this.name;
+	protected int block(int damage) {
+		return Game.getRandomInt(damage);
 	}
 }

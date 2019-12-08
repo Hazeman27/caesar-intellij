@@ -1,279 +1,353 @@
 package caesar.military.troop;
 
-import caesar.game.engagement.EngagementController;
-import caesar.military.MilitaryUnit;
-import caesar.military.soldier.Gaul;
-import caesar.military.soldier.Officer;
-import caesar.military.soldier.Roman;
+import caesar.game.battle.Battle;
+import caesar.game.battle.BattleReport;
+import caesar.game.status.StatusType;
+import caesar.military.Unit;
+import caesar.military.UnitParent;
+import caesar.military.UnitOrigin;
+import caesar.military.officer.Rank;
 import caesar.military.soldier.Soldier;
-import caesar.ui.Message;
-import caesar.ui.Printer;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-public class Troop implements MilitaryUnit {
+public abstract class Troop implements Unit, UnitParent {
 	
-	private final String type;
+	private final int capacity;
 	private final String symbol;
-	private final String origin;
+	private final UnitOrigin origin;
 	
-	private List<MilitaryUnit> units;
-	private Soldier officer;
-	private Troop parentTroop;
+	protected List<Unit> children;
+	protected List<Soldier> officers;
+	protected UnitParent parent;
 	
-	public Troop(@NotNull TroopType troopType, Troop parentTroop) {
+	protected Troop(
+		UnitParent parent,
+		List<Unit> children,
+		List<Soldier> officers,
+		int capacity,
+		String symbol,
+		UnitOrigin origin
+	) {
 		
-		this.type = troopType.toString();
-		this.origin = troopType.origin.toString();
-		this.symbol = troopType.symbol;
-		this.parentTroop = parentTroop;
-		
-		this.officer = new Officer(troopType.officerRank, this);
-		this.units = this.initUnits(troopType.troops, troopType.origin);
+		this.parent = parent;
+		this.capacity = capacity;
+		this.symbol = symbol;
+		this.origin = origin;
+		this.officers = officers;
+		this.children = children;
 	}
 	
-	public Troop(@NotNull TroopType troopType) {
+	protected Troop(
+		UnitParent parent,
+		int capacity,
+		String symbol,
+		UnitOrigin origin
+	) {
 		
-		this.type = troopType.toString();
-		this.origin = troopType.origin.toString();
-		this.symbol = troopType.symbol;
-		
-		this.officer = new Officer(troopType.officerRank, this);
-		this.units = this.initUnits(troopType.troops, troopType.origin);
+		this.parent = parent;
+		this.capacity = capacity;
+		this.symbol = symbol;
+		this.origin = origin;
+		this.officers = this.initOfficer();
+		this.children = this.initChildren();
 	}
 	
-	public Troop(@NotNull ArmyType armyType, int troopsAmount) {
+	protected Troop(int capacity, String symbol, UnitOrigin origin) {
 		
-		this.type = armyType.toString();
-		this.origin = armyType.toString();
-		this.symbol = armyType.symbol;
-		
-		this.officer = new Officer(armyType.officerRank, this);
-		this.units = this.initUnits(armyType.troopsType, troopsAmount);
+		this.capacity = capacity;
+		this.symbol = symbol;
+		this.origin = origin;
+		this.officers = this.initOfficer();
+		this.children = this.initChildren();
 	}
 	
 	@NotNull
-	private List<MilitaryUnit> initUnits(
-		@NotNull Map<TroopType, Integer> troopsMap,
-		TroopOrigin troopOrigin
-	) {
+	private List<Soldier> initOfficer() {
 		
-		if (troopsMap.containsKey(null)) {
-			
-			return this.initSoldiers(
-				troopsMap.get(null),
-				troopOrigin
-			);
-		}
+		List<Soldier> officers = new LinkedList<>();
+		officers.add(this.getOfficerInstance());
 		
-		List<MilitaryUnit> units = new ArrayList<>();
+		return officers;
+	}
+
+
+	@NotNull
+	private List<Unit> initChildren() {
 		
-		for (Map.Entry<TroopType, Integer> entry: troopsMap.entrySet()) {
-			
-			units.addAll(this.initUnits(
-				entry.getKey(),
-				entry.getValue()
-			));
-		}
+		List<Unit> units = new LinkedList<>();
+		IntStream.range(0, this.capacity)
+		         .forEach(i -> units.add(this.getChildInstance()));
 		
 		return units;
 	}
 	
-	@NotNull
-	private List<MilitaryUnit> initUnits(
-		TroopType troopsType,
-		int troopsAmount
-	) {
-		
-		List<MilitaryUnit> units = new ArrayList<>();
-		
-		for (int i = 0; i < troopsAmount; i++)
-			units.add(new Troop(troopsType, this));
-		
-		return units;
+	protected abstract int getChildCapacity();
+	
+	protected abstract Soldier getOfficerInstance();
+	
+	protected abstract Rank getOfficerRank();
+	
+	protected abstract Unit getChildInstance();
+	
+	protected abstract Unit getEmptyChildInstance();
+	
+	@Override
+	public List<Soldier> getOfficers() {
+		return this.officers;
 	}
 	
-	@NotNull
-	private List<MilitaryUnit> initSoldiers(
-		int soldiersAmount,
-		TroopOrigin troopOrigin
-	) {
+	@Override
+	public List<Unit> getChildren() {
+		return this.children;
+	}
+	
+	@Override
+	public void addChild(Unit child) {
+		this.children.add(child);
+	}
+	
+	@Override
+	public void removeChild(Unit child) {
 		
-		List<MilitaryUnit> units = new ArrayList<>();
+		this.children.remove(child);
 		
-		for (int i = 0; i < soldiersAmount; i++) {
-			
-			if (troopOrigin == TroopOrigin.ROMAN)
-				units.add(new Roman(this));
-			
-			else if (troopOrigin == TroopOrigin.GALLIC)
-				units.add(new Gaul(this));
-		}
+		if (this.isEmpty()) this.perish();
+	}
+	
+	@Override
+	public void removeAllChildren(List<Unit> children) {
 		
-		return units;
+		this.children.removeAll(children);
+		
+		if (this.isEmpty()) this.perish();
+	}
+	
+	@Override
+	public void addOfficer(Soldier officer) {
+		this.officers.add(officer);
+	}
+	
+	@Override
+	public void removeOfficer(Soldier officer) {
+		
+		this.officers.remove(officer);
+		
+		if (this.isEmpty()) this.perish();
+	}
+	
+	@Override
+	public boolean isEmpty() {
+		return this.officers.isEmpty() && this.children.isEmpty();
+	}
+	
+	@Override
+	public boolean isFull() {
+		return this.children.size() == this.capacity
+			&& !this.officers.isEmpty();
+	}
+	
+	@Override
+	public void setParent(UnitParent parent) {
+		this.parent = parent;
 	}
 	
 	@Override
 	public void perish() {
 		
-		if (this.parentTroop != null) {
-			
-			this.parentTroop.units.remove(this);
-			this.parentTroop = null;
-		}
+		if (this.parent == null)
+			return;
 		
-		else Printer.print(Message.CANT_REMOVE_TROOP);
-		
+		this.parent.removeChild(this);
 	}
 	
 	@Override
-	public void flee() {
-		
-		if (this.parentTroop != null) {
-			
-			this.parentTroop.units.remove(this);
-			this.parentTroop = null;
-		}
-		
-		else Printer.print(Message.CANT_REMOVE_TROOP);
+	public UnitOrigin getOrigin() {
+		return this.origin;
 	}
 	
-	@Override
-	public MilitaryUnit engage(MilitaryUnit target, boolean verbose) {
-		
-		if (target == null)
-			return this;
-		
-		Troop targetTroop = (Troop) target;
-		
-		List<MilitaryUnit> thisUnits;
-		List<MilitaryUnit> targetUnits;
-		
-		thisUnits = this.units;
-		targetUnits = targetTroop.units;
-		
-		new EngagementController(
-			Collections.singletonList(this.officer),
-			Collections.singletonList(targetTroop.officer)
-		).start(verbose);
-		
-		new EngagementController(thisUnits, targetUnits)
-			.start(verbose);
-		
-		return this;
+	static void transferOfficer(
+		@NotNull Soldier officer,
+		@NotNull UnitParent destination
+	) {
+		destination.addOfficer(officer);
+		officer.setParent(destination);
 	}
 	
-	public String getOrigin() {
-		return origin;
-	}
-	
-	public void removeSoldier(@NotNull Soldier soldier) {
-		
-		this.units.remove(soldier);
-		
-		if (this.units.size() == 0 && this.officer == null)
-			this.perish();
-	}
-	
-	public void removeOfficer() {
-		
-		this.officer.setTroop(null);
-		
-		if (this.units.size() == 0)
-			this.perish();
-	}
-	
-	public void setOfficer(Soldier soldier) {
-		this.officer = soldier;
-	}
-	
-	public void printSymbol(boolean addSpace, boolean addNewLine) {
-		
-		Printer.print(
-			this.symbol + (addSpace ? " " : ""),
-			addNewLine
+	static void transferAllOfficers(
+		@NotNull List<Soldier> officers,
+		@NotNull UnitParent destination
+	) {
+		officers.forEach(officer ->
+			transferOfficer(officer, destination)
 		);
 	}
 	
-	public void printTroopSymbols() {
+	static void transferUnit(
+		@NotNull Unit unit,
+		@NotNull UnitParent destination
+	) {
+		destination.addChild(unit);
+		unit.setParent(destination);
+	}
+	
+	static void transferUnitsRange(
+		@NotNull List<Unit> units,
+		@NotNull UnitParent destination,
+		final int limit
+	) {
 		
-		int amount = this.units.size();
-		
-		for (int i = 0; i < amount; i++) {
+		for (int i = 0; i < limit && !units.isEmpty(); i++) {
 			
-			Troop troop = (Troop) this.units.get(i);
-			troop.printSymbol(i != amount - 1, i == amount - 1);
+			Unit unit = units.get(0);
+			transferUnit(unit, destination);
+			units.remove(0);
 		}
+	}
+	
+	public int getAverageMoraleState() {
+		return getUnitTotalMoraleStateSum(this) / getSoldiersCount(this);
+	}
+	
+	public BattleReport engage(Unit target, boolean verbose) {
+		
+		Troop targetTroop = (Troop) target;
+		
+		if (targetTroop == null || targetTroop.isEmpty())
+			return new BattleReport(0, 0, 0, 0);
+		
+		List<Soldier> soldiers = getSoldiers(this);
+		soldiers.addAll(getSoldiers(target));
+		
+		BattleReport report = new Battle(
+			verbose,
+			soldiers.toArray(new Soldier[0])
+		).start();
+		
+		if (this.isEmpty())
+			regroupUnits(this);
+		
+		if (!targetTroop.isEmpty())
+			regroupUnits(targetTroop);
+		
+		return report;
+	}
+	
+	private static void regroupUnits(Unit unit) {
+		Grouper.regroup(unit);
+	}
+	
+	public static void updateUnitStatus(
+		Unit unit,
+		StatusType statusType,
+		int amount
+	) {
+		
+		if (unit == null)
+			return;
+		
+		if (unit instanceof Soldier) {
+			((Soldier) unit).updateStatus(statusType, amount);
+			return;
+		}
+		
+		((Troop) unit).children.forEach(
+			u -> updateUnitStatus(u, statusType, amount)
+		);
+	}
+	
+	public static List<Soldier> getSoldiers(Unit unit) {
+		
+		if (unit == null)
+			return null;
+		
+		if (unit instanceof Soldier)
+			return Collections.singletonList((Soldier) unit);
+		
+		List<Soldier> units = new LinkedList<>();
+		Troop troop = (Troop) unit;
+		
+		troop.children.forEach(u -> units.addAll(getSoldiers(u)));
+		units.addAll(troop.officers);
+		
+		return units;
+	}
+	
+	public static int getUnitTotalMoraleStateSum(Unit unit) {
+		
+		if (unit == null)
+			return 0;
+		
+		if (unit instanceof Soldier)
+			return ((Soldier) unit)
+				.getMorale()
+				.getCurrentState();
+		
+		Troop troop = (Troop) unit;
+		
+		int moraleState = troop.children
+			.stream()
+			.mapToInt(Troop::getUnitTotalMoraleStateSum)
+			.sum();
+		
+		moraleState += troop.officers
+			.stream()
+			.mapToInt(Troop::getUnitTotalMoraleStateSum)
+			.sum();
+		
+		return moraleState;
+	}
+	
+	public static int getSoldiersCount(Unit unit) {
+		
+		if (unit == null) return 0;
+		if (unit instanceof Soldier) return 1;
+		
+		Troop troop = (Troop) unit;
+		
+		int total = troop.children
+			.stream()
+			.mapToInt(Troop::getSoldiersCount)
+			.sum();
+		
+		return total + (troop.officers == null ? 0 :
+			troop.officers.size()
+		);
+	}
+	
+	@Override
+	public String getSummary() {
+		
+		return this.getClass().getSimpleName() +
+			":\n-> Officer: " +
+			this.officers +
+			"\n-> Units count: " +
+			this.children.size() +
+			"\n-> Soldiers count: " +
+			getSoldiersCount(this) + "\n";
+	}
+	
+	@Override
+	public String getFullSummary() {
+		
+		String summary = this.getSummary();
+		
+		summary += this.children
+			.stream()
+			.map(Unit::getSummary)
+			.collect(Collectors.joining());
+		
+		return summary;
 	}
 	
 	@Override
 	public String toString() {
-		return this.type +
-			"[" +
-			this.symbol +
-			"] (" +
-			(this.units.size()) +
-			")";
-	}
-	
-	@Contract(pure = true)
-	public static int countSoldiers(MilitaryUnit unit) {
 		
-		if (unit instanceof Soldier)
-			return 1;
-		
-		int total = 0;
-		Troop troop = (Troop) unit;
-		
-		for (MilitaryUnit u:  troop.units)
-			total += countSoldiers(u);
-		
-		return total + (troop.officer == null ? 0 : 1);
-	}
-	
-	@NotNull
-	public static String getSummary(@NotNull Troop troop) {
-		
-		return "\n[" +
-			troop.origin +
-			"] " +
-			troop.type +
-			":\n" +
-			"-> Officer: " +
-			troop.officer +
-			"\n" +
-			"-> Soldiers count: " +
-			countSoldiers(troop) +
-			"\n" +
-			"-> Troops count: " +
-			troop.units.size() +
-			"\n";
-	}
-	
-	@NotNull
-	public static String getFullSummary(Troop troop) {
-		
-		StringBuilder fullSummary = new StringBuilder(getSummary(troop));
-		int unitsCount = troop.units.size();
-		
-		for (int i = 0; i < unitsCount; i++) {
-			
-			Troop current = (Troop) troop.units.get(i);
-			fullSummary.append(getSummary(current));
-		}
-		
-		return fullSummary.toString();
-	}
-	
-	public static void main(String[] args) {
-		
-		Troop troop = new Troop(TroopType.LEGION);
-		Printer.print(Troop.getFullSummary(troop));
+		return this.getClass().getSimpleName() +
+			"[" + this.symbol + "] (" + this.children.size() + ")";
 	}
 }

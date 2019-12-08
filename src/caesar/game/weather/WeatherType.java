@@ -35,7 +35,6 @@ public enum WeatherType {
 		);
 	}
 	
-	@Contract(pure = true)
 	public static boolean isClear(WeatherType weatherType) {
 		return weatherType != FOGGY && weatherType != MIST;
 	}

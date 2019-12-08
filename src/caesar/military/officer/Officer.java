@@ -1,25 +1,29 @@
-package caesar.military.soldier;
+package caesar.military.officer;
 
 import caesar.game.Game;
 import caesar.military.UnitOrigin;
 import caesar.military.UnitParent;
-import caesar.military.officer.Rank;
+import caesar.military.soldier.Soldier;
 
-public class Roman extends Soldier {
+public abstract class Officer extends Soldier {
 	
-	private static final int[] TRAINING_BOOST_RANGE = new int[] {5, 15};
-	private static final int DAMAGE_SATIETY_RELATION = 20;
+	private static final int[] TRAINING_BOOST_RANGE = new int[] {5, 10};
+	private static final int DAMAGE_SATIETY_RELATION = 30;
 	
 	private final int trainingBoost;
 	
-	public Roman(Rank rank, UnitParent parent) {
+	Officer(Rank rank, UnitParent parent, UnitOrigin origin) {
 		
-		super(rank, parent, UnitOrigin.ROME);
-		
-		this.name = Name.getRandomRoman();
+		super(rank, parent, origin);
 		this.trainingBoost = Game.getRandomInt(
-			TRAINING_BOOST_RANGE
+			rank.getIndex() * TRAINING_BOOST_RANGE[0],
+			rank.getIndex() * TRAINING_BOOST_RANGE[1]
 		);
+	}
+	
+	@Override
+	public void perish() {
+		this.parent.removeOfficer(this);
 	}
 	
 	@Override
@@ -34,7 +38,6 @@ public class Roman extends Soldier {
 	
 	@Override
 	protected int block(int damage) {
-		
 		return Game.getRandomInt(damage) +
 			this.trainingBoost;
 	}
