@@ -4,7 +4,6 @@ import caesar.game.Game;
 import caesar.military.UnitOrigin;
 import caesar.military.UnitParent;
 import caesar.military.soldier.Soldier;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class Officer extends Soldier {
 	
@@ -13,13 +12,18 @@ public abstract class Officer extends Soldier {
 	
 	private final int trainingBoost;
 	
-	Officer(@NotNull Rank rank, UnitParent parent, UnitOrigin origin) {
+	Officer(UnitParent parent, Rank rank, UnitOrigin origin) {
 		
-		super(parent, origin);
+		super(parent, rank, origin);
 		this.trainingBoost = Game.getRandomInt(
 			rank.getIndex() * TRAINING_BOOST_RANGE[0],
 			rank.getIndex() * TRAINING_BOOST_RANGE[1]
 		);
+	}
+	
+	@Override
+	public void perish() {
+		this.parent.removeOfficer(this);
 	}
 	
 	@Override

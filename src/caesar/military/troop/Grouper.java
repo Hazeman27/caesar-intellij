@@ -16,7 +16,7 @@ public abstract class Grouper {
 		
 		return troop.children
 			.stream()
-			.filter(unit -> !unit.isFull())
+			.filter(unit -> !((Troop) unit).isFull())
 			.collect(Collectors.toList());
 	}
 	
@@ -42,18 +42,28 @@ public abstract class Grouper {
 		List<Soldier> officersPool = new LinkedList<>();
 		
 		notFullUnits.stream()
-		            .map(unit -> ((Troop) unit).getOfficer())
+		            .map(unit -> ((Troop) unit).getOfficers())
 		            .filter(Objects::nonNull)
-		            .forEach(officersPool::add);
+		            .filter(officers -> !officers.isEmpty())
+		            .forEach(officersPool::addAll);
 		
 		return officersPool;
 	}
 	
-	private static Soldier getNewOfficer(List<Unit> unitsPool) {
+	private static Soldier getNewOfficer(Troop troop, List<Unit> unitsPool) {
 		
 		if (unitsPool == null || unitsPool.isEmpty())
 			return null;
 		
+		if (troop.getChildCapacity() != 0) {
+			
+			for (Unit unit : unitsPool) {
+				
+				return getNewOfficer(
+					(Troop) unit, unit.getChildren()
+				);
+			}
+		}
 		
 		int randomIndex = Game.getRandomInt(unitsPool.size());
 		
@@ -63,25 +73,31 @@ public abstract class Grouper {
 		return officer;
 	}
 	
-	protected static void assignOfficer(
-		@NotNull Troop troop,
+	private static void assignOfficer(
 		@NotNull Troop child,
 		@NotNull List<Unit> unitsPool,
 		@NotNull List<Soldier> officersPool
 	) {
 		
-		if (officersPool.isEmpty())
-			child.setOfficer(getNewOfficer(unitsPool));
+		if (officersPool.isEmpty()) {
+			
+			Troop.transferOfficer(
+				getNewOfficer(child, unitsPool),
+				child
+			);
+		}
 		
 		else {
-			child.setOfficer(officersPool.get(0));
+			Troop.transferOfficer(officersPool.get(0), child);
 			officersPool.remove(0);
 		}
 	}
 	
-	public static void regroup(Troop troop) {
+	public static void regroup(Unit unit) {
 		
-		if (troop == null)
+		Troop troop = (Troop) unit;
+		
+		if (troop == null || troop.getChildCapacity() == 0)
 			return;
 		
 		List<Unit> notFullUnits = getNotFullUnits(troop);
@@ -98,17 +114,25 @@ public abstract class Grouper {
 		int childCapacity = troop.getChildCapacity();
 		int limit;
 		
-		troop.removeAll(notFullUnits);
+		troop.removeAllChildren(notFullUnits);
 		
 		while (!unitsPool.isEmpty()) {
 			
 			Troop child = (Troop) troop.getEmptyChildInstance();
-			assignOfficer(troop, child, unitsPool, officersPool);
+			assignOfficer(child, unitsPool, officersPool);
 			
 			limit = Math.min(childCapacity, unitsPool.size());
 			Troop.transferUnitsRange(unitsPool, child, limit);
 			
 			troop.addChild(child);
+		}
+		
+		if (!officersPool.isEmpty()) {
+			
+			Troop.transferAllOfficers(
+				officersPool,
+				(Troop) troop.getChildren().get(0)
+			);
 		}
 	}
 }

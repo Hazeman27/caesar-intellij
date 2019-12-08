@@ -6,9 +6,9 @@ import caesar.military.troop.Troop;
 
 public class RomanOfficer extends Officer {
 	
-	public RomanOfficer(RomanRank rank, Troop parentUnit) {
+	public RomanOfficer(Troop parentUnit, RomanRank rank) {
 		
-		super(rank, parentUnit, UnitOrigin.ROME);
+		super(parentUnit, rank, UnitOrigin.ROME);
 		this.name = Name.getRandomRoman();
 	}
 }

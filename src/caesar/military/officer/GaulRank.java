@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Contract;
 
 public enum GaulRank implements Rank {
 	
+	WARRIOR(0),
 	CHIEF(1),
 	WARLORD(2),
 	CHIEF_WARLORD(3),

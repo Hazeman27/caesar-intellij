@@ -6,7 +6,6 @@ import caesar.military.UnitParent;
 import caesar.military.officer.RomanOfficer;
 import caesar.military.officer.RomanRank;
 import caesar.military.soldier.Soldier;
-import caesar.military.troop.Grouper;
 import caesar.military.troop.Troop;
 
 import java.util.LinkedList;
@@ -16,12 +15,12 @@ public class Cohort extends Troop {
 	
 	static final int UNIT_CAPACITY = 6;
 	
-	Cohort(UnitParent parent) {
+	public Cohort(UnitParent parent) {
 		super(parent, UNIT_CAPACITY, "[:]", UnitOrigin.ROME);
 	}
 	
-	Cohort(UnitParent parent, List<Unit> units) {
-		super(parent, units, UNIT_CAPACITY, "[:]", UnitOrigin.ROME);
+	Cohort(UnitParent parent, List<Unit> units, List<Soldier> officers) {
+		super(parent, units, officers, UNIT_CAPACITY, "[:]", UnitOrigin.ROME);
 	}
 	
 	@Override
@@ -31,7 +30,7 @@ public class Cohort extends Troop {
 	
 	@Override
 	protected Soldier getOfficerInstance() {
-		return new RomanOfficer(RomanRank.LEAD_CENTURION, this);
+		return new RomanOfficer(this, RomanRank.LEAD_CENTURION);
 	}
 	
 	@Override
@@ -41,11 +40,6 @@ public class Cohort extends Troop {
 	
 	@Override
 	protected Unit getEmptyChildInstance() {
-		return new Century(this, new LinkedList<>());
-	}
-	
-	@Override
-	protected void regroupUnits() {
-		Grouper.regroup(this);
+		return new Century(this, new LinkedList<>(), new LinkedList<>());
 	}
 }

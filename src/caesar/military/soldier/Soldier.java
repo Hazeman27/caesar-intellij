@@ -6,6 +6,7 @@ import caesar.game.status.StatusType;
 import caesar.military.Unit;
 import caesar.military.UnitOrigin;
 import caesar.military.UnitParent;
+import caesar.military.officer.Rank;
 import caesar.ui.Printer;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,8 +20,9 @@ public abstract class Soldier implements Unit {
 	protected final UnitOrigin origin;
 	protected String name;
 	protected UnitParent parent;
+	protected Rank rank;
 	
-	protected Soldier(@NotNull UnitParent parent, UnitOrigin origin) {
+	protected Soldier(@NotNull UnitParent parent, Rank rank, UnitOrigin origin) {
 		
 		this.state = new HashMap<>();
 		
@@ -40,11 +42,16 @@ public abstract class Soldier implements Unit {
 		);
 		
 		this.parent = parent;
+		this.rank = rank;
 		this.origin = origin;
 	}
 	
 	protected abstract int getDamageBoost();
 	protected abstract int block(int damage);
+	
+	private boolean isDead() {
+		return this.state.get(StatusType.HEALTH).atMinState();
+	}
 	
 	@Override
 	public UnitParent getParent() {
@@ -62,11 +69,6 @@ public abstract class Soldier implements Unit {
 	}
 	
 	@Override
-	public boolean isFull() {
-		return true;
-	}
-	
-	@Override
 	public List<Unit> getChildren() {
 		return null;
 	}
@@ -76,24 +78,20 @@ public abstract class Soldier implements Unit {
 		return this.origin;
 	}
 	
-	protected Status getHealth() {
-		return this.state.get(StatusType.HEALTH);
-	}
-	
 	public Status getMorale() {
 		return this.state.get(StatusType.MORALE);
-	}
-	
-	protected Status getSatiety() {
-		return this.state.get(StatusType.SATIETY);
 	}
 	
 	public void updateStatus(StatusType type, int amount) {
 		this.state.get(type).updateState(amount);
 	}
 	
-	private boolean isDead() {
-		return this.state.get(StatusType.HEALTH).atMinState();
+	protected Status getHealth() {
+		return this.state.get(StatusType.HEALTH);
+	}
+	
+	protected Status getSatiety() {
+		return this.state.get(StatusType.SATIETY);
 	}
 	
 	public Soldier engage(Soldier target, boolean verbose, boolean fullVerbose) {
@@ -187,26 +185,14 @@ public abstract class Soldier implements Unit {
 	
 	@Override
 	public String getSummary() {
-		
-		return "[" +
-			this.getClass().getSimpleName() +
-			"] " +
-			this.name +
-			"\n-> Unit: " +
-			this.parent +
-			"\n";
+		return "[" + this.rank + "] " + this.name +
+			"\n-> Unit: " + this.parent + "\n";
 	}
 	
 	@Override
 	public String getFullSummary() {
 		
-		return "[" +
-			this.getClass().getSimpleName() +
-			"] " +
-			this.name +
-			"\n-> Unit: " +
-			this.parent +
-			"\n-> Health: [" +
+		return this.getSummary() + "-> Health: [" +
 			this.getHealth().getCurrentState() +
 			"/" +
 			StatusType.HEALTH.getMaxState() +
@@ -223,10 +209,6 @@ public abstract class Soldier implements Unit {
 	
 	@Override
 	public String toString() {
-		
-		return "[" +
-			this.getClass().getSimpleName() +
-			"] " +
-			this.name;
+		return "[" + this.rank + "] " + this.name;
 	}
 }
