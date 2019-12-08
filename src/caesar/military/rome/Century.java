@@ -8,6 +8,7 @@ import caesar.military.officer.RomanOfficer;
 import caesar.military.officer.RomanRank;
 import caesar.military.soldier.Soldier;
 import caesar.military.troop.Troop;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -62,44 +63,84 @@ public class Century extends Troop {
 	}
 	
 	@Override
-	protected void regroupUnits() {
+	protected List<Unit> getNotFullUnits() {
 		
-		List<Unit> nonFullUnits = this.children
+		return this.children
 			.stream()
 			.filter(unit -> !unit.isFull())
 			.collect(Collectors.toList());
-		
-		if (nonFullUnits.isEmpty())
-			return;
+	}
+	
+	@Override
+	protected List<Unit> getNotFullUnitsPool(
+		@NotNull List<Unit> notFullUnits
+	) {
 		
 		List<Unit> unitsPool = new LinkedList<>();
-		List<Soldier> officersPool = new LinkedList<>();
 		
-		int childCapacity = this.getChildCapacity();
-		this.removeAll(nonFullUnits);
-		
-		nonFullUnits.stream()
+		notFullUnits.stream()
 		            .map(Unit::getChildren)
 		            .forEach(unitsPool::addAll);
 		
-		nonFullUnits.stream()
+		return unitsPool;
+	}
+	
+	@Override
+	protected List<Soldier> getNotFullOfficersPool(
+		@NotNull List<Unit> notFullUnits
+	) {
+		
+		List<Soldier> officersPool = new LinkedList<>();
+		
+		notFullUnits.stream()
 		            .map(unit -> ((Troop) unit).getOfficer())
 		            .filter(Objects::nonNull)
 		            .forEach(officersPool::add);
 		
+		return officersPool;
+	}
+	
+	@Override
+	protected void assignOfficer(
+		@NotNull Troop child,
+		@NotNull List<Unit> unitsPool,
+		@NotNull List<Soldier> officersPool
+	) {
+		
+		if (officersPool.isEmpty())
+			child.setOfficer(this.getNewOfficer(unitsPool));
+		
+		else {
+			child.setOfficer(officersPool.get(0));
+			officersPool.remove(0);
+		}
+	}
+	
+	@Override
+	protected void regroupUnits() {
+		
+		List<Unit> notFullUnits = this.getNotFullUnits();
+		
+		if (notFullUnits.isEmpty())
+			return;
+		
+		List<Unit> unitsPool =
+			this.getNotFullUnitsPool(notFullUnits);
+		
+		List<Soldier> officersPool =
+			this.getNotFullOfficersPool(notFullUnits);
+		
+		int childCapacity = this.getChildCapacity();
+		int limit;
+		
+		this.removeAll(notFullUnits);
+		
 		while (!unitsPool.isEmpty()) {
 			
 			Troop child = (Troop) this.getEmptyChildInstance();
+			this.assignOfficer(child, unitsPool, officersPool);
 			
-			if (officersPool.isEmpty())
-				child.setOfficer(this.getNewOfficer(unitsPool));
-			
-			else {
-				child.setOfficer(officersPool.get(0));
-				officersPool.remove(0);
-			}
-			
-			int limit = Math.min(childCapacity, unitsPool.size());
+			limit = Math.min(childCapacity, unitsPool.size());
 			transferUnitsRange(unitsPool, child, limit);
 			
 			this.addChild(child);
