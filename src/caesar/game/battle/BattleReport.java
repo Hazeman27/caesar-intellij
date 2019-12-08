@@ -11,7 +11,7 @@ public class BattleReport {
 	
 	private final UnitOrigin battleVictor;
 	
-	BattleReport(
+	public BattleReport(
 		int romanVictorsCount,
 		int gallicVictorsCount,
 		int committedSoldiersCount,
@@ -23,7 +23,7 @@ public class BattleReport {
 		this.committedSoldiersCount = committedSoldiersCount;
 		this.survivedSoldiersCount = survivedSoldiersCount;
 		
-		if (romanVictorsCount > gallicVictorsCount)
+		if (romanVictorsCount >= gallicVictorsCount)
 			this.battleVictor = UnitOrigin.ROME;
 		
 		else this.battleVictor = UnitOrigin.GAUL;
@@ -37,6 +37,6 @@ public class BattleReport {
 			"\n--> Soldiers lost: " + gallicVictorsCount +
 			"\n--> Total battle participants: " + committedSoldiersCount +
 			"\n--> Battle survivors: " + survivedSoldiersCount +
-			"\n--> Battle victor: " + battleVictor;
+			"\n--> Battle victor: " + battleVictor + "\n";
 	}
 }

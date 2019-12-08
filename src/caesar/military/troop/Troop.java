@@ -1,6 +1,5 @@
 package caesar.military.troop;
 
-import caesar.game.Game;
 import caesar.game.battle.Battle;
 import caesar.game.battle.BattleReport;
 import caesar.game.status.StatusType;
@@ -8,8 +7,6 @@ import caesar.military.Unit;
 import caesar.military.UnitParent;
 import caesar.military.UnitOrigin;
 import caesar.military.officer.Rank;
-import caesar.military.rome.Cohort;
-import caesar.military.rome.Legion;
 import caesar.military.soldier.Soldier;
 
 import org.jetbrains.annotations.NotNull;
@@ -87,10 +84,6 @@ public abstract class Troop implements Unit, UnitParent {
 		         .forEach(i -> units.add(this.getChildInstance()));
 		
 		return units;
-	}
-	
-	private void regroupUnits() {
-		Grouper.regroup(this);
 	}
 	
 	protected abstract int getChildCapacity();
@@ -222,17 +215,30 @@ public abstract class Troop implements Unit, UnitParent {
 	
 	public BattleReport engage(Unit target, boolean verbose) {
 		
-		if (target == null)
-			return null;
+		Troop targetTroop = (Troop) target;
+		
+		if (targetTroop == null || targetTroop.isEmpty())
+			return new BattleReport(0, 0, 0, 0);
 		
 		List<Soldier> soldiers = getSoldiers(this);
 		soldiers.addAll(getSoldiers(target));
 		
 		BattleReport report = new Battle(
+			verbose,
 			soldiers.toArray(new Soldier[0])
-		).start(verbose);
+		).start();
+		
+		if (this.isEmpty())
+			regroupUnits(this);
+		
+		if (!targetTroop.isEmpty())
+			regroupUnits(targetTroop);
 		
 		return report;
+	}
+	
+	private static void regroupUnits(Unit unit) {
+		Grouper.regroup(unit);
 	}
 	
 	public static void updateUnitStatus(
@@ -317,20 +323,18 @@ public abstract class Troop implements Unit, UnitParent {
 	public String getSummary() {
 		
 		return this.getClass().getSimpleName() +
-			":\n" +
-			"-> Officer: " +
+			":\n-> Officer: " +
 			this.officers +
-			"\n" +
-			"-> Units count: " +
+			"\n-> Units count: " +
 			this.children.size() +
-			"\n";
+			"\n-> Soldiers count: " +
+			getSoldiersCount(this) + "\n";
 	}
 	
 	@Override
 	public String getFullSummary() {
 		
 		String summary = this.getSummary();
-		summary += "-> Soldiers count: " + getSoldiersCount(this) + "\n";
 		
 		summary += this.children
 			.stream()
@@ -344,10 +348,6 @@ public abstract class Troop implements Unit, UnitParent {
 	public String toString() {
 		
 		return this.getClass().getSimpleName() +
-			"[" +
-			this.symbol +
-			"] (" +
-			this.children.size() +
-			")";
+			"[" + this.symbol + "] (" + this.children.size() + ")";
 	}
 }
