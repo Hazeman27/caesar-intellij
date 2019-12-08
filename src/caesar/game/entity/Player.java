@@ -19,7 +19,7 @@ public class Player extends Entity {
 		
 		this.foodResource = new Status(
 			StatusType.FOOD_RESOURCE,
-			Troop.countSoldiers(this.army) * 10
+			Troop.getSoldiersCount(this.army) * 10
 		);
 	}
 }

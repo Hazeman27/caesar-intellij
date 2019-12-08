@@ -2,10 +2,13 @@ package caesar.military;
 
 public interface Unit {
 	
-	void die();
-	void setParentUnit(Unit parentUnit);
+	void setParent(UnitParent parent);
+	
+	void perish();
 	
 	UnitOrigin getOrigin();
+	
 	String getSummary();
+	
 	String getFullSummary();
 }

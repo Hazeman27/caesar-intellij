@@ -1,5 +1,5 @@
 package caesar.military.officer;
 
-interface Rank {
+public interface Rank {
 	int getIndex();
 }

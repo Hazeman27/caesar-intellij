@@ -5,7 +5,8 @@ import caesar.game.status.Status;
 import caesar.game.status.StatusType;
 import caesar.military.Unit;
 import caesar.military.UnitOrigin;
-import caesar.military.troop.Troop;
+import caesar.military.UnitParent;
+import caesar.military.officer.Rank;
 import caesar.ui.Printer;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,9 +18,10 @@ public abstract class Soldier implements Unit {
 	protected final Map<StatusType, Status> state;
 	protected final UnitOrigin origin;
 	protected String name;
-	protected Troop parentUnit;
+	protected UnitParent parent;
+	protected Rank rank;
 	
-	protected Soldier(@NotNull Troop parentUnit, UnitOrigin origin) {
+	protected Soldier(Rank rank, UnitParent parent, UnitOrigin origin) {
 		
 		this.state = new HashMap<>();
 		
@@ -38,31 +40,26 @@ public abstract class Soldier implements Unit {
 			new Status(StatusType.SATIETY)
 		);
 		
-		this.parentUnit = parentUnit;
+		this.parent = parent;
+		this.rank = rank;
 		this.origin = origin;
 	}
 	
 	protected abstract int getDamageBoost();
 	protected abstract int block(int damage);
 	
-	protected Status getHealth() {
-		return this.state.get(StatusType.HEALTH);
-	}
-	
-	public Status getMorale() {
-		return this.state.get(StatusType.MORALE);
-	}
-	
-	protected Status getSatiety() {
-		return this.state.get(StatusType.SATIETY);
-	}
-	
-	public void updateStatus(StatusType type, int amount) {
-		this.state.get(type).updateState(amount);
-	}
-	
 	private boolean isDead() {
 		return this.state.get(StatusType.HEALTH).atMinState();
+	}
+	
+	@Override
+	public void setParent(UnitParent parent) {
+		this.parent = parent;
+	}
+	
+	@Override
+	public void perish() {
+		this.parent.removeChild(this);
 	}
 	
 	@Override
@@ -70,10 +67,24 @@ public abstract class Soldier implements Unit {
 		return this.origin;
 	}
 	
-	@Override
-	public void die() {
-		this.parentUnit.removeSoldier(this);
-		this.parentUnit = null;
+	public Status getMorale() {
+		return this.state.get(StatusType.MORALE);
+	}
+	
+	public void setRank(Rank rank) {
+		this.rank = rank;
+	}
+	
+	public void updateStatus(StatusType type, int amount) {
+		this.state.get(type).updateState(amount);
+	}
+	
+	protected Status getHealth() {
+		return this.state.get(StatusType.HEALTH);
+	}
+	
+	protected Status getSatiety() {
+		return this.state.get(StatusType.SATIETY);
 	}
 	
 	public Soldier engage(Soldier target, boolean verbose, boolean fullVerbose) {
@@ -141,18 +152,13 @@ public abstract class Soldier implements Unit {
 		return target;
 	}
 	
-	@Override
-	public void setParentUnit(Unit parentUnit) {
-		this.parentUnit = (Troop) parentUnit;
-	}
-	
 	private int receiveDamage(int damage) {
 		
 		damage = Math.max(damage - this.block(damage), 0);
 		this.getHealth().updateState(-damage);
 		
 		if (this.isDead())
-			this.die();
+			this.perish();
 		
 		return damage;
 	}
@@ -172,26 +178,14 @@ public abstract class Soldier implements Unit {
 	
 	@Override
 	public String getSummary() {
-		
-		return "[" +
-			this.getClass().getSimpleName() +
-			"] " +
-			this.name +
-			"\n-> Unit: " +
-			this.parentUnit +
-			"\n";
+		return "[" + this.rank + "] " + this.name +
+			"\n-> Unit: " + this.parent + "\n";
 	}
 	
 	@Override
 	public String getFullSummary() {
 		
-		return "[" +
-			this.getClass().getSimpleName() +
-			"] " +
-			this.name +
-			"\n-> Unit: " +
-			this.parentUnit +
-			"\n-> Health: [" +
+		return this.getSummary() + "-> Health: [" +
 			this.getHealth().getCurrentState() +
 			"/" +
 			StatusType.HEALTH.getMaxState() +
@@ -208,10 +202,6 @@ public abstract class Soldier implements Unit {
 	
 	@Override
 	public String toString() {
-		
-		return "[" +
-			this.getClass().getSimpleName() +
-			"] " +
-			this.name;
+		return "[" + this.rank + "] " + this.name;
 	}
 }

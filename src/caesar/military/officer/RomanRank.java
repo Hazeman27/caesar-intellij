@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Contract;
 
 public enum RomanRank implements Rank {
 	
+	LEGIONARY(1),
 	DECANUS(1),
 	CENTURION(2),
 	LEAD_CENTURION(3),
