@@ -65,7 +65,7 @@ public enum Action {
 	
 	TO_NEXT_DAY("Next day >>", game -> {
 		
-//		game.getEnemy().act();
+		game.getEnemy().act();
 		game.getEnemy().feedArmy();
 		game.incrementTurnsCount();
 		

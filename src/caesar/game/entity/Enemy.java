@@ -56,6 +56,7 @@ public class Enemy extends Entity {
 			
 			Relief relief = this.getDirectionRelief(direction);
 			this.move(direction, relief);
+			return;
 		}
 	}
 	
@@ -67,7 +68,7 @@ public class Enemy extends Entity {
 		if (highPriority && Relief.isSuperResourceRich(this.location.getRelief()))
 			return true;
 		
-		else if (!highPriority && Relief.isResourceRich(this.location.getRelief()))
+		if (!highPriority && Relief.isResourceRich(this.location.getRelief()))
 			return true;
 		
 		Map<Direction, Relief> reliefAround =
@@ -119,19 +120,20 @@ public class Enemy extends Entity {
 	
 	public void act() {
 		
-		if (this.actionPoints.atMinimum())
-			return;
-		
-		int soldiersCount = Troop.getSoldiersCount(this.army);
-		
-		if (this.foodResource.getCurrentState() <= soldiersCount)
-			this.gatherResources(true);
-		
-		else if (this.foodResource.getCurrentState() > soldiersCount &&
-			this.foodResource.getCurrentState() <= soldiersCount * 2)
-			this.gatherResources(false);
-		
-		this.moveTowardsPlayer();
-		this.act();
+		while (!this.actionPoints.atMinimum() && !this.location.equals(this.player.location)) {
+			
+			System.out.println(this.actionPoints.get());
+			
+			int soldiersCount = Troop.getSoldiersCount(this.army);
+			
+			if (this.foodResource.getCurrentState() <= soldiersCount)
+				this.gatherResources(true);
+			
+			else if (this.foodResource.getCurrentState() > soldiersCount &&
+				this.foodResource.getCurrentState() <= soldiersCount * 2)
+				this.gatherResources(false);
+			
+			this.moveTowardsPlayer();
+		}
 	}
 }

@@ -74,10 +74,13 @@ public abstract class Grouper {
 	}
 	
 	private static void assignOfficer(
-		@NotNull Troop child,
-		@NotNull List<Unit> unitsPool,
-		@NotNull List<Soldier> officersPool
+		Troop child,
+		List<Unit> unitsPool,
+		List<Soldier> officersPool
 	) {
+		
+		if (child == null)
+			return;
 		
 		if (officersPool.isEmpty()) {
 			
