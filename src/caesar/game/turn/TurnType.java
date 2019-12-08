@@ -1,13 +1,13 @@
 package caesar.game.turn;
 
+import caesar.ui.Printer;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import caesar.ui.Printer;
-import org.jetbrains.annotations.NotNull;
 
 public enum TurnType {
 	

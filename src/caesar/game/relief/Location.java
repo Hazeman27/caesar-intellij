@@ -18,6 +18,7 @@ public class Location {
 		this.y += deltaY;
 	}
 	
+	@NotNull
 	public Vector calcVector(@NotNull Location location) {
 		
 		return new Vector(
@@ -48,6 +49,7 @@ public class Location {
 		return this.x == location.x && this.y == location.y;
 	}
 	
+	@NotNull
 	@Override
 	public String toString() {
 		return "[" + this.x + ", " + this.y + "]";

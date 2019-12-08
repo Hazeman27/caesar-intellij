@@ -2,8 +2,8 @@ package caesar.ui;
 
 import caesar.game.relief.Direction;
 import caesar.game.relief.Location;
-import caesar.game.relief.ReliefMap;
 import caesar.game.relief.Relief;
+import caesar.game.relief.ReliefMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -76,7 +76,7 @@ public class Printer {
 		return spaces.toString();
 	}
 	
-	public static void printRelief(@NotNull ReliefMap reliefMap, Location location) {
+	public static void printRelief(@NotNull ReliefMap reliefMap, @NotNull Location location) {
 		
 		Map<Direction, Relief> reliefAroundMap =
 			reliefMap.getReliefAround(location);

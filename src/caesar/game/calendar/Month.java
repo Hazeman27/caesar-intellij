@@ -1,6 +1,7 @@
 package caesar.game.calendar;
 
 import caesar.game.weather.Season;
+import org.jetbrains.annotations.NotNull;
 
 public enum Month {
 	
@@ -36,7 +37,8 @@ public enum Month {
 		return this.season;
 	}
 	
-	static Month next(Month current) {
+	@NotNull
+	static Month next(@NotNull Month current) {
 		
 		if (current == DECEMBER)
 			return IANUARIUS;

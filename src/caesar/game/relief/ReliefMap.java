@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class ReliefMap {
 	
+	@NotNull
 	private final Relief[][] relief;
 	private final int size;
 	
@@ -32,6 +33,7 @@ public class ReliefMap {
 		return this.relief[x][y];
 	}
 	
+	@NotNull
 	public Map<Direction, Relief> getReliefAround(@NotNull Location location) {
 		
 		Map<Direction, Relief> reliefMap = new HashMap<>();
@@ -55,6 +57,7 @@ public class ReliefMap {
 		return this.size;
 	}
 	
+	@NotNull
 	@Override
 	public String toString() {
 		

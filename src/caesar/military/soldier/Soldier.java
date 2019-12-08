@@ -9,12 +9,14 @@ import caesar.military.UnitParent;
 import caesar.military.officer.Rank;
 import caesar.ui.Printer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Soldier implements Unit {
 	
+	@NotNull
 	protected final Map<StatusType, Status> state;
 	protected final UnitOrigin origin;
 	protected String name;
@@ -87,7 +89,8 @@ public abstract class Soldier implements Unit {
 		return this.state.get(StatusType.SATIETY);
 	}
 	
-	public Soldier engage(Soldier target, boolean verbose, boolean fullVerbose) {
+	@Nullable
+	public Soldier engage(@Nullable Soldier target, boolean verbose, boolean fullVerbose) {
 		
 		if (target == null)
 			return this;
@@ -128,7 +131,8 @@ public abstract class Soldier implements Unit {
 		return target;
 	}
 	
-	public Soldier engage(Soldier target, boolean verbose) {
+	@Nullable
+	public Soldier engage(@Nullable Soldier target, boolean verbose) {
 		
 		if (target == null)
 			return this;
@@ -176,12 +180,14 @@ public abstract class Soldier implements Unit {
 		return target.receiveDamage(damage);
 	}
 	
+	@NotNull
 	@Override
 	public String getSummary() {
 		return "[" + this.rank + "] " + this.name +
 			"\n-> Unit: " + this.parent + "\n";
 	}
 	
+	@NotNull
 	@Override
 	public String getFullSummary() {
 		
@@ -200,6 +206,7 @@ public abstract class Soldier implements Unit {
 			"]\n";
 	}
 	
+	@NotNull
 	@Override
 	public String toString() {
 		return "[" + this.rank + "] " + this.name;

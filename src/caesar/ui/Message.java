@@ -2,6 +2,7 @@ package caesar.ui;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public enum Message {
 	
@@ -32,12 +33,14 @@ public enum Message {
 	NOT_ENOUGH_FOOD("You don't have enough food to feed your entire army!"),
 	MORALE_DOWN("Your army's morale is down");
 	
+	@Nullable
 	private final String title;
+	@NotNull
 	private final String content;
 	private final int maxLength;
 	
 	@Contract(pure = true)
-	Message(String title, String content) {
+	Message(@Nullable String title, @NotNull String content) {
 		
 		if (title == null)
 			title = "";
@@ -48,7 +51,7 @@ public enum Message {
 	}
 	
 	@Contract(pure = true)
-	Message(String content) {
+	Message(@NotNull String content) {
 		
 		this.title = null;
 		this.maxLength = 50;

@@ -4,14 +4,16 @@ import caesar.game.battle.Battle;
 import caesar.game.battle.BattleReport;
 import caesar.game.status.StatusType;
 import caesar.military.Unit;
-import caesar.military.UnitParent;
 import caesar.military.UnitOrigin;
+import caesar.military.UnitParent;
 import caesar.military.officer.Rank;
 import caesar.military.soldier.Soldier;
-
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -88,12 +90,16 @@ public abstract class Troop implements Unit, UnitParent {
 	
 	protected abstract int getChildCapacity();
 	
+	@NotNull
 	protected abstract Soldier getOfficerInstance();
 	
+	@NotNull
 	protected abstract Rank getOfficerRank();
 	
+	@NotNull
 	protected abstract Unit getChildInstance();
 	
+	@NotNull
 	protected abstract Unit getEmptyChildInstance();
 	
 	@Override
@@ -120,7 +126,7 @@ public abstract class Troop implements Unit, UnitParent {
 	}
 	
 	@Override
-	public void removeAllChildren(List<Unit> children) {
+	public void removeAllChildren(@NotNull List<Unit> children) {
 		
 		this.children.removeAll(children);
 		
@@ -213,6 +219,7 @@ public abstract class Troop implements Unit, UnitParent {
 		return getUnitTotalMoraleStateSum(this) / getSoldiersCount(this);
 	}
 	
+	@Nullable
 	public BattleReport engage(Unit target, boolean verbose) {
 		
 		Troop targetTroop = (Troop) target;
@@ -242,7 +249,7 @@ public abstract class Troop implements Unit, UnitParent {
 	}
 	
 	public static void updateUnitStatus(
-		Unit unit,
+		@Nullable Unit unit,
 		StatusType statusType,
 		int amount
 	) {
@@ -260,7 +267,8 @@ public abstract class Troop implements Unit, UnitParent {
 		);
 	}
 	
-	public static List<Soldier> getSoldiers(Unit unit) {
+	@Nullable
+	public static List<Soldier> getSoldiers(@Nullable Unit unit) {
 		
 		if (unit == null)
 			return null;
@@ -277,7 +285,7 @@ public abstract class Troop implements Unit, UnitParent {
 		return units;
 	}
 	
-	public static int getUnitTotalMoraleStateSum(Unit unit) {
+	public static int getUnitTotalMoraleStateSum(@Nullable Unit unit) {
 		
 		if (unit == null)
 			return 0;
@@ -302,7 +310,7 @@ public abstract class Troop implements Unit, UnitParent {
 		return moraleState;
 	}
 	
-	public static int getSoldiersCount(Unit unit) {
+	public static int getSoldiersCount(@Nullable Unit unit) {
 		
 		if (unit == null) return 0;
 		if (unit instanceof Soldier) return 1;
@@ -319,6 +327,7 @@ public abstract class Troop implements Unit, UnitParent {
 		);
 	}
 	
+	@NotNull
 	@Override
 	public String getSummary() {
 		
@@ -344,6 +353,7 @@ public abstract class Troop implements Unit, UnitParent {
 		return summary;
 	}
 	
+	@NotNull
 	@Override
 	public String toString() {
 		

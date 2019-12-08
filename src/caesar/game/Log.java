@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 
 public class Log {
 	
+	@NotNull
 	private final List<String> log;
 	
 	Log() {
@@ -22,6 +23,7 @@ public class Log {
 		return this.log.get(this.log.size() - 1);
 	}
 	
+	@NotNull
 	@Override
 	public String toString() {
 		

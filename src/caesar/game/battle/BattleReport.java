@@ -1,6 +1,7 @@
 package caesar.game.battle;
 
 import caesar.military.UnitOrigin;
+import org.jetbrains.annotations.NotNull;
 
 public class BattleReport {
 	
@@ -9,6 +10,7 @@ public class BattleReport {
 	private final int committedSoldiersCount;
 	private final int survivedSoldiersCount;
 	
+	@NotNull
 	private final UnitOrigin battleVictor;
 	
 	public BattleReport(
@@ -29,6 +31,7 @@ public class BattleReport {
 		else this.battleVictor = UnitOrigin.GAUL;
 	}
 	
+	@NotNull
 	@Override
 	public String toString() {
 		

@@ -7,14 +7,20 @@ import caesar.military.soldier.Soldier;
 import caesar.military.troop.Troop;
 import caesar.ui.Printer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Battle {
 	
+	@NotNull
 	private final Map<Soldier, Soldier> battleParticipants;
 	private final int committedSoldiersCount;
 	private final boolean verbose;
@@ -74,6 +80,7 @@ public class Battle {
 		);
 	}
 	
+	@Nullable
 	public BattleReport start() {
 		
 		List<CompletableFuture<Soldier>> battleFutures =
@@ -100,7 +107,7 @@ public class Battle {
 		
 		try {
 			return battleReport.get();
-		} catch (InterruptedException | ExecutionException e) {
+		} catch (@NotNull InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
 		

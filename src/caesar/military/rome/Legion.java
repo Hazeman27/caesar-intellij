@@ -8,6 +8,7 @@ import caesar.military.officer.RomanOfficer;
 import caesar.military.officer.RomanRank;
 import caesar.military.soldier.Soldier;
 import caesar.military.troop.Troop;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -29,21 +30,25 @@ public class Legion extends Troop {
 		return Cohort.UNIT_CAPACITY;
 	}
 	
+	@NotNull
 	@Override
 	protected Soldier getOfficerInstance() {
 		return new RomanOfficer(RomanRank.LEGATE, this);
 	}
 	
+	@NotNull
 	@Override
 	protected Rank getOfficerRank() {
 		return RomanRank.LEGATE;
 	}
 	
+	@NotNull
 	@Override
 	protected Unit getChildInstance() {
 		return new Cohort(this);
 	}
 	
+	@NotNull
 	@Override
 	protected Unit getEmptyChildInstance() {
 		return new Cohort(this, new LinkedList<>(), new LinkedList<>());

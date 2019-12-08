@@ -1,16 +1,19 @@
 package caesar.game.calendar;
 
 import caesar.game.weather.Weather;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Calendar {
 	
 	private Weather weather;
+	@Nullable
 	private Month month;
 	private int day;
 	private int year;
 	private boolean bce;
 	
-	public Calendar(Month month, int day, int year, boolean bce) {
+	public Calendar(@Nullable Month month, int day, int year, boolean bce) {
 		
 		if (month == null)
 			return;
@@ -62,6 +65,7 @@ public class Calendar {
 		return weather;
 	}
 	
+	@NotNull
 	@Override
 	public String toString() {
 		return this.month +

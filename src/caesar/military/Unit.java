@@ -1,5 +1,7 @@
 package caesar.military;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface Unit {
 	
 	void setParent(UnitParent parent);
@@ -8,7 +10,7 @@ public interface Unit {
 	
 	UnitOrigin getOrigin();
 	
-	String getSummary();
+	@NotNull String getSummary();
 	
 	String getFullSummary();
 }

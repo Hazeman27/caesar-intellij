@@ -4,6 +4,7 @@ import caesar.game.Game;
 import caesar.military.Unit;
 import caesar.military.soldier.Soldier;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -50,7 +51,8 @@ public abstract class Grouper {
 		return officersPool;
 	}
 	
-	private static Soldier getNewOfficer(Troop troop, List<Unit> unitsPool) {
+	@Nullable
+	private static Soldier getNewOfficer(@NotNull Troop troop, @Nullable List<Unit> unitsPool) {
 		
 		if (unitsPool == null || unitsPool.isEmpty())
 			return null;
@@ -74,9 +76,9 @@ public abstract class Grouper {
 	}
 	
 	private static void assignOfficer(
-		Troop child,
+		@Nullable Troop child,
 		List<Unit> unitsPool,
-		List<Soldier> officersPool
+		@NotNull List<Soldier> officersPool
 	) {
 		
 		if (child == null)

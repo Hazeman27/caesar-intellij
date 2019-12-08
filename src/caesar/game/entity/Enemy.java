@@ -1,8 +1,8 @@
 package caesar.game.entity;
 
 import caesar.game.relief.Direction;
-import caesar.game.relief.ReliefMap;
 import caesar.game.relief.Relief;
+import caesar.game.relief.ReliefMap;
 import caesar.game.relief.Vector;
 import caesar.game.status.Status;
 import caesar.game.status.StatusType;

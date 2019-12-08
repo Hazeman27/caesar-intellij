@@ -8,6 +8,7 @@ import caesar.military.officer.GaulRank;
 import caesar.military.officer.Rank;
 import caesar.military.soldier.Soldier;
 import caesar.military.troop.Troop;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -29,21 +30,25 @@ public class Chiefdom extends Troop {
 		return Tribe.UNIT_CAPACITY;
 	}
 	
+	@NotNull
 	@Override
 	protected Soldier getOfficerInstance() {
 		return new GaulOfficer(GaulRank.CHIEF_WARLORD, this);
 	}
 	
+	@NotNull
 	@Override
 	protected Rank getOfficerRank() {
 		return GaulRank.CHIEF_WARLORD;
 	}
 	
+	@NotNull
 	@Override
 	protected Unit getChildInstance() {
 		return new Tribe(this);
 	}
 	
+	@NotNull
 	@Override
 	protected Unit getEmptyChildInstance() {
 		return new Tribe(this, new LinkedList<>(), new LinkedList<>());

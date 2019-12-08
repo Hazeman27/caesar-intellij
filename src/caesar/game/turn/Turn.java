@@ -1,8 +1,5 @@
 package caesar.game.turn;
 
-import java.util.Optional;
-import java.util.Scanner;
-
 import caesar.game.Game;
 import caesar.game.response.Response;
 import caesar.ui.Message;
@@ -10,11 +7,16 @@ import caesar.ui.Printer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+import java.util.Scanner;
+
 public class Turn {
 	
 	private TurnType current;
 	
+	@NotNull
 	private final Game game;
+	@NotNull
 	private final Scanner scanner;
 	
 	public Turn(@NotNull Game game) {
@@ -79,7 +81,7 @@ public class Turn {
 		return actionOptional.orElse(null);
 	}
 	
-	private void handleInput(Action action) {
+	private void handleInput(@Nullable Action action) {
 		
 		if (action == null) {
 			
@@ -128,11 +130,11 @@ public class Turn {
 		this.scanner.nextLine();
 	}
 	
-	private boolean isNumeric(String candidate) {
+	private boolean isNumeric(@NotNull String candidate) {
 		
 		try {
 			Double.parseDouble(candidate);
-		} catch (NumberFormatException | NullPointerException nfe) {
+		} catch (@NotNull NumberFormatException | NullPointerException nfe) {
 			return false;
 		}
 		

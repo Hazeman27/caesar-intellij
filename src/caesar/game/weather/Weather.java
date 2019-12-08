@@ -1,6 +1,7 @@
 package caesar.game.weather;
 
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class Weather {
 	
@@ -32,6 +33,7 @@ public class Weather {
 		return currentWeather;
 	}
 	
+	@NotNull
 	@Override
 	public String toString() {
 		return this.season +

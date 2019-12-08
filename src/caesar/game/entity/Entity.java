@@ -1,9 +1,9 @@
 package caesar.game.entity;
 
 import caesar.game.Game;
+import caesar.game.relief.Direction;
 import caesar.game.relief.Location;
 import caesar.game.relief.Relief;
-import caesar.game.relief.Direction;
 import caesar.game.relief.ReliefMap;
 import caesar.game.response.Response;
 import caesar.game.response.ResponseType;
@@ -11,6 +11,8 @@ import caesar.game.status.Status;
 import caesar.game.status.StatusType;
 import caesar.military.troop.Troop;
 import caesar.ui.Message;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,12 +29,15 @@ public abstract class Entity {
 	private static final int[] WOOD_GATHER_RANGE = new int[] {20, 25};
 	private static final int[] FOOD_GATHER_RANGE = new int[] {42, 50};
 	
+	@NotNull
 	protected final ActionPoints actionPoints;
+	@NotNull
 	protected final Location location;
 	protected Troop army;
 	
 	protected final ReliefMap reliefMap;
 	
+	@NotNull
 	protected final Status woodResource;
 	protected Status foodResource;
 	private boolean camping;
@@ -51,10 +56,12 @@ public abstract class Entity {
 		);
 	}
 	
+	@NotNull
 	public ActionPoints getActionPoints() {
 		return this.actionPoints;
 	}
 	
+	@NotNull
 	public Location getLocation() {
 		return this.location;
 	}
@@ -63,7 +70,8 @@ public abstract class Entity {
 		return this.army;
 	}
 	
-	public Relief getDirectionRelief(Direction direction) {
+	@Nullable
+	public Relief getDirectionRelief(@Nullable Direction direction) {
 		
 		if (direction == null)
 			return null;
@@ -74,7 +82,7 @@ public abstract class Entity {
 		);
 	}
 	
-	public void move(Direction direction, Relief relief) {
+	public void move(@Nullable Direction direction, Relief relief) {
 		
 		if (direction == null)
 			return;
@@ -117,6 +125,7 @@ public abstract class Entity {
 		this.camping = false;
 	}
 	
+	@NotNull
 	public Response buildCamp() {
 		
 		if (!Relief.isSolid(this.location.getRelief())) {
@@ -144,6 +153,7 @@ public abstract class Entity {
 		);
 	}
 	
+	@NotNull
 	public Response feedArmy() {
 		
 		int soldiersCount = Troop.getSoldiersCount(this.army);
@@ -176,6 +186,7 @@ public abstract class Entity {
 		);
 	}
 	
+	@NotNull
 	public Map<StatusType, Integer> gatherResources() {
 		
 		int resourceIndex = this.location.getRelief().getResourceIndex();
@@ -210,6 +221,7 @@ public abstract class Entity {
 		return resourcesGathered;
 	}
 	
+	@NotNull
 	@Override
 	public String toString() {
 		

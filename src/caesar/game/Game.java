@@ -4,17 +4,16 @@ import caesar.game.calendar.Calendar;
 import caesar.game.calendar.Month;
 import caesar.game.entity.ActionPoints;
 import caesar.game.entity.Enemy;
+import caesar.game.entity.Player;
 import caesar.game.relief.Location;
+import caesar.game.relief.ReliefMap;
 import caesar.game.turn.Turn;
 import caesar.game.turn.TurnType;
-import caesar.game.relief.ReliefMap;
-import caesar.game.entity.Player;
 import caesar.game.weather.Weather;
 import caesar.game.weather.WeatherType;
 import caesar.military.troop.Troop;
 import caesar.ui.Message;
 import caesar.ui.Printer;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.security.SecureRandom;
@@ -29,13 +28,18 @@ public class Game {
 	private static final int AP_REPLENISH_THRESHOLD = 5;
 	private static final int EXIT_CODE = 0;
 	
+	@NotNull
 	private final ReliefMap reliefMap;
+	@NotNull
 	private final Player player;
 	private Enemy enemy;
 	private int turnsCount;
 	
+	@NotNull
 	private final Turn turn;
+	@NotNull
 	private final Log log;
+	@NotNull
 	private final Calendar calendar;
 	
 	public Game(
@@ -102,6 +106,7 @@ public class Game {
 		);
 	}
 	
+	@NotNull
 	public ReliefMap getReliefMap() {
 		return this.reliefMap;
 	}
@@ -110,10 +115,12 @@ public class Game {
 		return this.turn.getCurrent();
 	}
 	
+	@NotNull
 	public Player getPlayer() {
 		return this.player;
 	}
 	
+	@NotNull
 	public Location getPlayerLocation() {
 		return this.player.getLocation();
 	}
@@ -122,6 +129,7 @@ public class Game {
 		return this.player.getArmy();
 	}
 	
+	@NotNull
 	public ActionPoints getPlayerAP() {
 		return this.player.getActionPoints();
 	}
@@ -130,6 +138,7 @@ public class Game {
 		return this.enemy;
 	}
 	
+	@NotNull
 	public Location getEnemyLocation() {
 		return this.enemy.getLocation();
 	}
@@ -142,6 +151,7 @@ public class Game {
 		return this.turnsCount;
 	}
 	
+	@NotNull
 	public Log getLog() {
 		return log;
 	}
@@ -150,6 +160,7 @@ public class Game {
 		return this.log.getLastItem();
 	}
 	
+	@NotNull
 	public Calendar getCalendar() {
 		return calendar;
 	}
@@ -163,7 +174,7 @@ public class Game {
 			.getCurrentWeather();
 	}
 	
-	public void log(Object item) {
+	public void log(@NotNull Object item) {
 		this.log.addItem(item);
 	}
 	
