@@ -14,9 +14,9 @@ import java.util.List;
 
 public class Legion extends Troop {
 	
-	static final int UNIT_CAPACITY = 10;
+	static final int UNIT_CAPACITY = 11;
 	
-	public Legion(UnitParent parent) {
+	Legion(UnitParent parent) {
 		super(parent, UNIT_CAPACITY, "[><]", UnitOrigin.ROME);
 	}
 	
@@ -41,11 +41,11 @@ public class Legion extends Troop {
 	
 	@Override
 	protected Unit getChildInstance() {
-		return new Cohort(this, new LinkedList<>(), new LinkedList<>());
+		return new Cohort(this);
 	}
 	
 	@Override
 	protected Unit getEmptyChildInstance() {
-		return null;
+		return new Cohort(this, new LinkedList<>(), new LinkedList<>());
 	}
 }

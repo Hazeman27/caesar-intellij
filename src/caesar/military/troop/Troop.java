@@ -313,21 +313,6 @@ public abstract class Troop implements Unit, UnitParent {
 		);
 	}
 	
-	public static String getFullSummary(Unit unit) {
-		
-		if (unit == null)
-			return null;
-		
-		if (unit instanceof Soldier)
-			return unit.getFullSummary();
-		
-		Troop troop = (Troop) unit;
-		
-		return troop.children.stream()
-		                     .map(Troop::getFullSummary)
-		                     .collect(Collectors.joining());
-	}
-	
 	@Override
 	public String getSummary() {
 		
@@ -364,42 +349,5 @@ public abstract class Troop implements Unit, UnitParent {
 			"] (" +
 			this.children.size() +
 			")";
-	}
-	
-	private static void removeRandomChild(Troop troop) {
-		
-		if (troop == null || troop.children.isEmpty())
-			return;
-		
-		troop.removeChild(troop.children.get(
-			Game.getRandomInt(troop.children.size())
-		));
-	}
-	
-	public static void main(String ...args) {
-		
-		Troop troop = new Legion(null);
-		System.out.println(troop.getFullSummary());
-		
-		troop.children.forEach(child -> {
-			
-			Troop childTroop = (Troop) child;
-			
-			Soldier officerToRemove = childTroop.getOfficers().get(
-				Game.getRandomInt(childTroop.getOfficers().size())
-			);
-			
-			int limit = Game.getRandomInt(troop.getChildCapacity());
-			
-			IntStream.range(0, limit)
-			         .forEach(i -> Troop.removeRandomChild(childTroop));
-			
-			if (Game.getRandomInt(100) > 30)
-				childTroop.removeOfficer(officerToRemove);
-		});
-		
-		System.out.println(troop.getFullSummary());
-		troop.regroupUnits();
-		System.out.println(troop.getFullSummary());
 	}
 }
