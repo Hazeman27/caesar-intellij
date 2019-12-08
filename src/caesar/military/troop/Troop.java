@@ -85,7 +85,7 @@ public abstract class Troop implements Unit, UnitParent {
 	protected abstract Soldier getOfficerInstance();
 	protected abstract Unit getChildInstance();
 	protected abstract Unit getEmptyChildInstance();
-	protected abstract Soldier getReplacementOfficer(List<Unit> unitsPool);
+	protected abstract Soldier getNewOfficer(List<Unit> unitsPool);
 	protected abstract void regroupUnits();
 	
 	@Override

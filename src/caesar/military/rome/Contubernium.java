@@ -44,7 +44,7 @@ public class Contubernium extends Troop {
 	}
 	
 	@Override
-	protected Soldier getReplacementOfficer(List<Unit> unitsPool) {
+	protected Soldier getNewOfficer(List<Unit> unitsPool) {
 		return null;
 	}
 	

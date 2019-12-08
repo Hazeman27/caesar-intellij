@@ -48,7 +48,7 @@ public class Century extends Troop {
 	}
 	
 	@Override
-	protected Soldier getReplacementOfficer(List<Unit> unitsPool) {
+	protected Soldier getNewOfficer(List<Unit> unitsPool) {
 		
 		if (unitsPool == null || unitsPool.isEmpty())
 			return null;
@@ -89,22 +89,20 @@ public class Century extends Troop {
 		
 		while (!unitsPool.isEmpty()) {
 			
-			Troop newChild = (Troop) this.getEmptyChildInstance();
+			Troop child = (Troop) this.getEmptyChildInstance();
 			
-			int limit = Math.min(childCapacity, unitsPool.size());
-			transferUnitsRange(unitsPool, newChild, limit);
+			if (officersPool.isEmpty())
+				child.setOfficer(this.getNewOfficer(unitsPool));
 			
-			if (officersPool.isEmpty()) {
-				
-				newChild.setOfficer(
-					this.getReplacementOfficer(unitsPool)
-				);
-			} else {
-				newChild.setOfficer(officersPool.get(0));
+			else {
+				child.setOfficer(officersPool.get(0));
 				officersPool.remove(0);
 			}
 			
-			this.addChild(newChild);
+			int limit = Math.min(childCapacity, unitsPool.size());
+			transferUnitsRange(unitsPool, child, limit);
+			
+			this.addChild(child);
 		}
 	}
 	
