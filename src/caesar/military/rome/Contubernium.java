@@ -2,6 +2,7 @@ package caesar.military.rome;
 
 import caesar.military.Unit;
 import caesar.military.UnitOrigin;
+import caesar.military.UnitParent;
 import caesar.military.officer.RomanOfficer;
 import caesar.military.officer.RomanRank;
 import caesar.military.soldier.Roman;
@@ -15,12 +16,12 @@ public class Contubernium extends Troop {
 	
 	static final int UNIT_CAPACITY = 7;
 	
-	Contubernium(Century century) {
-		super(century, UNIT_CAPACITY, ".", UnitOrigin.ROME);
+	Contubernium(UnitParent parent) {
+		super(parent, UNIT_CAPACITY, ".", UnitOrigin.ROME);
 	}
 	
-	Contubernium(Century century, List<Unit> units) {
-		super(century, units, UNIT_CAPACITY, ".", UnitOrigin.ROME);
+	Contubernium(UnitParent parent, List<Unit> units) {
+		super(parent, units, UNIT_CAPACITY, ".", UnitOrigin.ROME);
 	}
 	
 	@Override
