@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import caesar.game.Game;
-import caesar.game.calendar.Month;
 import caesar.game.response.Response;
 import caesar.ui.Message;
 import caesar.ui.Printer;
@@ -13,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class Turn {
 	
-	private TurnType type;
+	private TurnType current;
 	
 	private final Game game;
 	private final Scanner scanner;
@@ -24,10 +23,13 @@ public class Turn {
 		this.scanner = new Scanner(System.in);
 	}
 	
+	public TurnType getCurrent() {
+		return current;
+	}
+	
 	private void printMessage() {
 		
-		Printer.printEmptyLine();
-		Printer.print(this.type);
+		Printer.print(this.current);
 		Printer.print(this.game.getCalendar());
 		Printer.print(this.game.getWeather());
 		Printer.printEmptyLine();
@@ -47,7 +49,7 @@ public class Turn {
 	}
 	
 	private boolean incorrectInputValue(int value) {
-		return value < 1 || value > this.type.getActions().size();
+		return value < 1 || value > this.current.getActions().size();
 	}
 	
 	@Nullable
@@ -65,10 +67,10 @@ public class Turn {
 			if (this.incorrectInputValue(inputValue))
 				return null;
 			
-			return this.type.getAction(inputValue - 1);
+			return this.current.getAction(inputValue - 1);
 		}
 		
-		Optional<Action> actionOptional = this.type
+		Optional<Action> actionOptional = this.current
 			.getActions()
 			.stream()
 			.filter(a -> a.toString().equalsIgnoreCase(input))
@@ -80,14 +82,18 @@ public class Turn {
 	private void handleInput(Action action) {
 		
 		if (action == null) {
+			
 			Printer.print(Message.UNKNOWN_COMMAND);
+			this.next(this.current);
 			return;
 		}
 		
 		int actionValue = action.getValue();
 		
 		if (this.game.getPlayerAP().get() < actionValue) {
+			
 			Printer.print(Message.LOW_AP);
+			this.next(this.current);
 			return;
 		}
 			
@@ -97,25 +103,23 @@ public class Turn {
 		if (response.hasMessage())
 			Printer.print(response.getMessage());
 		
-		if (response.isSuccessful()) {
-			
+		if (response.isSuccessful())
 			this.game.getPlayerAP().remove(actionValue);
-			
-			if (response.hasAction())
-				response.initAction();
-			
-			if (response.hasNextTurn())
-				this.next(response.getNextTurn());
-		}
+		
+		if (response.hasAction())
+			response.initAction();
+		
+		if (response.hasNextTurn())
+			this.next(response.getNextTurn());
 	}
 	
 	public void next(TurnType type) {
 		
-		this.type = type;
+		this.current = type;
 		
+		this.awaitInput();
 		this.printMessage();
 		this.handleInput(this.scanInput());
-		this.awaitInput();
 	}
 	
 	private void awaitInput() {
@@ -133,11 +137,5 @@ public class Turn {
 		}
 		
 		return true;
-	}
-	
-	public static void main(String[] args) {
-		
-		Turn turn = new Turn(new Game(Month.IANUARIUS, 13, 58, true));
-		turn.next(TurnType.TRAVEL);
 	}
 }

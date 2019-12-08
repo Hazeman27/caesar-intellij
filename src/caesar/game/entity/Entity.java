@@ -1,9 +1,10 @@
 package caesar.game.entity;
 
 import caesar.game.Game;
-import caesar.game.map.Location;
-import caesar.game.map.Relief;
-import caesar.game.map.Direction;
+import caesar.game.relief.Location;
+import caesar.game.relief.Relief;
+import caesar.game.relief.Direction;
+import caesar.game.relief.ReliefMap;
 import caesar.game.response.Response;
 import caesar.game.response.ResponseType;
 import caesar.game.status.Status;
@@ -18,7 +19,6 @@ public abstract class Entity {
 	
 	private static final int CAMP_BUILD_COST = 256;
 	private static final int WOOD_RESOURCE_INITIAL_STATE = 1024;
-	private static final int FOOD_RESOURCE_INITIAL_STATE = 65536;
 	
 	private static final int MORALE_MODIFIER = 1;
 	private static final int SATIETY_MODIFIER = 25;
@@ -31,37 +31,47 @@ public abstract class Entity {
 	protected final Location location;
 	protected Troop army;
 	
-	private final Status woodResource;
-	private final Status foodResource;
+	protected final ReliefMap reliefMap;
+	
+	protected final Status woodResource;
+	protected Status foodResource;
 	private boolean camping;
 	
-	Entity(int actionPointsAmount, int x, int y) {
+	Entity(ReliefMap reliefMap, int actionPointsAmount, int x, int y) {
 		
 		this.actionPoints = new ActionPoints(actionPointsAmount);
 		this.location = new Location(x, y);
 		this.camping = false;
 		
+		this.reliefMap = reliefMap;
+		
 		this.woodResource = new Status(
 			StatusType.WOOD_RESOURCE,
 			WOOD_RESOURCE_INITIAL_STATE
 		);
-		
-		this.foodResource = new Status(
-			StatusType.FOOD_RESOURCE,
-			FOOD_RESOURCE_INITIAL_STATE
-		);
 	}
 	
 	public ActionPoints getActionPoints() {
-		return actionPoints;
+		return this.actionPoints;
 	}
 	
 	public Location getLocation() {
-		return location;
+		return this.location;
 	}
 	
 	public Troop getArmy() {
-		return army;
+		return this.army;
+	}
+	
+	public Relief getDirectionRelief(Direction direction) {
+		
+		if (direction == null)
+			return null;
+		
+		return this.reliefMap.getRelief(
+			direction.getX() + this.location.getX(),
+			direction.getY() + this.location.getY()
+		);
 	}
 	
 	public void move(Direction direction, Relief relief) {
@@ -136,7 +146,7 @@ public abstract class Entity {
 	
 	public Response feedArmy() {
 		
-		int soldiersCount = Troop.countSoldiers(this.army);
+		int soldiersCount = Troop.getSoldiersCount(this.army);
 		
 		if (this.foodResource.getCurrentState() < soldiersCount) {
 			
@@ -210,7 +220,7 @@ public abstract class Entity {
 			", RELIEF: " +
 			this.location.getRelief() +
 			", ARMY: " +
-			Troop.countSoldiers(this.army) +
+			Troop.getSoldiersCount(this.army) +
 			", MORALE (AVG): [" +
 			this.army.getAverageMoraleState() +
 			"/" +

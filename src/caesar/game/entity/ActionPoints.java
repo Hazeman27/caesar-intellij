@@ -33,4 +33,8 @@ public class ActionPoints {
 		
 		else this.amount -= amount;
 	}
+	
+	public boolean atMinimum() {
+		return this.amount == MIN;
+	}
 }

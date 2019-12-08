@@ -1,6 +1,5 @@
-package caesar.game.map;
+package caesar.game.relief;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public class Location {
@@ -9,7 +8,6 @@ public class Location {
 	private int y;
 	private Relief relief;
 	
-	@Contract(pure = true)
 	public Location(int x, int y) {
 		this.x = x;
 		this.y = y;

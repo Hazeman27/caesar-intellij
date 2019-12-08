@@ -26,7 +26,7 @@ public enum Message {
 	UNKNOWN_DIRECTION("Error", "Unknown direction for movement..."),
 	UNKNOWN_COMMAND("Error", "Unknown command. Try again..."),
 	LOW_AP("Not enough action points..."),
-	CANT_REMOVE_TROOP("Error", "Can't remove troop with no parent..."),
+	CANT_REMOVE_TROOP("Error", "Can't removeChild troop with no parent..."),
 	CANT_BUILD_CAMP_NOT_ENOUGH_WOOD("Not enough wood to build camp!"),
 	CANT_BUILD_CAMP_NOT_SOLID_RELIEF("Can't build camp on this relief!"),
 	NOT_ENOUGH_FOOD("You don't have enough food to feed your entire army!"),
@@ -85,7 +85,7 @@ public enum Message {
 	@Override
 	public String toString() {
 		
-		StringBuilder stringBuilder = new StringBuilder("\n");
+		StringBuilder stringBuilder = new StringBuilder();
 		
 		if (this.title != null) stringBuilder.append(
 			Printer.getBorder(this.title, this.maxLength, 0)

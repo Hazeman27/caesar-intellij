@@ -1,7 +1,6 @@
-package caesar.game.map;
+package caesar.game.relief;
 
 import caesar.game.Game;
-import org.jetbrains.annotations.Contract;
 
 public enum Relief {
 	
@@ -18,13 +17,11 @@ public enum Relief {
 	private final String symbol;
 	private final int resourceIndex;
 	
-	@Contract(pure = true)
 	Relief(String symbol, int resourceIndex) {
 		this.symbol = symbol;
 		this.resourceIndex = resourceIndex;
 	}
 	
-	@Contract(pure = true)
 	public int getResourceIndex() {
 		return this.resourceIndex;
 	}
@@ -37,8 +34,15 @@ public enum Relief {
 		return values()[Game.getRandomInt(1, values().length)];
 	}
 	
-	@Contract(pure = true)
 	public static boolean isSolid(Relief relief) {
 		return relief != RIVER && relief != SWAMP;
+	}
+	
+	public static boolean isResourceRich(Relief relief) {
+		return relief == FOREST || relief == VALLEY;
+	}
+	
+	public static boolean isSuperResourceRich(Relief relief) {
+		return relief == FOREST;
 	}
 }

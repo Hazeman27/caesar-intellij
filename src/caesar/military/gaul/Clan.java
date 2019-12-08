@@ -6,46 +6,46 @@ import caesar.military.UnitParent;
 import caesar.military.officer.GaulOfficer;
 import caesar.military.officer.GaulRank;
 import caesar.military.officer.Rank;
+import caesar.military.soldier.Gaul;
 import caesar.military.soldier.Soldier;
 import caesar.military.troop.Troop;
 
-import java.util.LinkedList;
 import java.util.List;
 
-public class Nation extends Troop {
+public class Clan extends Troop {
 	
-	static final int UNIT_CAPACITY = 12;
+	static final int UNIT_CAPACITY = 20;
 	
-	Nation(UnitParent parent) {
-		super(parent, UNIT_CAPACITY, "[XX]", UnitOrigin.GAUL);
+	Clan(UnitParent parent) {
+		super(parent, UNIT_CAPACITY, "x", UnitOrigin.GAUL);
 	}
 	
-	Nation(UnitParent parent, List<Unit> children, List<Soldier> officers) {
-		super(parent, children, officers, UNIT_CAPACITY, "[XX]", UnitOrigin.GAUL);
+	Clan(UnitParent parent, List<Unit> children, List<Soldier> officers) {
+		super(parent, children, officers, UNIT_CAPACITY, "x", UnitOrigin.GAUL);
 	}
 	
 	@Override
 	protected int getChildCapacity() {
-		return Chiefdom.UNIT_CAPACITY;
+		return 0;
 	}
 	
 	@Override
 	protected Soldier getOfficerInstance() {
-		return new GaulOfficer(GaulRank.CHIEF_WARLORD, this);
+		return new GaulOfficer(GaulRank.CHIEF, this);
 	}
 	
 	@Override
 	protected Rank getOfficerRank() {
-		return GaulRank.CHIEF_WARLORD;
+		return GaulRank.CHIEF;
 	}
 	
 	@Override
 	protected Unit getChildInstance() {
-		return new Chiefdom(this);
+		return new Gaul(GaulRank.WARRIOR, this);
 	}
 	
 	@Override
 	protected Unit getEmptyChildInstance() {
-		return new Chiefdom(this, new LinkedList<>(), new LinkedList<>());
+		return new Gaul(GaulRank.WARRIOR, this);
 	}
 }

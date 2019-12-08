@@ -1,14 +1,17 @@
-package caesar.game.map;
+package caesar.game.relief;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-public class Map {
+import java.util.HashMap;
+import java.util.Map;
+
+public class ReliefMap {
 	
 	private final Relief[][] relief;
 	private final int size;
 	
-	public Map(int size) {
+	public ReliefMap(int size) {
 		
 		this.relief = new Relief[size][size];
 		this.size = size;
@@ -29,30 +32,23 @@ public class Map {
 		return this.relief[x][y];
 	}
 	
-	public Relief[] getReliefAround(@NotNull Location location) {
+	public Map<Direction, Relief> getReliefAround(@NotNull Location location) {
+		
+		Map<Direction, Relief> reliefMap = new HashMap<>();
 		
 		int x = location.getX();
 		int y = location.getY();
 		
-		Relief north        = this.getRelief(x, y + 1);
-		Relief northwest    = this.getRelief(x - 1, y + 1);
-		Relief northeast    = this.getRelief(x + 1, y + 1);
-		Relief west         = this.getRelief(x - 1, y);
-		Relief east         = this.getRelief(x + 1, y);
-		Relief south        = this.getRelief(x, y - 1);
-		Relief southwest    = this.getRelief(x - 1, y - 1);
-		Relief southeast    = this.getRelief(x + 1, y - 1);
+		reliefMap.put(Direction.NORTH, this.getRelief(x, y + 1));
+		reliefMap.put(Direction.NORTHWEST, this.getRelief(x - 1, y + 1));
+		reliefMap.put(Direction.NORTHEAST, this.getRelief(x + 1, y + 1));
+		reliefMap.put(Direction.WEST, this.getRelief(x - 1, y));
+		reliefMap.put(Direction.EAST, this.getRelief(x + 1, y));
+		reliefMap.put(Direction.SOUTH, this.getRelief(x, y - 1));
+		reliefMap.put(Direction.SOUTHWEST, this.getRelief(x - 1, y - 1));
+		reliefMap.put(Direction.SOUTHEAST, this.getRelief(x + 1, y - 1));
 		
-		return new Relief[] {
-			north,
-			northwest,
-			northeast,
-			west,
-			east,
-			south,
-			southwest,
-			southeast
-		};
+		return reliefMap;
 	}
 	
 	public int getSize() {
@@ -77,7 +73,7 @@ public class Map {
 	
 	public static void main(String[] args) {
 		
-		Map reliefMap = new Map(20);
+		ReliefMap reliefMap = new ReliefMap(20);
 		System.out.println(reliefMap);
 	}
 }

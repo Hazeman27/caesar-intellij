@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import caesar.ui.Printer;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public enum TurnType {
@@ -125,12 +124,10 @@ public enum TurnType {
 		return Math.max(titleLength, actionNamesMaxLength);
 	}
 	
-	@Contract(pure = true)
 	public List<Action> getActions() {
 		return this.actions;
 	}
 	
-	@Contract(pure = true)
 	public Action getAction(int index) {
 		return this.actions.get(index);
 	}

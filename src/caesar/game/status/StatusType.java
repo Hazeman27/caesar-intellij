@@ -6,7 +6,7 @@ public enum StatusType {
 	MORALE(-10, 10),
 	SATIETY(-100, 100),
 	WOOD_RESOURCE(0, 65536),
-	FOOD_RESOURCE(0, 256372);
+	FOOD_RESOURCE(0, 11256372);
 	
 	private final int minState;
 	private final int maxState;

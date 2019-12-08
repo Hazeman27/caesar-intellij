@@ -12,21 +12,21 @@ import caesar.military.troop.Troop;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Nation extends Troop {
+public class Chiefdom extends Troop {
 	
-	static final int UNIT_CAPACITY = 12;
+	static final int UNIT_CAPACITY = 5;
 	
-	Nation(UnitParent parent) {
-		super(parent, UNIT_CAPACITY, "[XX]", UnitOrigin.GAUL);
+	Chiefdom(UnitParent parent) {
+		super(parent, UNIT_CAPACITY, "[X]", UnitOrigin.GAUL);
 	}
 	
-	Nation(UnitParent parent, List<Unit> children, List<Soldier> officers) {
-		super(parent, children, officers, UNIT_CAPACITY, "[XX]", UnitOrigin.GAUL);
+	Chiefdom(UnitParent parent, List<Unit> children, List<Soldier> officers) {
+		super(parent, children, officers, UNIT_CAPACITY, "[X]", UnitOrigin.GAUL);
 	}
 	
 	@Override
 	protected int getChildCapacity() {
-		return Chiefdom.UNIT_CAPACITY;
+		return Tribe.UNIT_CAPACITY;
 	}
 	
 	@Override
@@ -41,11 +41,11 @@ public class Nation extends Troop {
 	
 	@Override
 	protected Unit getChildInstance() {
-		return new Chiefdom(this);
+		return new Tribe(this);
 	}
 	
 	@Override
 	protected Unit getEmptyChildInstance() {
-		return new Chiefdom(this, new LinkedList<>(), new LinkedList<>());
+		return new Tribe(this, new LinkedList<>(), new LinkedList<>());
 	}
 }
