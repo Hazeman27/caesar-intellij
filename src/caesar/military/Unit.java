@@ -1,10 +1,15 @@
 package caesar.military;
 
+import java.util.List;
+
 public interface Unit {
 	
-	void die();
-	void setParentUnit(Unit parentUnit);
+	UnitParent getParent();
+	void setParent(UnitParent parent);
+	void perish();
+	boolean isFull();
 	
+	List<Unit> getChildren();
 	UnitOrigin getOrigin();
 	String getSummary();
 	String getFullSummary();

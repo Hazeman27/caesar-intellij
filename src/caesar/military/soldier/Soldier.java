@@ -5,11 +5,12 @@ import caesar.game.status.Status;
 import caesar.game.status.StatusType;
 import caesar.military.Unit;
 import caesar.military.UnitOrigin;
-import caesar.military.troop.Troop;
+import caesar.military.UnitParent;
 import caesar.ui.Printer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Soldier implements Unit {
@@ -17,9 +18,9 @@ public abstract class Soldier implements Unit {
 	protected final Map<StatusType, Status> state;
 	protected final UnitOrigin origin;
 	protected String name;
-	protected Troop parentUnit;
+	protected UnitParent parent;
 	
-	protected Soldier(@NotNull Troop parentUnit, UnitOrigin origin) {
+	protected Soldier(@NotNull UnitParent parent, UnitOrigin origin) {
 		
 		this.state = new HashMap<>();
 		
@@ -38,12 +39,42 @@ public abstract class Soldier implements Unit {
 			new Status(StatusType.SATIETY)
 		);
 		
-		this.parentUnit = parentUnit;
+		this.parent = parent;
 		this.origin = origin;
 	}
 	
 	protected abstract int getDamageBoost();
 	protected abstract int block(int damage);
+	
+	@Override
+	public UnitParent getParent() {
+		return this.parent;
+	}
+	
+	@Override
+	public void setParent(UnitParent parent) {
+		this.parent = parent;
+	}
+	
+	@Override
+	public void perish() {
+		this.parent.removeChild(this);
+	}
+	
+	@Override
+	public boolean isFull() {
+		return true;
+	}
+	
+	@Override
+	public List<Unit> getChildren() {
+		return null;
+	}
+	
+	@Override
+	public UnitOrigin getOrigin() {
+		return this.origin;
+	}
 	
 	protected Status getHealth() {
 		return this.state.get(StatusType.HEALTH);
@@ -63,17 +94,6 @@ public abstract class Soldier implements Unit {
 	
 	private boolean isDead() {
 		return this.state.get(StatusType.HEALTH).atMinState();
-	}
-	
-	@Override
-	public UnitOrigin getOrigin() {
-		return this.origin;
-	}
-	
-	@Override
-	public void die() {
-		this.parentUnit.removeSoldier(this);
-		this.parentUnit = null;
 	}
 	
 	public Soldier engage(Soldier target, boolean verbose, boolean fullVerbose) {
@@ -141,18 +161,13 @@ public abstract class Soldier implements Unit {
 		return target;
 	}
 	
-	@Override
-	public void setParentUnit(Unit parentUnit) {
-		this.parentUnit = (Troop) parentUnit;
-	}
-	
 	private int receiveDamage(int damage) {
 		
 		damage = Math.max(damage - this.block(damage), 0);
 		this.getHealth().updateState(-damage);
 		
 		if (this.isDead())
-			this.die();
+			this.perish();
 		
 		return damage;
 	}
@@ -178,7 +193,7 @@ public abstract class Soldier implements Unit {
 			"] " +
 			this.name +
 			"\n-> Unit: " +
-			this.parentUnit +
+			this.parent +
 			"\n";
 	}
 	
@@ -190,7 +205,7 @@ public abstract class Soldier implements Unit {
 			"] " +
 			this.name +
 			"\n-> Unit: " +
-			this.parentUnit +
+			this.parent +
 			"\n-> Health: [" +
 			this.getHealth().getCurrentState() +
 			"/" +

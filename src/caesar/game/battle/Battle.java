@@ -1,10 +1,6 @@
 package caesar.game.battle;
 
 import caesar.military.UnitOrigin;
-import caesar.military.gaul.GaulArmy;
-import caesar.military.gaul.Tribe;
-import caesar.military.rome.Century;
-import caesar.military.rome.RomanArmy;
 import caesar.military.soldier.Soldier;
 import caesar.military.troop.Troop;
 import caesar.ui.Printer;
@@ -115,16 +111,5 @@ public class Battle {
 		}
 		
 		return null;
-	}
-	
-	public static void main(String ...args) {
-		
-		Troop A = new RomanArmy(1);
-		Troop B = new GaulArmy(1);
-
-		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
-		BattleReport report = A.engage(B, false);
-		Printer.print(report);
-		Printer.print(Troop.countSoldiers(A) + " " + Troop.countSoldiers(B));
 	}
 }

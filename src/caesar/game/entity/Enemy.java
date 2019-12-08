@@ -7,7 +7,6 @@ import caesar.game.relief.Vector;
 import caesar.game.status.Status;
 import caesar.game.status.StatusType;
 import caesar.game.turn.Action;
-import caesar.military.gaul.GaulArmy;
 import caesar.military.troop.Troop;
 
 import java.util.Map;
@@ -26,12 +25,12 @@ public class Enemy extends Entity {
 	) {
 		
 		super(reliefMap, actionPointsAmount, x, y);
-		this.army = new GaulArmy(troopsAmount);
+		this.army = null;
 		
 		this.player = player;
 		this.foodResource = new Status(
 			StatusType.FOOD_RESOURCE,
-			Troop.countSoldiers(this.army) * 20
+			Troop.getSoldiersCount(this.army) * 20
 		);
 	}
 	
@@ -122,7 +121,7 @@ public class Enemy extends Entity {
 		if (this.actionPoints.atMinimum())
 			return;
 		
-		int soldiersCount = Troop.countSoldiers(this.army);
+		int soldiersCount = Troop.getSoldiersCount(this.army);
 		
 		if (this.foodResource.getCurrentState() <= soldiersCount)
 			this.gatherResources(true);

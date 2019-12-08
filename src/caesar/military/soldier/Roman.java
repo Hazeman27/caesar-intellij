@@ -2,7 +2,7 @@ package caesar.military.soldier;
 
 import caesar.game.Game;
 import caesar.military.UnitOrigin;
-import caesar.military.troop.Troop;
+import caesar.military.UnitParent;
 
 public class Roman extends Soldier {
 	
@@ -11,9 +11,9 @@ public class Roman extends Soldier {
 	
 	private final int trainingBoost;
 	
-	public Roman(Troop troop) {
+	public Roman(UnitParent parent) {
 		
-		super(troop, UnitOrigin.ROME);
+		super(parent, UnitOrigin.ROME);
 		
 		this.name = Name.getRandomRoman();
 		this.trainingBoost = Game.getRandomInt(

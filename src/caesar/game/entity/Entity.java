@@ -11,7 +11,6 @@ import caesar.game.status.Status;
 import caesar.game.status.StatusType;
 import caesar.military.troop.Troop;
 import caesar.ui.Message;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -147,7 +146,7 @@ public abstract class Entity {
 	
 	public Response feedArmy() {
 		
-		int soldiersCount = Troop.countSoldiers(this.army);
+		int soldiersCount = Troop.getSoldiersCount(this.army);
 		
 		if (this.foodResource.getCurrentState() < soldiersCount) {
 			
@@ -221,7 +220,7 @@ public abstract class Entity {
 			", RELIEF: " +
 			this.location.getRelief() +
 			", ARMY: " +
-			Troop.countSoldiers(this.army) +
+			Troop.getSoldiersCount(this.army) +
 			", MORALE (AVG): [" +
 			this.army.getAverageMoraleState() +
 			"/" +

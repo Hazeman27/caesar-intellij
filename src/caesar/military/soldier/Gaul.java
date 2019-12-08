@@ -2,15 +2,15 @@ package caesar.military.soldier;
 
 import caesar.game.Game;
 import caesar.military.UnitOrigin;
-import caesar.military.troop.Troop;
+import caesar.military.UnitParent;
 
 public class Gaul extends Soldier {
 	
 	private static final int DAMAGE_SATIETY_RELATION = 10;
 	
-	public Gaul(Troop troop) {
+	public Gaul(UnitParent parent) {
 		
-		super(troop, UnitOrigin.GAUL);
+		super(parent, UnitOrigin.GAUL);
 		this.name = Name.getRandomGallic();
 	}
 	
