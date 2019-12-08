@@ -2,6 +2,7 @@ package caesar.game.entity;
 import caesar.game.relief.ReliefMap;
 import caesar.game.status.Status;
 import caesar.game.status.StatusType;
+import caesar.military.rome.RomanArmy;
 import caesar.military.troop.Troop;
 
 public class Player extends Entity {
@@ -14,7 +15,7 @@ public class Player extends Entity {
 	) {
 		
 		super(reliefMap, actionPointsAmount, x, y);
-		this.army = null;
+		this.army = new RomanArmy(troopsAmount);
 		
 		this.foodResource = new Status(
 			StatusType.FOOD_RESOURCE,

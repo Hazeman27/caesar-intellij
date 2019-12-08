@@ -7,6 +7,7 @@ import caesar.game.relief.Vector;
 import caesar.game.status.Status;
 import caesar.game.status.StatusType;
 import caesar.game.turn.Action;
+import caesar.military.gaul.GaulArmy;
 import caesar.military.troop.Troop;
 
 import java.util.Map;
@@ -25,7 +26,7 @@ public class Enemy extends Entity {
 	) {
 		
 		super(reliefMap, actionPointsAmount, x, y);
-		this.army = null;
+		this.army = new GaulArmy(troopsAmount);
 		
 		this.player = player;
 		this.foodResource = new Status(

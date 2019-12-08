@@ -12,7 +12,7 @@ import java.util.LinkedList;
 
 public class GaulArmy extends Troop {
 	
-	GaulArmy(int capacity) {
+	public GaulArmy(int capacity) {
 		super(capacity, "[XGX]", UnitOrigin.GAUL);
 	}
 	
