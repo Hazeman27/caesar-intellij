@@ -157,7 +157,8 @@ public abstract class Troop implements Unit, UnitParent {
 	
 	@Override
 	public boolean isFull() {
-		return this.children.size() == this.getChildCapacity();
+		return this.children.size() == this.capacity
+			&& !this.officers.isEmpty();
 	}
 	
 	@Override
