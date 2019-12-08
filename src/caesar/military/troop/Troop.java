@@ -82,10 +82,31 @@ public abstract class Troop implements Unit, UnitParent {
 	}
 	
 	protected abstract int getChildCapacity();
+	
 	protected abstract Soldier getOfficerInstance();
+	
 	protected abstract Unit getChildInstance();
+	
 	protected abstract Unit getEmptyChildInstance();
+	
 	protected abstract Soldier getNewOfficer(List<Unit> unitsPool);
+	
+	protected abstract List<Unit> getNotFullUnits();
+	
+	protected abstract List<Unit> getNotFullUnitsPool(
+		List<Unit> notFullUnits
+	);
+	
+	protected abstract List<Soldier> getNotFullOfficersPool(
+		List<Unit> notFullUnits
+	);
+	
+	protected abstract void assignOfficer(
+		Troop child,
+		List<Unit> unitsPool,
+		List<Soldier> officersPool
+	);
+	
 	protected abstract void regroupUnits();
 	
 	@Override
@@ -186,7 +207,7 @@ public abstract class Troop implements Unit, UnitParent {
 	protected static void transferUnitsRange(
 		@NotNull List<Unit> units,
 		@NotNull UnitParent destination,
-		int limit
+		final int limit
 	) {
 		
 		for (int i = 0; i < limit && !units.isEmpty(); i++) {

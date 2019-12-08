@@ -2,12 +2,12 @@ package caesar.military.rome;
 
 import caesar.military.Unit;
 import caesar.military.UnitOrigin;
-import caesar.military.officer.Officer;
 import caesar.military.officer.RomanOfficer;
 import caesar.military.officer.RomanRank;
 import caesar.military.soldier.Roman;
 import caesar.military.soldier.Soldier;
 import caesar.military.troop.Troop;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -49,7 +49,27 @@ public class Contubernium extends Troop {
 	}
 	
 	@Override
-	protected void regroupUnits() {
-	
+	protected List<Unit> getNotFullUnits() {
+		return null;
 	}
+	
+	@Override
+	protected List<Unit> getNotFullUnitsPool(List<Unit> notFullUnits) {
+		return null;
+	}
+	
+	@Override
+	protected List<Soldier> getNotFullOfficersPool(List<Unit> notFullUnits) {
+		return null;
+	}
+	
+	@Override
+	protected void assignOfficer(
+		@NotNull Troop child,
+		@NotNull List<Unit> unitsPool,
+		@NotNull List<Soldier> officersPool
+	) { }
+	
+	@Override
+	protected void regroupUnits() { }
 }
