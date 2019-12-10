@@ -1,2 +1,6 @@
 out
 .idea
+.project
+*.eml
+*.iml
+*.userlibraries
