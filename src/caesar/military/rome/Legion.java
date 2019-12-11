@@ -48,4 +48,10 @@ public class Legion extends Troop {
 	protected Unit getEmptyChildInstance() {
 		return new Cohort(this, new LinkedList<>(), new LinkedList<>());
 	}
+	
+	public static void main(String[] args) {
+		Troop c = new Legion(null);
+		
+		System.out.println(c.getFullSummary());
+	}
 }

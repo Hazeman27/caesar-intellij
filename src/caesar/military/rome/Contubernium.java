@@ -11,6 +11,7 @@ import caesar.military.soldier.Soldier;
 import caesar.military.troop.Troop;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Contubernium extends Troop {
 	
@@ -47,5 +48,18 @@ public class Contubernium extends Troop {
 	@Override
 	protected Soldier getEmptyChildInstance() {
 		return new Roman(RomanRank.LEGIONARY, this);
+	}
+	
+	@Override
+	public String getFullSummary() {
+		
+		String summary = this.getSummary();
+		
+		summary += this.children
+			.stream()
+			.map(Unit::getFullSummary)
+			.collect(Collectors.joining());
+		
+		return summary;
 	}
 }
