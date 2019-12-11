@@ -11,7 +11,6 @@ import caesar.game.status.StatusType;
 import caesar.game.weather.WeatherType;
 import caesar.ui.Message;
 import caesar.ui.Printer;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -337,28 +336,7 @@ public enum Action {
 		this.handler = handler;
 	}
 	
-	public int getValue() {
-		return this.value;
-	}
-	
-	public Response handle(Game game) {
-		return this.handler.handle(game);
-	}
-	
-	@Override
-	public String toString() {
-		return this.name;
-	}
-	
-	@NotNull
-	public String toString(boolean addValue) {
-		return this.name + (
-			addValue && this.value != 0 ? " [" + this.value + "]" : ""
-		);
-	}
-	
-	@NotNull
-	private static Response advance(@NotNull Game game) {
+	private static Response advance(Game game) {
 		
 		Direction direction = Direction.valueOf(
 			game.getLogLastItem().toUpperCase()
@@ -381,6 +359,25 @@ public enum Action {
 			Message.PLAYER_MOVED,
 			ResponseType.SUCCESS,
 			game.getCurrentTurn()
+		);
+	}
+	
+	public int getValue() {
+		return this.value;
+	}
+	
+	public Response handle(Game game) {
+		return this.handler.handle(game);
+	}
+	
+	@Override
+	public String toString() {
+		return this.name;
+	}
+	
+	public String toString(boolean addValue) {
+		return this.name + (
+			addValue && this.value != 0 ? " [" + this.value + "]" : ""
 		);
 	}
 }

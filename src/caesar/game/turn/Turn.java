@@ -4,22 +4,17 @@ import caesar.game.Game;
 import caesar.game.response.Response;
 import caesar.ui.Message;
 import caesar.ui.Printer;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.Scanner;
 
 public class Turn {
 	
+	private final Game game;
+	private final Scanner scanner;
 	private TurnType current;
 	
-	@NotNull
-	private final Game game;
-	@NotNull
-	private final Scanner scanner;
-	
-	public Turn(@NotNull Game game) {
+	public Turn(Game game) {
 		
 		this.game = game;
 		this.scanner = new Scanner(System.in);
@@ -54,7 +49,7 @@ public class Turn {
 		return value < 1 || value > this.current.getActions().size();
 	}
 	
-	@Nullable
+	
 	private Action scanInput() {
 		
 		final String input = this.scanner
@@ -81,7 +76,7 @@ public class Turn {
 		return actionOptional.orElse(null);
 	}
 	
-	private void handleInput(@Nullable Action action) {
+	private void handleInput(Action action) {
 		
 		if (action == null) {
 			
@@ -98,7 +93,7 @@ public class Turn {
 			this.next(this.current);
 			return;
 		}
-			
+		
 		this.game.log(action);
 		Response response = action.handle(this.game);
 		
@@ -130,11 +125,11 @@ public class Turn {
 		this.scanner.nextLine();
 	}
 	
-	private boolean isNumeric(@NotNull String candidate) {
+	private boolean isNumeric(String candidate) {
 		
 		try {
 			Double.parseDouble(candidate);
-		} catch (@NotNull NumberFormatException | NullPointerException nfe) {
+		} catch (NumberFormatException | NullPointerException nfe) {
 			return false;
 		}
 		

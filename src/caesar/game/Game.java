@@ -14,7 +14,6 @@ import caesar.game.weather.WeatherType;
 import caesar.military.troop.Troop;
 import caesar.ui.Message;
 import caesar.ui.Printer;
-import org.jetbrains.annotations.NotNull;
 
 import java.security.SecureRandom;
 
@@ -22,25 +21,21 @@ public class Game {
 	
 	private static final SecureRandom RANDOM = new SecureRandom();
 	
-	private static final int[] ENEMY_ARMY_SIZE = new int[] {10, 40};
-	private static final int[] ENEMY_AP = new int[] {5, 20};
+	private static final int[] ENEMY_ARMY_SIZE = new int[]{10, 40};
+	private static final int[] ENEMY_AP = new int[]{5, 20};
 	private static final int PLAYER_MAX_AP = 15;
 	private static final int AP_REPLENISH_THRESHOLD = 5;
 	private static final int EXIT_CODE = 0;
 	
-	@NotNull
+	
 	private final ReliefMap reliefMap;
-	@NotNull
+	
 	private final Player player;
+	private final Turn turn;
+	private final Log log;
+	private final Calendar calendar;
 	private Enemy enemy;
 	private int turnsCount;
-	
-	@NotNull
-	private final Turn turn;
-	@NotNull
-	private final Log log;
-	@NotNull
-	private final Calendar calendar;
 	
 	public Game(
 		Month calendarMonth,
@@ -83,6 +78,10 @@ public class Game {
 		turn.next(TurnType.MAIN_MENU);
 	}
 	
+	public static int getRandomInt(int bound) {
+		return RANDOM.nextInt(bound);
+	}
+	
 	public void start() {
 		this.spawnEnemy();
 	}
@@ -106,7 +105,10 @@ public class Game {
 		);
 	}
 	
-	@NotNull
+	public static int getRandomInt(int[] range) {
+		return RANDOM.nextInt(range[1] - range[0]) + range[0];
+	}
+	
 	public ReliefMap getReliefMap() {
 		return this.reliefMap;
 	}
@@ -115,12 +117,10 @@ public class Game {
 		return this.turn.getCurrent();
 	}
 	
-	@NotNull
 	public Player getPlayer() {
 		return this.player;
 	}
 	
-	@NotNull
 	public Location getPlayerLocation() {
 		return this.player.getLocation();
 	}
@@ -129,7 +129,6 @@ public class Game {
 		return this.player.getArmy();
 	}
 	
-	@NotNull
 	public ActionPoints getPlayerAP() {
 		return this.player.getActionPoints();
 	}
@@ -138,7 +137,6 @@ public class Game {
 		return this.enemy;
 	}
 	
-	@NotNull
 	public Location getEnemyLocation() {
 		return this.enemy.getLocation();
 	}
@@ -151,7 +149,6 @@ public class Game {
 		return this.turnsCount;
 	}
 	
-	@NotNull
 	public Log getLog() {
 		return log;
 	}
@@ -160,7 +157,6 @@ public class Game {
 		return this.log.getLastItem();
 	}
 	
-	@NotNull
 	public Calendar getCalendar() {
 		return calendar;
 	}
@@ -171,10 +167,10 @@ public class Game {
 	
 	public WeatherType getCurrentWeather() {
 		return this.calendar.getWeather()
-			.getCurrentWeather();
+		                    .getCurrentWeather();
 	}
 	
-	public void log(@NotNull Object item) {
+	public void log(Object item) {
 		this.log.addItem(item);
 	}
 	
@@ -212,19 +208,11 @@ public class Game {
 			enemyAP.add(getRandomInt(2, AP_REPLENISH_THRESHOLD));
 	}
 	
-	public void exit() {
-		System.exit(EXIT_CODE);
-	}
-	
-	public static int getRandomInt(int bound) {
-		return RANDOM.nextInt(bound);
-	}
-	
 	public static int getRandomInt(int min, int max) {
 		return RANDOM.nextInt(max - min) + min;
 	}
 	
-	public static int getRandomInt(@NotNull int[] range) {
-		return RANDOM.nextInt(range[1] - range[0]) + range[0];
+	public void exit() {
+		System.exit(EXIT_CODE);
 	}
 }

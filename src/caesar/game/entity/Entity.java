@@ -11,8 +11,6 @@ import caesar.game.status.Status;
 import caesar.game.status.StatusType;
 import caesar.military.troop.Troop;
 import caesar.ui.Message;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,19 +24,16 @@ public abstract class Entity {
 	private static final int SATIETY_MODIFIER = 25;
 	private static final int HEALTH_MODIFIER = 50;
 	
-	private static final int[] WOOD_GATHER_RANGE = new int[] {20, 25};
-	private static final int[] FOOD_GATHER_RANGE = new int[] {42, 50};
+	private static final int[] WOOD_GATHER_RANGE = new int[]{20, 25};
+	private static final int[] FOOD_GATHER_RANGE = new int[]{42, 50};
 	
-	@NotNull
+	
 	protected final ActionPoints actionPoints;
-	@NotNull
+	
 	protected final Location location;
-	protected Troop army;
-	
 	protected final ReliefMap reliefMap;
-	
-	@NotNull
 	protected final Status woodResource;
+	protected Troop army;
 	protected Status foodResource;
 	private boolean camping;
 	
@@ -56,12 +51,12 @@ public abstract class Entity {
 		);
 	}
 	
-	@NotNull
+	
 	public ActionPoints getActionPoints() {
 		return this.actionPoints;
 	}
 	
-	@NotNull
+	
 	public Location getLocation() {
 		return this.location;
 	}
@@ -70,8 +65,8 @@ public abstract class Entity {
 		return this.army;
 	}
 	
-	@Nullable
-	public Relief getDirectionRelief(@Nullable Direction direction) {
+	
+	public Relief getDirectionRelief(Direction direction) {
 		
 		if (direction == null)
 			return null;
@@ -82,7 +77,7 @@ public abstract class Entity {
 		);
 	}
 	
-	public void move(@Nullable Direction direction, Relief relief) {
+	public void move(Direction direction, Relief relief) {
 		
 		if (direction == null)
 			return;
@@ -95,37 +90,12 @@ public abstract class Entity {
 		this.location.setRelief(relief);
 	}
 	
-	private void updateArmyMorale(int modifier) {
-		
-		Troop.updateUnitStatus(
-			this.army,
-			StatusType.MORALE,
-			modifier
-		);
-	}
-	
-	private void updateArmySatiety(int modifier) {
-		
-		Troop.updateUnitStatus(
-			this.army,
-			StatusType.SATIETY,
-			modifier * SATIETY_MODIFIER
-		);
-		
-		this.updateArmyMorale(modifier * MORALE_MODIFIER);
-	}
-	
-	public boolean canBuildCamp() {
-		return this.woodResource.getCurrentState() >= CAMP_BUILD_COST;
-	}
-	
 	public void leaveCamp() {
 		
 		this.woodResource.updateState(CAMP_BUILD_COST / 2);
 		this.camping = false;
 	}
 	
-	@NotNull
 	public Response buildCamp() {
 		
 		if (!Relief.isSolid(this.location.getRelief())) {
@@ -153,7 +123,10 @@ public abstract class Entity {
 		);
 	}
 	
-	@NotNull
+	public boolean canBuildCamp() {
+		return this.woodResource.getCurrentState() >= CAMP_BUILD_COST;
+	}
+	
 	public Response feedArmy() {
 		
 		int soldiersCount = Troop.getSoldiersCount(this.army);
@@ -177,6 +150,26 @@ public abstract class Entity {
 		);
 	}
 	
+	private void updateArmySatiety(int modifier) {
+		
+		Troop.updateUnitStatus(
+			this.army,
+			StatusType.SATIETY,
+			modifier * SATIETY_MODIFIER
+		);
+		
+		this.updateArmyMorale(modifier * MORALE_MODIFIER);
+	}
+	
+	private void updateArmyMorale(int modifier) {
+		
+		Troop.updateUnitStatus(
+			this.army,
+			StatusType.MORALE,
+			modifier
+		);
+	}
+	
 	public void healSoldiers() {
 		
 		Troop.updateUnitStatus(
@@ -186,7 +179,7 @@ public abstract class Entity {
 		);
 	}
 	
-	@NotNull
+	
 	public Map<StatusType, Integer> gatherResources() {
 		
 		int resourceIndex = this.location.getRelief().getResourceIndex();
@@ -221,7 +214,7 @@ public abstract class Entity {
 		return resourcesGathered;
 	}
 	
-	@NotNull
+	
 	@Override
 	public String toString() {
 		

@@ -1,8 +1,6 @@
 package caesar.game.relief;
 
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class Vector {
 	
@@ -16,7 +14,7 @@ public class Vector {
 		this.y = y2 - y1;
 	}
 	
-	@Nullable
+	
 	public Direction getDirection() {
 		
 		int x = this.x, y = this.y;
@@ -30,7 +28,7 @@ public class Vector {
 		return Direction.valueOf(x, y);
 	}
 	
-	@NotNull
+	
 	@Override
 	public String toString() {
 		return "[" + this.x + ", " + this.y + "]";

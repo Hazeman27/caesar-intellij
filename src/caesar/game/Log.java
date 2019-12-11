@@ -1,21 +1,19 @@
 package caesar.game;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class Log {
 	
-	@NotNull
+	
 	private final List<String> log;
 	
 	Log() {
 		this.log = new ArrayList<>();
 	}
 	
-	<T> void addItem(@NotNull T item) {
+	<T> void addItem(T item) {
 		this.log.add(item.toString());
 	}
 	
@@ -23,7 +21,7 @@ public class Log {
 		return this.log.get(this.log.size() - 1);
 	}
 	
-	@NotNull
+	
 	@Override
 	public String toString() {
 		

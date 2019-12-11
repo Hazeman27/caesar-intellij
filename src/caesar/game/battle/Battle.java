@@ -6,8 +6,6 @@ import caesar.military.rome.RomanArmy;
 import caesar.military.soldier.Soldier;
 import caesar.military.troop.Troop;
 import caesar.ui.Printer;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,12 +18,12 @@ import java.util.stream.IntStream;
 
 public class Battle {
 	
-	@NotNull
+	
 	private final Map<Soldier, Soldier> battleParticipants;
 	private final int committedSoldiersCount;
 	private final boolean verbose;
 	
-	public Battle(boolean verbose, @NotNull Soldier ...soldiers) {
+	public Battle(boolean verbose, Soldier... soldiers) {
 		
 		this.verbose = verbose;
 		this.battleParticipants = new HashMap<>();
@@ -45,73 +43,8 @@ public class Battle {
 		
 		IntStream.range(0, minSize)
 		         .forEach(i -> this.battleParticipants.put(
-		         	romans.get(i), gauls.get(i)
+			         romans.get(i), gauls.get(i)
 		         ));
-	}
-	
-	@NotNull
-	private CompletableFuture<Soldier> initFight(
-		@NotNull Map.Entry<Soldier, Soldier> participants
-	) {
-		
-		return CompletableFuture.supplyAsync(() -> participants
-			.getKey()
-			.engage(participants.getValue(), this.verbose)
-		);
-	}
-	
-	@NotNull
-	private BattleReport getReport(@NotNull List<Soldier> soldiers) {
-		
-		int survivedSoldiersCount = soldiers.size();
-		
-		int romanVictorsCount = (int) soldiers
-			.stream()
-			.filter(UnitOrigin::isRoman)
-			.count();
-		
-		int gallicVictorsCount = survivedSoldiersCount - romanVictorsCount;
-		
-		return new BattleReport(
-			romanVictorsCount,
-			gallicVictorsCount,
-			this.committedSoldiersCount,
-			survivedSoldiersCount
-		);
-	}
-	
-	@Nullable
-	public BattleReport start() {
-		
-		List<CompletableFuture<Soldier>> battleFutures =
-			this.battleParticipants
-				.entrySet()
-				.stream()
-				.map(this::initFight)
-				.collect(Collectors.toList());
-		
-		CompletableFuture<Void> allBattleFutures =
-			CompletableFuture.allOf(
-				battleFutures.toArray(new CompletableFuture[0])
-			);
-		
-		CompletableFuture<List<Soldier>> allBattleVictors =
-			allBattleFutures.thenApplyAsync(v -> battleFutures
-				.stream()
-				.map(CompletableFuture::join)
-				.collect(Collectors.toList())
-			);
-		
-		CompletableFuture<BattleReport> battleReport =
-			allBattleVictors.thenApplyAsync(this::getReport);
-		
-		try {
-			return battleReport.get();
-		} catch (@NotNull InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
 	}
 	
 	public static void main(String[] args) {
@@ -142,5 +75,67 @@ public class Battle {
 		
 		Printer.print(B.getSummary());
 		Printer.print(A.getSummary());
+	}
+	
+	public BattleReport start() {
+		
+		List<CompletableFuture<Soldier>> battleFutures =
+			this.battleParticipants
+				.entrySet()
+				.stream()
+				.map(this::initFight)
+				.collect(Collectors.toList());
+		
+		CompletableFuture<Void> allBattleFutures =
+			CompletableFuture.allOf(
+				battleFutures.toArray(new CompletableFuture[0])
+			);
+		
+		CompletableFuture<List<Soldier>> allBattleVictors =
+			allBattleFutures.thenApplyAsync(v -> battleFutures
+				.stream()
+				.map(CompletableFuture::join)
+				.collect(Collectors.toList())
+			);
+		
+		CompletableFuture<BattleReport> battleReport =
+			allBattleVictors.thenApplyAsync(this::getReport);
+		
+		try {
+			return battleReport.get();
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	private CompletableFuture<Soldier> initFight(
+		Map.Entry<Soldier, Soldier> participants
+	) {
+		
+		return CompletableFuture.supplyAsync(() -> participants
+			.getKey()
+			.engage(participants.getValue(), this.verbose)
+		);
+	}
+	
+	private BattleReport getReport(List<Soldier> soldiers) {
+		
+		int survivedSoldiersCount = soldiers.size();
+		
+		int romanVictorsCount = (int) soldiers
+			.stream()
+			.filter(UnitOrigin::isRoman)
+			.count();
+		
+		int gallicVictorsCount = survivedSoldiersCount - romanVictorsCount;
+		
+		return new BattleReport(
+			romanVictorsCount,
+			gallicVictorsCount,
+			this.committedSoldiersCount,
+			survivedSoldiersCount
+		);
 	}
 }

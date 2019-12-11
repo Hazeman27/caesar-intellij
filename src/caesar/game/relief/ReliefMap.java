@@ -1,14 +1,13 @@
 package caesar.game.relief;
 
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ReliefMap {
 	
-	@NotNull
+	
 	private final Relief[][] relief;
 	private final int size;
 	
@@ -24,17 +23,13 @@ public class ReliefMap {
 		}
 	}
 	
-	@Contract(pure = true)
-	public Relief getRelief(int x, int y) {
+	public static void main(String[] args) {
 		
-		if (x >= this.size || x < 0 || y >= this.size || y < 0)
-			return Relief.UNKNOWN;
-		
-		return this.relief[x][y];
+		ReliefMap reliefMap = new ReliefMap(20);
+		System.out.println(reliefMap);
 	}
 	
-	@NotNull
-	public Map<Direction, Relief> getReliefAround(@NotNull Location location) {
+	public Map<Direction, Relief> getReliefAround(Location location) {
 		
 		Map<Direction, Relief> reliefMap = new HashMap<>();
 		
@@ -53,11 +48,19 @@ public class ReliefMap {
 		return reliefMap;
 	}
 	
+	@Contract(pure = true)
+	public Relief getRelief(int x, int y) {
+		
+		if (x >= this.size || x < 0 || y >= this.size || y < 0)
+			return Relief.UNKNOWN;
+		
+		return this.relief[x][y];
+	}
+	
 	public int getSize() {
 		return this.size;
 	}
 	
-	@NotNull
 	@Override
 	public String toString() {
 		
@@ -72,11 +75,5 @@ public class ReliefMap {
 		}
 		
 		return map.toString();
-	}
-	
-	public static void main(String[] args) {
-		
-		ReliefMap reliefMap = new ReliefMap(20);
-		System.out.println(reliefMap);
 	}
 }

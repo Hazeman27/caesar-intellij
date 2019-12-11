@@ -8,15 +8,13 @@ import caesar.military.UnitOrigin;
 import caesar.military.UnitParent;
 import caesar.military.officer.Rank;
 import caesar.ui.Printer;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Soldier implements Unit {
 	
-	@NotNull
+	
 	protected final Map<StatusType, Status> state;
 	protected final UnitOrigin origin;
 	protected String name;
@@ -47,13 +45,6 @@ public abstract class Soldier implements Unit {
 		this.origin = origin;
 	}
 	
-	protected abstract int getDamageBoost();
-	protected abstract int block(int damage);
-	
-	private boolean isDead() {
-		return this.state.get(StatusType.HEALTH).atMinState();
-	}
-	
 	@Override
 	public void setParent(UnitParent parent) {
 		this.parent = parent;
@@ -69,8 +60,36 @@ public abstract class Soldier implements Unit {
 		return this.origin;
 	}
 	
+	@Override
+	public String getSummary() {
+		return "[" + this.rank + "] " + this.name +
+			"\n-> Unit: " + this.parent + "\n";
+	}
+	
+	@Override
+	public String getFullSummary() {
+		
+		return this.getSummary() + "-> Health: [" +
+			this.getHealth().getCurrentState() +
+			"/" +
+			StatusType.HEALTH.getMaxState() +
+			"]\n-> Morale: [" +
+			this.getMorale().getCurrentState() +
+			"/" +
+			StatusType.MORALE.getMaxState() +
+			"]\n-> Satiety: [" +
+			this.getSatiety().getCurrentState() +
+			"/" +
+			StatusType.SATIETY.getMaxState() +
+			"]\n";
+	}
+	
 	public Status getMorale() {
 		return this.state.get(StatusType.MORALE);
+	}
+	
+	protected Status getSatiety() {
+		return this.state.get(StatusType.SATIETY);
 	}
 	
 	public void setRank(Rank rank) {
@@ -81,23 +100,14 @@ public abstract class Soldier implements Unit {
 		this.state.get(type).updateState(amount);
 	}
 	
-	protected Status getHealth() {
-		return this.state.get(StatusType.HEALTH);
-	}
-	
-	protected Status getSatiety() {
-		return this.state.get(StatusType.SATIETY);
-	}
-	
-	@Nullable
-	public Soldier engage(@Nullable Soldier target, boolean verbose, boolean fullVerbose) {
+	public Soldier engage(Soldier target, boolean verbose, boolean fullVerbose) {
 		
 		if (target == null)
 			return this;
 		
 		int damageDealt;
 		int damageReceived;
-
+		
 		while (!this.isDead() && !target.isDead()) {
 			
 			damageDealt = this.attack(target);
@@ -106,18 +116,18 @@ public abstract class Soldier implements Unit {
 			if (fullVerbose) {
 				Printer.print(
 					this +
-					" dealt " +
-					damageDealt +
-					" damage to " +
-					target
+						" dealt " +
+						damageDealt +
+						" damage to " +
+						target
 				);
-
+				
 				Printer.print(
 					target +
-					" dealt " +
-					damageReceived +
-					" damage to " +
-					this
+						" dealt " +
+						damageReceived +
+						" damage to " +
+						this
 				);
 			}
 		}
@@ -131,8 +141,43 @@ public abstract class Soldier implements Unit {
 		return target;
 	}
 	
-	@Nullable
-	public Soldier engage(@Nullable Soldier target, boolean verbose) {
+	private boolean isDead() {
+		return this.state.get(StatusType.HEALTH).atMinState();
+	}
+	
+	private int attack(Soldier target) {
+		
+		if (this.isDead())
+			return 0;
+		
+		int damage = Game.getRandomInt(
+			StatusType.HEALTH.getMaxState()
+		);
+		
+		damage += this.getDamageBoost();
+		return target.receiveDamage(damage);
+	}
+	
+	protected abstract int getDamageBoost();
+	
+	private int receiveDamage(int damage) {
+		
+		damage = Math.max(damage - this.block(damage), 0);
+		this.getHealth().updateState(-damage);
+		
+		if (this.isDead())
+			this.perish();
+		
+		return damage;
+	}
+	
+	protected abstract int block(int damage);
+	
+	protected Status getHealth() {
+		return this.state.get(StatusType.HEALTH);
+	}
+	
+	public Soldier engage(Soldier target, boolean verbose) {
 		
 		if (target == null)
 			return this;
@@ -156,57 +201,6 @@ public abstract class Soldier implements Unit {
 		return target;
 	}
 	
-	private int receiveDamage(int damage) {
-		
-		damage = Math.max(damage - this.block(damage), 0);
-		this.getHealth().updateState(-damage);
-		
-		if (this.isDead())
-			this.perish();
-		
-		return damage;
-	}
-	
-	private int attack(@NotNull Soldier target) {
-		
-		if (this.isDead())
-			return 0;
-		
-		int damage = Game.getRandomInt(
-			StatusType.HEALTH.getMaxState()
-		);
-		
-		damage += this.getDamageBoost();
-		return target.receiveDamage(damage);
-	}
-	
-	@NotNull
-	@Override
-	public String getSummary() {
-		return "[" + this.rank + "] " + this.name +
-			"\n-> Unit: " + this.parent + "\n";
-	}
-	
-	@NotNull
-	@Override
-	public String getFullSummary() {
-		
-		return this.getSummary() + "-> Health: [" +
-			this.getHealth().getCurrentState() +
-			"/" +
-			StatusType.HEALTH.getMaxState() +
-			"]\n-> Morale: [" +
-			this.getMorale().getCurrentState() +
-			"/" +
-			StatusType.MORALE.getMaxState() +
-			"]\n-> Satiety: [" +
-			this.getSatiety().getCurrentState() +
-			"/" +
-			StatusType.SATIETY.getMaxState() +
-			"]\n";
-	}
-	
-	@NotNull
 	@Override
 	public String toString() {
 		return "[" + this.rank + "] " + this.name;

@@ -1,11 +1,10 @@
 package caesar.military.soldier;
 
 import caesar.game.Game;
-import org.jetbrains.annotations.NotNull;
 
 public class Name {
 	
-	private static final String[] praenominas = new String[] {
+	private static final String[] praenominas = new String[]{
 		"Appius",
 		"Aulus",
 		"Caelus",
@@ -62,7 +61,7 @@ public class Name {
 		"Vopiscus"
 	};
 	
-	private static final String[] nominas = new String[] {
+	private static final String[] nominas = new String[]{
 		"Abronius",
 		"Abudius",
 		"Aburius",
@@ -778,7 +777,7 @@ public class Name {
 		"Vulius"
 	};
 	
-	private static final String[] gaulNames = new String[] {
+	private static final String[] gaulNames = new String[]{
 		"Segomaros",
 		"Adcanaunos",
 		"Carantillo",
@@ -901,13 +900,13 @@ public class Name {
 		"Adretilis"
 	};
 	
-	@NotNull
+	
 	public static String getRandomRoman() {
 		return praenominas[Game.getRandomInt(praenominas.length)] + " " +
 			nominas[Game.getRandomInt(nominas.length)];
 	}
 	
-	@NotNull
+	
 	public static String getRandomGallic() {
 		return gaulNames[Game.getRandomInt(gaulNames.length)];
 	}

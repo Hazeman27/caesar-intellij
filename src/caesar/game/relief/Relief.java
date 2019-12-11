@@ -22,14 +22,6 @@ public enum Relief {
 		this.resourceIndex = resourceIndex;
 	}
 	
-	public int getResourceIndex() {
-		return this.resourceIndex;
-	}
-	
-	public String toString(boolean asSymbol) {
-		return asSymbol ? this.symbol : super.toString();
-	}
-	
 	public static Relief getRandom() {
 		return values()[Game.getRandomInt(1, values().length)];
 	}
@@ -44,5 +36,13 @@ public enum Relief {
 	
 	public static boolean isSuperResourceRich(Relief relief) {
 		return relief == FOREST;
+	}
+	
+	public int getResourceIndex() {
+		return this.resourceIndex;
+	}
+	
+	public String toString(boolean asSymbol) {
+		return asSymbol ? this.symbol : super.toString();
 	}
 }

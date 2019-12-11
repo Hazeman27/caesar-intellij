@@ -2,7 +2,6 @@ package caesar.game.weather;
 
 import caesar.game.Game;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +43,7 @@ public enum Season {
 		WeatherType.MIST
 	));
 	
-//	Temperature unit: celsius
+	//	Temperature unit: celsius
 	private final List<WeatherType> weatherTypes;
 	
 	@Contract(pure = true)
@@ -52,7 +51,7 @@ public enum Season {
 		this.weatherTypes = weatherTypes;
 	}
 	
-	public static WeatherType getRandomWeatherType(@NotNull Season season) {
+	public static WeatherType getRandomWeatherType(Season season) {
 		
 		return season.weatherTypes.get(
 			Game.getRandomInt(season.weatherTypes.size())

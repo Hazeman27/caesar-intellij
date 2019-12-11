@@ -1,8 +1,6 @@
 package caesar.ui;
 
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public enum Message {
 	
@@ -22,7 +20,7 @@ public enum Message {
 	MORALE_UP("Your army's morale is up!"),
 	ENGAGING("Engaging with enemy army!"),
 	
-//	Errors and failures...
+	//	Errors and failures...
 	NO_CURRENT_GAME("No current game found..."),
 	UNKNOWN_DIRECTION("Error", "Unknown direction for movement..."),
 	UNKNOWN_COMMAND("Error", "Unknown command. Try again..."),
@@ -33,14 +31,14 @@ public enum Message {
 	NOT_ENOUGH_FOOD("You don't have enough food to feed your entire army!"),
 	MORALE_DOWN("Your army's morale is down");
 	
-	@Nullable
+	
 	private final String title;
-	@NotNull
+	
 	private final String content;
 	private final int maxLength;
 	
 	@Contract(pure = true)
-	Message(@Nullable String title, @NotNull String content) {
+	Message(String title, String content) {
 		
 		if (title == null)
 			title = "";
@@ -50,16 +48,7 @@ public enum Message {
 		this.content = this.wrapContent(content);
 	}
 	
-	@Contract(pure = true)
-	Message(@NotNull String content) {
-		
-		this.title = null;
-		this.maxLength = 50;
-		this.content = this.wrapContent(content);
-	}
-	
-	@NotNull
-	private String wrapContent(@NotNull String content) {
+	private String wrapContent(String content) {
 		
 		int contentLength = content.length();
 		
@@ -84,7 +73,15 @@ public enum Message {
 		return stringBuilder.toString();
 	}
 	
-	@NotNull
+	
+	@Contract(pure = true)
+	Message(String content) {
+		
+		this.title = null;
+		this.maxLength = 50;
+		this.content = this.wrapContent(content);
+	}
+	
 	@Override
 	public String toString() {
 		
@@ -99,7 +96,7 @@ public enum Message {
 		);
 		
 		stringBuilder.append(this.content)
-			.append("\n");
+		             .append("\n");
 		
 		stringBuilder.append(Printer.getBorder(this.maxLength, 0));
 		return stringBuilder.toString();

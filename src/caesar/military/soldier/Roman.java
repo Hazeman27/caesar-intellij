@@ -7,7 +7,7 @@ import caesar.military.officer.Rank;
 
 public class Roman extends Soldier {
 	
-	private static final int[] TRAINING_BOOST_RANGE = new int[] {5, 15};
+	private static final int[] TRAINING_BOOST_RANGE = new int[]{5, 15};
 	private static final int DAMAGE_SATIETY_RELATION = 20;
 	
 	private final int trainingBoost;

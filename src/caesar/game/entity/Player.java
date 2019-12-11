@@ -1,4 +1,5 @@
 package caesar.game.entity;
+
 import caesar.game.relief.ReliefMap;
 import caesar.game.status.Status;
 import caesar.game.status.StatusType;

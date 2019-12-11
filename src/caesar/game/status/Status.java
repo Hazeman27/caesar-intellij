@@ -1,21 +1,19 @@
 package caesar.game.status;
 
-import org.jetbrains.annotations.NotNull;
-
 public class Status {
 	
 	private final int minState;
 	private final int maxState;
 	protected int currentState;
 	
-	public Status(@NotNull StatusType statusType, int currentState) {
+	public Status(StatusType statusType, int currentState) {
 		
 		this.minState = statusType.getMinState();
 		this.maxState = statusType.getMaxState();
 		this.currentState = currentState;
 	}
 	
-	public Status(@NotNull StatusType statusType) {
+	public Status(StatusType statusType) {
 		
 		this.minState = statusType.getMinState();
 		this.maxState = statusType.getMaxState();

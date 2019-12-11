@@ -2,7 +2,6 @@ package caesar.game.weather;
 
 import caesar.game.Game;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 public enum WeatherType {
 	
@@ -27,7 +26,7 @@ public enum WeatherType {
 		this.maxTemperature = maxTemperature;
 	}
 	
-	public static int getRandomTemperature(@NotNull WeatherType weatherType) {
+	public static int getRandomTemperature(WeatherType weatherType) {
 		
 		return Game.getRandomInt(
 			weatherType.minTemperature,

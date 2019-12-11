@@ -8,7 +8,6 @@ import caesar.military.officer.RomanOfficer;
 import caesar.military.officer.RomanRank;
 import caesar.military.soldier.Soldier;
 import caesar.military.troop.Troop;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -30,25 +29,25 @@ public class Cohort extends Troop {
 		return Century.UNIT_CAPACITY;
 	}
 	
-	@NotNull
+	
 	@Override
 	protected Soldier getOfficerInstance() {
 		return new RomanOfficer(RomanRank.LEAD_CENTURION, this);
 	}
 	
-	@NotNull
+	
 	@Override
 	protected Rank getOfficerRank() {
 		return RomanRank.LEAD_CENTURION;
 	}
 	
-	@NotNull
+	
 	@Override
 	protected Unit getChildInstance() {
 		return new Century(this);
 	}
 	
-	@NotNull
+	
 	@Override
 	protected Unit getEmptyChildInstance() {
 		return new Century(this, new LinkedList<>(), new LinkedList<>());

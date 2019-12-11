@@ -1,7 +1,5 @@
 package caesar.game.relief;
 
-import org.jetbrains.annotations.NotNull;
-
 public class Location {
 	
 	private int x;
@@ -13,13 +11,18 @@ public class Location {
 		this.y = y;
 	}
 	
+	public static void main(String[] args) {
+		
+		Location location = new Location(0, 0);
+		System.out.println(location);
+	}
+	
 	public void change(int deltaX, int deltaY) {
 		this.x += deltaX;
 		this.y += deltaY;
 	}
 	
-	@NotNull
-	public Vector calcVector(@NotNull Location location) {
+	public Vector calcVector(Location location) {
 		
 		return new Vector(
 			this.x,
@@ -45,19 +48,12 @@ public class Location {
 		return this.y;
 	}
 	
-	public boolean equals(@NotNull Location location) {
+	public boolean equals(Location location) {
 		return this.x == location.x && this.y == location.y;
 	}
 	
-	@NotNull
 	@Override
 	public String toString() {
 		return "[" + this.x + ", " + this.y + "]";
-	}
-	
-	public static void main(String[] args) {
-		
-		Location location = new Location(0, 0);
-		System.out.println(location);
 	}
 }

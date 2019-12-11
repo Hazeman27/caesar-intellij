@@ -9,7 +9,6 @@ import caesar.military.officer.RomanRank;
 import caesar.military.soldier.Roman;
 import caesar.military.soldier.Soldier;
 import caesar.military.troop.Troop;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -30,25 +29,25 @@ public class Contubernium extends Troop {
 		return 0;
 	}
 	
-	@NotNull
+	
 	@Override
 	protected Soldier getOfficerInstance() {
 		return new RomanOfficer(RomanRank.DECANUS, this);
 	}
 	
-	@NotNull
+	
 	@Override
 	protected Rank getOfficerRank() {
 		return RomanRank.DECANUS;
 	}
 	
-	@NotNull
+	
 	@Override
 	protected Soldier getChildInstance() {
 		return new Roman(RomanRank.LEGIONARY, this);
 	}
 	
-	@NotNull
+	
 	@Override
 	protected Soldier getEmptyChildInstance() {
 		return new Roman(RomanRank.LEGIONARY, this);

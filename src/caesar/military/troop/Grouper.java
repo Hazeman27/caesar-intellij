@@ -3,8 +3,6 @@ package caesar.military.troop;
 import caesar.game.Game;
 import caesar.military.Unit;
 import caesar.military.soldier.Soldier;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +11,7 @@ import java.util.stream.Collectors;
 
 public abstract class Grouper {
 	
-	private static List<Unit> getNotFullUnits(@NotNull Troop troop) {
+	private static List<Unit> getNotFullUnits(Troop troop) {
 		
 		return troop.children
 			.stream()
@@ -21,9 +19,9 @@ public abstract class Grouper {
 			.collect(Collectors.toList());
 	}
 	
-	@NotNull
+	
 	private static List<Unit> getNotFullUnitsPool(
-		@NotNull List<Unit> notFullUnits
+		List<Unit> notFullUnits
 	) {
 		
 		List<Unit> unitsPool = new LinkedList<>();
@@ -35,9 +33,9 @@ public abstract class Grouper {
 		return unitsPool;
 	}
 	
-	@NotNull
+	
 	private static List<Soldier> getNotFullOfficersPool(
-		@NotNull List<Unit> notFullUnits
+		List<Unit> notFullUnits
 	) {
 		
 		List<Soldier> officersPool = new LinkedList<>();
@@ -51,8 +49,8 @@ public abstract class Grouper {
 		return officersPool;
 	}
 	
-	@Nullable
-	private static Soldier getNewOfficer(@NotNull Troop troop, @Nullable List<Unit> unitsPool) {
+	
+	private static Soldier getNewOfficer(Troop troop, List<Unit> unitsPool) {
 		
 		if (unitsPool == null || unitsPool.isEmpty())
 			return null;
@@ -76,9 +74,9 @@ public abstract class Grouper {
 	}
 	
 	private static void assignOfficer(
-		@Nullable Troop child,
+		Troop child,
 		List<Unit> unitsPool,
-		@NotNull List<Soldier> officersPool
+		List<Soldier> officersPool
 	) {
 		
 		if (child == null)
@@ -90,9 +88,7 @@ public abstract class Grouper {
 			officer.setRank(child.getOfficerRank());
 			
 			Troop.transferOfficer(officer, child);
-		}
-		
-		else {
+		} else {
 			Troop.transferOfficer(officersPool.get(0), child);
 			officersPool.remove(0);
 		}

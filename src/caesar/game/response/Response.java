@@ -1,16 +1,15 @@
 package caesar.game.response;
 
 import caesar.game.turn.TurnType;
-import org.jetbrains.annotations.NotNull;
 
 public class Response {
 	
+	private final ResponseType type;
 	private String message;
 	private ResponseAction action;
 	private TurnType nextTurn;
-	private final ResponseType type;
 	
-	public <T> Response(@NotNull T message, ResponseType type) {
+	public <T> Response(T message, ResponseType type) {
 		this.message = message.toString();
 		this.type = type;
 	}
@@ -21,7 +20,7 @@ public class Response {
 	}
 	
 	public <T> Response(
-		@NotNull T message,
+		T message,
 		ResponseType type,
 		TurnType turnType
 	) {
@@ -32,7 +31,7 @@ public class Response {
 	}
 	
 	public <T> Response(
-		@NotNull T message,
+		T message,
 		ResponseType type,
 		ResponseAction action
 	) {
@@ -43,7 +42,7 @@ public class Response {
 	}
 	
 	public <T> Response(
-		@NotNull T message,
+		T message,
 		ResponseType type,
 		ResponseAction action,
 		TurnType turnType

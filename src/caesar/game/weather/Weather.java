@@ -1,7 +1,6 @@
 package caesar.game.weather;
 
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 public class Weather {
 	
@@ -16,10 +15,6 @@ public class Weather {
 		this.change();
 	}
 	
-	public void setSeason(Season season) {
-		this.season = season;
-	}
-	
 	public void change() {
 		
 		this.currentWeather =
@@ -29,11 +24,15 @@ public class Weather {
 			WeatherType.getRandomTemperature(currentWeather);
 	}
 	
+	public void setSeason(Season season) {
+		this.season = season;
+	}
+	
 	public WeatherType getCurrentWeather() {
 		return currentWeather;
 	}
 	
-	@NotNull
+	
 	@Override
 	public String toString() {
 		return this.season +

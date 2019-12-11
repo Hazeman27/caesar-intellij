@@ -4,15 +4,14 @@ import caesar.game.relief.Direction;
 import caesar.game.relief.Location;
 import caesar.game.relief.Relief;
 import caesar.game.relief.ReliefMap;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
 public class Printer {
 	
-	@NotNull
+	
 	public static String getBorder(
-		@NotNull String title,
+		String title,
 		int maxLength,
 		int whiteSpace
 	) {
@@ -37,7 +36,7 @@ public class Printer {
 		return border.toString();
 	}
 	
-	@NotNull
+	
 	public static String getBorder(int maxLength, int whiteSpace) {
 		
 		StringBuilder border = new StringBuilder("+");
@@ -49,7 +48,7 @@ public class Printer {
 		return border.toString();
 	}
 	
-	@NotNull
+	
 	public static String getEmptyLine(int maxLength, int whiteSpace) {
 		
 		StringBuilder line = new StringBuilder("|");
@@ -61,9 +60,9 @@ public class Printer {
 		return line.toString();
 	}
 	
-	@NotNull
+	
 	public static String getFillingSpaces(
-		@NotNull String string,
+		String string,
 		int maxLength
 	) {
 		
@@ -76,7 +75,7 @@ public class Printer {
 		return spaces.toString();
 	}
 	
-	public static void printRelief(@NotNull ReliefMap reliefMap, @NotNull Location location) {
+	public static void printRelief(ReliefMap reliefMap, Location location) {
 		
 		Map<Direction, Relief> reliefAroundMap =
 			reliefMap.getReliefAround(location);
@@ -115,11 +114,11 @@ public class Printer {
 		System.out.println("----------------");
 	}
 	
-	public static <T> void print(@NotNull T object, boolean addNewLine) {
+	public static <T> void print(T object, boolean addNewLine) {
 		System.out.print(object.toString() + (addNewLine ? "\n" : ""));
 	}
 	
-	public static <T> void print(@NotNull T object) {
+	public static <T> void print(T object) {
 		System.out.println(object.toString());
 	}
 	

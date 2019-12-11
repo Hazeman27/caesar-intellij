@@ -1,7 +1,6 @@
 package caesar.game.calendar;
 
 import caesar.game.weather.Season;
-import org.jetbrains.annotations.NotNull;
 
 public enum Month {
 	
@@ -29,25 +28,24 @@ public enum Month {
 		this.season = season;
 	}
 	
+	static Month next(Month current) {
+		
+		if (current == DECEMBER)
+			return IANUARIUS;
+		
+		for (Month month : values()) {
+			if (month.number == current.number + 1)
+				return month;
+		}
+		
+		return current;
+	}
+	
 	public int getDays() {
 		return this.days;
 	}
 	
 	public Season getSeason() {
 		return this.season;
-	}
-	
-	@NotNull
-	static Month next(@NotNull Month current) {
-		
-		if (current == DECEMBER)
-			return IANUARIUS;
-		
-		for (Month month: values()) {
-			if (month.number == current.number + 1)
-				return month;
-		}
-		
-		return current;
 	}
 }

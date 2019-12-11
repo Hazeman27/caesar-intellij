@@ -1,7 +1,5 @@
 package caesar.game.relief;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Arrays;
 
 public enum Direction {
@@ -26,6 +24,13 @@ public enum Direction {
 		this.y = y;
 	}
 	
+	public static Direction valueOf(int x, int y) {
+		
+		return Arrays.stream(values())
+		             .filter(direction -> direction.x == x && direction.y == y)
+		             .findFirst().orElse(null);
+	}
+	
 	public int getX() {
 		return this.x;
 	}
@@ -37,13 +42,5 @@ public enum Direction {
 	@Override
 	public String toString() {
 		return this.name;
-	}
-	
-	@Nullable
-	public static Direction valueOf(int x, int y) {
-		
-		return Arrays.stream(values())
-		      .filter(direction -> direction.x == x && direction.y == y)
-		      .findFirst().orElse(null);
 	}
 }
