@@ -25,28 +25,24 @@ public class Century extends Troop {
 	}
 	
 	@Override
-	protected int getChildCapacity() {
-		return Contubernium.UNIT_CAPACITY;
-	}
-	
-	
-	@Override
 	protected Soldier getOfficerInstance() {
 		return new RomanOfficer(RomanRank.CENTURION, this);
 	}
-	
-	
-	@Override
-	protected Rank getOfficerRank() {
-		return RomanRank.CENTURION;
-	}
-	
 	
 	@Override
 	protected Unit getChildInstance() {
 		return new Contubernium(this);
 	}
 	
+	@Override
+	protected int getChildCapacity() {
+		return Contubernium.UNIT_CAPACITY;
+	}
+	
+	@Override
+	protected Rank getOfficerRank() {
+		return RomanRank.CENTURION;
+	}
 	
 	@Override
 	protected Unit getEmptyChildInstance() {

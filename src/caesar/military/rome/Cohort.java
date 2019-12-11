@@ -25,28 +25,24 @@ public class Cohort extends Troop {
 	}
 	
 	@Override
-	protected int getChildCapacity() {
-		return Century.UNIT_CAPACITY;
-	}
-	
-	
-	@Override
 	protected Soldier getOfficerInstance() {
 		return new RomanOfficer(RomanRank.LEAD_CENTURION, this);
 	}
-	
-	
-	@Override
-	protected Rank getOfficerRank() {
-		return RomanRank.LEAD_CENTURION;
-	}
-	
 	
 	@Override
 	protected Unit getChildInstance() {
 		return new Century(this);
 	}
 	
+	@Override
+	protected int getChildCapacity() {
+		return Century.UNIT_CAPACITY;
+	}
+	
+	@Override
+	protected Rank getOfficerRank() {
+		return RomanRank.LEAD_CENTURION;
+	}
 	
 	@Override
 	protected Unit getEmptyChildInstance() {

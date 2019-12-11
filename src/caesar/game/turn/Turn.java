@@ -49,7 +49,6 @@ public class Turn {
 		return value < 1 || value > this.current.getActions().size();
 	}
 	
-	
 	private Action scanInput() {
 		
 		final String input = this.scanner

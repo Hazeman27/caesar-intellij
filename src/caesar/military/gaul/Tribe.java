@@ -25,28 +25,24 @@ public class Tribe extends Troop {
 	}
 	
 	@Override
-	protected int getChildCapacity() {
-		return Clan.UNIT_CAPACITY;
-	}
-	
-	
-	@Override
 	protected Soldier getOfficerInstance() {
 		return new GaulOfficer(GaulRank.WARLORD, this);
 	}
-	
-	
-	@Override
-	protected Rank getOfficerRank() {
-		return GaulRank.WARLORD;
-	}
-	
 	
 	@Override
 	protected Unit getChildInstance() {
 		return new Clan(this);
 	}
 	
+	@Override
+	protected int getChildCapacity() {
+		return Clan.UNIT_CAPACITY;
+	}
+	
+	@Override
+	protected Rank getOfficerRank() {
+		return GaulRank.WARLORD;
+	}
 	
 	@Override
 	protected Unit getEmptyChildInstance() {

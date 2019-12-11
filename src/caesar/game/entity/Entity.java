@@ -27,7 +27,6 @@ public abstract class Entity {
 	private static final int[] WOOD_GATHER_RANGE = new int[]{20, 25};
 	private static final int[] FOOD_GATHER_RANGE = new int[]{42, 50};
 	
-	
 	protected final ActionPoints actionPoints;
 	
 	protected final Location location;
@@ -51,11 +50,9 @@ public abstract class Entity {
 		);
 	}
 	
-	
 	public ActionPoints getActionPoints() {
 		return this.actionPoints;
 	}
-	
 	
 	public Location getLocation() {
 		return this.location;
@@ -64,7 +61,6 @@ public abstract class Entity {
 	public Troop getArmy() {
 		return this.army;
 	}
-	
 	
 	public Relief getDirectionRelief(Direction direction) {
 		
@@ -179,7 +175,6 @@ public abstract class Entity {
 		);
 	}
 	
-	
 	public Map<StatusType, Integer> gatherResources() {
 		
 		int resourceIndex = this.location.getRelief().getResourceIndex();
@@ -213,7 +208,6 @@ public abstract class Entity {
 		
 		return resourcesGathered;
 	}
-	
 	
 	@Override
 	public String toString() {

@@ -17,28 +17,24 @@ public class RomanArmy extends Troop {
 	}
 	
 	@Override
-	protected int getChildCapacity() {
-		return Legion.UNIT_CAPACITY;
-	}
-	
-	
-	@Override
 	protected Soldier getOfficerInstance() {
 		return new RomanOfficer(RomanRank.GENERAL, this);
 	}
-	
-	
-	@Override
-	protected Rank getOfficerRank() {
-		return RomanRank.GENERAL;
-	}
-	
 	
 	@Override
 	protected Unit getChildInstance() {
 		return new Legion(this);
 	}
 	
+	@Override
+	protected int getChildCapacity() {
+		return Legion.UNIT_CAPACITY;
+	}
+	
+	@Override
+	protected Rank getOfficerRank() {
+		return RomanRank.GENERAL;
+	}
 	
 	@Override
 	protected Unit getEmptyChildInstance() {

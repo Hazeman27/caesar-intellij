@@ -1,14 +1,11 @@
 package caesar.game.weather;
 
-import org.jetbrains.annotations.Contract;
-
 public class Weather {
 	
 	private Season season;
 	private WeatherType currentWeather;
 	private int currentTemperature;
 	
-	@Contract(pure = true)
 	public Weather(Season season) {
 		
 		this.season = season;
@@ -31,7 +28,6 @@ public class Weather {
 	public WeatherType getCurrentWeather() {
 		return currentWeather;
 	}
-	
 	
 	@Override
 	public String toString() {

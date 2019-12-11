@@ -1,7 +1,6 @@
 package caesar.game.weather;
 
 import caesar.game.Game;
-import org.jetbrains.annotations.Contract;
 
 public enum WeatherType {
 	
@@ -19,7 +18,6 @@ public enum WeatherType {
 	private final int minTemperature;
 	private final int maxTemperature;
 	
-	@Contract(pure = true)
 	WeatherType(int minTemperature, int maxTemperature) {
 		
 		this.minTemperature = minTemperature;

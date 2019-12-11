@@ -77,7 +77,6 @@ public abstract class Troop implements Unit, UnitParent {
 	
 	protected abstract Unit getChildInstance();
 	
-	
 	protected Troop(int capacity, String symbol, UnitOrigin origin) {
 		
 		this.capacity = capacity;

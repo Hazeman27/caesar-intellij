@@ -900,12 +900,10 @@ public class Name {
 		"Adretilis"
 	};
 	
-	
 	public static String getRandomRoman() {
 		return praenominas[Game.getRandomInt(praenominas.length)] + " " +
 			nominas[Game.getRandomInt(nominas.length)];
 	}
-	
 	
 	public static String getRandomGallic() {
 		return gaulNames[Game.getRandomInt(gaulNames.length)];

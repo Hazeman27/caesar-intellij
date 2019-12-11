@@ -25,28 +25,24 @@ public class Contubernium extends Troop {
 	}
 	
 	@Override
-	protected int getChildCapacity() {
-		return 0;
-	}
-	
-	
-	@Override
 	protected Soldier getOfficerInstance() {
 		return new RomanOfficer(RomanRank.DECANUS, this);
 	}
-	
-	
-	@Override
-	protected Rank getOfficerRank() {
-		return RomanRank.DECANUS;
-	}
-	
 	
 	@Override
 	protected Soldier getChildInstance() {
 		return new Roman(RomanRank.LEGIONARY, this);
 	}
 	
+	@Override
+	protected int getChildCapacity() {
+		return 0;
+	}
+	
+	@Override
+	protected Rank getOfficerRank() {
+		return RomanRank.DECANUS;
+	}
 	
 	@Override
 	protected Soldier getEmptyChildInstance() {

@@ -19,7 +19,6 @@ public abstract class Grouper {
 			.collect(Collectors.toList());
 	}
 	
-	
 	private static List<Unit> getNotFullUnitsPool(
 		List<Unit> notFullUnits
 	) {
@@ -32,7 +31,6 @@ public abstract class Grouper {
 		
 		return unitsPool;
 	}
-	
 	
 	private static List<Soldier> getNotFullOfficersPool(
 		List<Unit> notFullUnits
@@ -48,7 +46,6 @@ public abstract class Grouper {
 		
 		return officersPool;
 	}
-	
 	
 	private static Soldier getNewOfficer(Troop troop, List<Unit> unitsPool) {
 		

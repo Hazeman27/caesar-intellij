@@ -1,19 +1,15 @@
 package caesar.game.relief;
 
-import org.jetbrains.annotations.Contract;
-
 public class Vector {
 	
 	private final int x;
 	private final int y;
 	
-	@Contract(pure = true)
 	Vector(int x1, int y1, int x2, int y2) {
 		
 		this.x = x2 - x1;
 		this.y = y2 - y1;
 	}
-	
 	
 	public Direction getDirection() {
 		
@@ -27,7 +23,6 @@ public class Vector {
 		
 		return Direction.valueOf(x, y);
 	}
-	
 	
 	@Override
 	public String toString() {

@@ -1,7 +1,5 @@
 package caesar.military.officer;
 
-import org.jetbrains.annotations.Contract;
-
 public enum GaulRank implements Rank {
 	
 	WARRIOR(0),
@@ -12,13 +10,11 @@ public enum GaulRank implements Rank {
 	
 	private final int index;
 	
-	@Contract(pure = true)
 	GaulRank(int index) {
 		this.index = index;
 	}
 	
 	@Override
-	@Contract(pure = true)
 	public int getIndex() {
 		return this.index;
 	}

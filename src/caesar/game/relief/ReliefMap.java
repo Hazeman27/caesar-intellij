@@ -1,12 +1,9 @@
 package caesar.game.relief;
 
-import org.jetbrains.annotations.Contract;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class ReliefMap {
-	
 	
 	private final Relief[][] relief;
 	private final int size;
@@ -48,7 +45,6 @@ public class ReliefMap {
 		return reliefMap;
 	}
 	
-	@Contract(pure = true)
 	public Relief getRelief(int x, int y) {
 		
 		if (x >= this.size || x < 0 || y >= this.size || y < 0)

@@ -9,7 +9,6 @@ public class BattleReport {
 	private final int committedSoldiersCount;
 	private final int survivedSoldiersCount;
 	
-	
 	private final UnitOrigin battleVictor;
 	
 	public BattleReport(
@@ -29,7 +28,6 @@ public class BattleReport {
 		
 		else this.battleVictor = UnitOrigin.GAUL;
 	}
-	
 	
 	@Override
 	public String toString() {

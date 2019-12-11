@@ -18,7 +18,6 @@ import java.util.stream.IntStream;
 
 public class Battle {
 	
-	
 	private final Map<Soldier, Soldier> battleParticipants;
 	private final int committedSoldiersCount;
 	private final boolean verbose;

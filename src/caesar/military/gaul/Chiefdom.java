@@ -25,28 +25,24 @@ public class Chiefdom extends Troop {
 	}
 	
 	@Override
-	protected int getChildCapacity() {
-		return Tribe.UNIT_CAPACITY;
-	}
-	
-	
-	@Override
 	protected Soldier getOfficerInstance() {
 		return new GaulOfficer(GaulRank.CHIEF_WARLORD, this);
 	}
-	
-	
-	@Override
-	protected Rank getOfficerRank() {
-		return GaulRank.CHIEF_WARLORD;
-	}
-	
 	
 	@Override
 	protected Unit getChildInstance() {
 		return new Tribe(this);
 	}
 	
+	@Override
+	protected int getChildCapacity() {
+		return Tribe.UNIT_CAPACITY;
+	}
+	
+	@Override
+	protected Rank getOfficerRank() {
+		return GaulRank.CHIEF_WARLORD;
+	}
 	
 	@Override
 	protected Unit getEmptyChildInstance() {

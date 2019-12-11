@@ -22,6 +22,11 @@ public abstract class Officer extends Soldier {
 	}
 	
 	@Override
+	public void perish() {
+		this.parent.removeOfficer(this);
+	}
+	
+	@Override
 	protected int getDamageBoost() {
 		
 		return this.getMorale()
@@ -35,10 +40,5 @@ public abstract class Officer extends Soldier {
 	protected int block(int damage) {
 		return Game.getRandomInt(damage) +
 			this.trainingBoost;
-	}
-	
-	@Override
-	public void perish() {
-		this.parent.removeOfficer(this);
 	}
 }

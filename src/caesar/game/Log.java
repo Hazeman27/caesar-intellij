@@ -6,7 +6,6 @@ import java.util.stream.IntStream;
 
 public class Log {
 	
-	
 	private final List<String> log;
 	
 	Log() {
@@ -20,7 +19,6 @@ public class Log {
 	String getLastItem() {
 		return this.log.get(this.log.size() - 1);
 	}
-	
 	
 	@Override
 	public String toString() {

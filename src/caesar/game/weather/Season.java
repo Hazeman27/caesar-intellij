@@ -1,7 +1,6 @@
 package caesar.game.weather;
 
 import caesar.game.Game;
-import org.jetbrains.annotations.Contract;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +45,6 @@ public enum Season {
 	//	Temperature unit: celsius
 	private final List<WeatherType> weatherTypes;
 	
-	@Contract(pure = true)
 	Season(List<WeatherType> weatherTypes) {
 		this.weatherTypes = weatherTypes;
 	}

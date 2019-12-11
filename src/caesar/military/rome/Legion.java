@@ -25,28 +25,24 @@ public class Legion extends Troop {
 	}
 	
 	@Override
-	protected int getChildCapacity() {
-		return Cohort.UNIT_CAPACITY;
-	}
-	
-	
-	@Override
 	protected Soldier getOfficerInstance() {
 		return new RomanOfficer(RomanRank.LEGATE, this);
 	}
-	
-	
-	@Override
-	protected Rank getOfficerRank() {
-		return RomanRank.LEGATE;
-	}
-	
 	
 	@Override
 	protected Unit getChildInstance() {
 		return new Cohort(this);
 	}
 	
+	@Override
+	protected int getChildCapacity() {
+		return Cohort.UNIT_CAPACITY;
+	}
+	
+	@Override
+	protected Rank getOfficerRank() {
+		return RomanRank.LEGATE;
+	}
 	
 	@Override
 	protected Unit getEmptyChildInstance() {

@@ -1,7 +1,5 @@
 package caesar.ui;
 
-import org.jetbrains.annotations.Contract;
-
 public enum Message {
 	
 	PRELUDE("Prelude", "Story is under development..."),
@@ -31,13 +29,11 @@ public enum Message {
 	NOT_ENOUGH_FOOD("You don't have enough food to feed your entire army!"),
 	MORALE_DOWN("Your army's morale is down");
 	
-	
 	private final String title;
 	
 	private final String content;
 	private final int maxLength;
 	
-	@Contract(pure = true)
 	Message(String title, String content) {
 		
 		if (title == null)
@@ -73,8 +69,6 @@ public enum Message {
 		return stringBuilder.toString();
 	}
 	
-	
-	@Contract(pure = true)
 	Message(String content) {
 		
 		this.title = null;

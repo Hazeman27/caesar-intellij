@@ -25,28 +25,24 @@ public class Clan extends Troop {
 	}
 	
 	@Override
-	protected int getChildCapacity() {
-		return 0;
-	}
-	
-	
-	@Override
 	protected Soldier getOfficerInstance() {
 		return new GaulOfficer(GaulRank.CHIEF, this);
 	}
-	
-	
-	@Override
-	protected Rank getOfficerRank() {
-		return GaulRank.CHIEF;
-	}
-	
 	
 	@Override
 	protected Unit getChildInstance() {
 		return new Gaul(GaulRank.WARRIOR, this);
 	}
 	
+	@Override
+	protected int getChildCapacity() {
+		return 0;
+	}
+	
+	@Override
+	protected Rank getOfficerRank() {
+		return GaulRank.CHIEF;
+	}
 	
 	@Override
 	protected Unit getEmptyChildInstance() {

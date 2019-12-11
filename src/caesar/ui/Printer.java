@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class Printer {
 	
-	
 	public static String getBorder(
 		String title,
 		int maxLength,
@@ -36,7 +35,6 @@ public class Printer {
 		return border.toString();
 	}
 	
-	
 	public static String getBorder(int maxLength, int whiteSpace) {
 		
 		StringBuilder border = new StringBuilder("+");
@@ -48,7 +46,6 @@ public class Printer {
 		return border.toString();
 	}
 	
-	
 	public static String getEmptyLine(int maxLength, int whiteSpace) {
 		
 		StringBuilder line = new StringBuilder("|");
@@ -59,7 +56,6 @@ public class Printer {
 		line.append("|\n");
 		return line.toString();
 	}
-	
 	
 	public static String getFillingSpaces(
 		String string,

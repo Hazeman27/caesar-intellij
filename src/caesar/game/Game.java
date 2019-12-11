@@ -27,7 +27,6 @@ public class Game {
 	private static final int AP_REPLENISH_THRESHOLD = 5;
 	private static final int EXIT_CODE = 0;
 	
-	
 	private final ReliefMap reliefMap;
 	
 	private final Player player;

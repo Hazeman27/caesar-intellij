@@ -14,7 +14,6 @@ import java.util.Map;
 
 public abstract class Soldier implements Unit {
 	
-	
 	protected final Map<StatusType, Status> state;
 	protected final UnitOrigin origin;
 	protected String name;
@@ -82,6 +81,10 @@ public abstract class Soldier implements Unit {
 			"/" +
 			StatusType.SATIETY.getMaxState() +
 			"]\n";
+	}
+	
+	protected Status getHealth() {
+		return this.state.get(StatusType.HEALTH);
 	}
 	
 	public Status getMorale() {
@@ -172,10 +175,6 @@ public abstract class Soldier implements Unit {
 	}
 	
 	protected abstract int block(int damage);
-	
-	protected Status getHealth() {
-		return this.state.get(StatusType.HEALTH);
-	}
 	
 	public Soldier engage(Soldier target, boolean verbose) {
 		

@@ -17,28 +17,24 @@ public class GaulArmy extends Troop {
 	}
 	
 	@Override
-	protected int getChildCapacity() {
-		return Nation.UNIT_CAPACITY;
-	}
-	
-	
-	@Override
 	protected Soldier getOfficerInstance() {
 		return new GaulOfficer(GaulRank.HERO_WARLORD, this);
 	}
-	
-	
-	@Override
-	protected Rank getOfficerRank() {
-		return GaulRank.HERO_WARLORD;
-	}
-	
 	
 	@Override
 	protected Unit getChildInstance() {
 		return new Nation(this);
 	}
 	
+	@Override
+	protected int getChildCapacity() {
+		return Nation.UNIT_CAPACITY;
+	}
+	
+	@Override
+	protected Rank getOfficerRank() {
+		return GaulRank.HERO_WARLORD;
+	}
 	
 	@Override
 	protected Unit getEmptyChildInstance() {
