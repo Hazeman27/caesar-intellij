@@ -35,9 +35,6 @@ public enum Message {
 	
 	Message(String title, String content) {
 		
-		if (title == null)
-			title = "";
-		
 		this.title = title;
 		this.maxLength = Math.max(title.length(), 50);
 		this.content = this.wrapContent(content);
@@ -45,7 +42,7 @@ public enum Message {
 	
 	Message(String content) {
 		
-		this.title = null;
+		this.title = "";
 		this.maxLength = 50;
 		this.content = this.wrapContent(content);
 	}
@@ -60,6 +57,13 @@ public enum Message {
 		if (contentLength <= this.maxLength)
 			return stringBuilder.toString();
 		
+		insertLineBreaks(stringBuilder, contentLength);
+		
+		return stringBuilder.toString();
+	}
+	
+	private void insertLineBreaks(StringBuilder stringBuilder, int contentLength) {
+		
 		for (int i = this.maxLength; i < contentLength; i += this.maxLength) {
 			
 			for (int j = i; j >= 0; j--) {
@@ -71,8 +75,6 @@ public enum Message {
 				}
 			}
 		}
-		
-		return stringBuilder.toString();
 	}
 	
 	@Override
