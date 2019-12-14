@@ -30,7 +30,6 @@ public enum Message {
 	MORALE_DOWN("Your army's morale is down");
 	
 	private final String title;
-	
 	private final String content;
 	private final int maxLength;
 	
@@ -41,6 +40,13 @@ public enum Message {
 		
 		this.title = title;
 		this.maxLength = Math.max(title.length(), 50);
+		this.content = this.wrapContent(content);
+	}
+	
+	Message(String content) {
+		
+		this.title = null;
+		this.maxLength = 50;
 		this.content = this.wrapContent(content);
 	}
 	
@@ -69,30 +75,12 @@ public enum Message {
 		return stringBuilder.toString();
 	}
 	
-	Message(String content) {
-		
-		this.title = null;
-		this.maxLength = 50;
-		this.content = this.wrapContent(content);
-	}
-	
 	@Override
 	public String toString() {
 		
-		StringBuilder stringBuilder = new StringBuilder();
-		
-		if (this.title != null) stringBuilder.append(
-			Printer.getBorder(this.title, this.maxLength, 0)
-		);
-		
-		else stringBuilder.append(
-			Printer.getBorder(this.maxLength, 0)
-		);
-		
-		stringBuilder.append(this.content)
-		             .append("\n");
-		
-		stringBuilder.append(Printer.getBorder(this.maxLength, 0));
-		return stringBuilder.toString();
+		return Printer.getBorder(this.maxLength, 0) +
+			this.content +
+			"\n" +
+			Printer.getBorder(this.maxLength, 0);
 	}
 }
