@@ -75,7 +75,7 @@ public enum Action {
 		Response armyFeeding = game.getPlayer().feedArmy();
 		Printer.print(armyFeeding.getMessage());
 		
-		if (game.getEnemy().isAtPlayer()) {
+		if (game.getEnemy().atPlayer()) {
 			
 			return new Response(
 				Message.NEXT_TURN,

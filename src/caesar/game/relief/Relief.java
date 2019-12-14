@@ -7,12 +7,12 @@ public enum Relief {
 	UNKNOWN("..", 0),
 	MOUNTAIN("^^", 2),
 	MARSH("mm", 3),
-	VALLEY("vv", 5),
+	VALLEY("vv", 7),
 	HILL("hh", 3),
 	OPEN("--", 2),
 	RIVER("~~", 4),
 	SWAMP("sw", 1),
-	FOREST("ff", 7);
+	FOREST("ff", 8);
 	
 	private final String symbol;
 	private final int resourceIndex;
@@ -32,10 +32,6 @@ public enum Relief {
 	
 	public static boolean isResourceRich(Relief relief) {
 		return relief == FOREST || relief == VALLEY;
-	}
-	
-	public static boolean isSuperResourceRich(Relief relief) {
-		return relief == FOREST;
 	}
 	
 	public int getResourceIndex() {

@@ -28,7 +28,6 @@ public abstract class Entity {
 	private static final int[] FOOD_GATHER_RANGE = new int[]{42, 50};
 	
 	protected final ActionPoints actionPoints;
-	
 	protected final Location location;
 	protected final ReliefMap reliefMap;
 	protected final Status woodResource;
@@ -56,6 +55,10 @@ public abstract class Entity {
 	
 	public Location getLocation() {
 		return this.location;
+	}
+	
+	public ReliefMap getReliefMap() {
+		return reliefMap;
 	}
 	
 	public Troop getArmy() {

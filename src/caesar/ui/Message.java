@@ -51,14 +51,12 @@ public enum Message {
 		
 		int contentLength = content.length();
 		
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(content);
+		StringBuilder stringBuilder = new StringBuilder(content);
 		
 		if (contentLength <= this.maxLength)
 			return stringBuilder.toString();
 		
 		insertLineBreaks(stringBuilder, contentLength);
-		
 		return stringBuilder.toString();
 	}
 	

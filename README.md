@@ -90,4 +90,19 @@ private void insertLineBreaks(StringBuilder stringBuilder, int contentLength) {
 }
 ```
 
- 
+##### 2. Remove Middle Man:
+
+**Before**:
+
+```
+if (game.getEnemyLocation().equals(game.getPlayerLocation())) {
+    ...
+}
+```
+**After**:
+
+```
+if (game.getEnemy().isAtPlayer()) {
+    ...
+}
+```
