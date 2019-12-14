@@ -23,86 +23,12 @@ Work subject at faculty.
 
 During development of the game, many refactoring techniques were
 applied to improve readability, efficiency and to make code
-more idiomatic. Here is a list of them with actual examples 
-from this project:
+more idiomatic. Here is a list of them:
 
-##### 1. Extract method:
-
-**Before:**
-
-```
-private String wrapContent(String content) {
- 		
-        int contentLength = content.length();
-        
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(content);
-        
-        if (contentLength <= this.maxLength)
-            return stringBuilder.toString();
-        
-        for (int i = this.maxLength; i < contentLength; i += this.maxLength) {
-                
-            for (int j = i; j >= 0; j--) {
-                
-                if (Character.isWhitespace(stringBuilder.charAt(j))) {
-                    stringBuilder.setCharAt(j, '\n');
-                    i += j - i + 1;
-                    break;
-                }
-            }
-        }
-        
-        return stringBuilder.toString();	   
-}
-```
-**After:**
-
-```
-private String wrapContent(String content) {
- 		
-    int contentLength = content.length();
-    
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(content);
-    
-    if (contentLength <= this.maxLength)
-        return stringBuilder.toString();
-    
-    insertLineBreaks(stringBuilder, contentLength);
-    
-    return stringBuilder.toString();
- }
- 	
-private void insertLineBreaks(StringBuilder stringBuilder, int contentLength) {
-    
-    for (int i = this.maxLength; i < contentLength; i += this.maxLength) {
-        
-        for (int j = i; j >= 0; j--) {
-            
-            if (Character.isWhitespace(stringBuilder.charAt(j))) {
-                stringBuilder.setCharAt(j, '\n');
-                i += j - i + 1;
-                break;
-            }
-        }
-    }
-}
-```
-
-##### 2. Remove Middle Man:
-
-**Before**:
-
-```
-if (game.getEnemyLocation().equals(game.getPlayerLocation())) {
-    ...
-}
-```
-**After**:
-
-```
-if (game.getEnemy().isAtPlayer()) {
-    ...
-}
-```
+1. Extract Method.
+2. Remove Middle Man.
+3. Replace Method with Method Object.
+4. Give variables more suitable name.
+5. Give methods more suitable name.
+6. Remove redundancy.
+7. Use more language idiomatic approach.

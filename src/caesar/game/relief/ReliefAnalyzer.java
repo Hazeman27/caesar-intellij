@@ -1,7 +1,9 @@
 package caesar.game.relief;
 
 import caesar.game.entity.Entity;
+
 import java.util.Map;
+import java.util.Optional;
 
 public class ReliefAnalyzer {
 	
@@ -14,12 +16,19 @@ public class ReliefAnalyzer {
 		);
 	}
 	
-	public Map.Entry<Direction, Relief> findResourceRich() {
+	public Destination findResourceRich() {
 		
-		return this.reliefAround.entrySet()
-		                        .stream()
-		                        .filter(entry -> Relief.isResourceRich(entry.getValue()))
-		                        .findFirst()
-		                        .orElse(null);
+		Optional<Map.Entry<Direction, Relief>> optional =
+			this.reliefAround.entrySet()
+			                 .stream()
+			                 .filter(entry -> Relief.isResourceRich(entry.getValue()))
+			                 .findFirst();
+		
+		if (!optional.isPresent())
+			return null;
+		
+		Map.Entry<Direction, Relief> entry = optional.get();
+		
+		return new Destination(entry.getKey(), entry.getValue());
 	}
 }

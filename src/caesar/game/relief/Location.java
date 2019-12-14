@@ -22,14 +22,21 @@ public class Location {
 		this.y += deltaY;
 	}
 	
-	public Vector calcVector(Location location) {
+	public Direction getDirection(Location location) {
 		
-		return new Vector(
-			this.x,
-			this.y,
-			location.x,
-			location.y
-		);
+		if (location == null)
+			return null;
+		
+		int x = location.x - this.x;
+		int y = location.y - this.y;
+		
+		if (x != 0)
+			x = this.x / Math.abs(this.x);
+		
+		if (y != 0)
+			y = this.y / Math.abs(this.y);
+		
+		return Direction.valueOf(x, y);
 	}
 	
 	public Relief getRelief() {

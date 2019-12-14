@@ -2,6 +2,7 @@ package caesar.game.turn;
 
 import caesar.game.Game;
 import caesar.game.battle.BattleReport;
+import caesar.game.relief.Destination;
 import caesar.game.relief.Direction;
 import caesar.game.relief.Location;
 import caesar.game.relief.Relief;
@@ -353,7 +354,7 @@ public enum Action {
 			);
 		}
 		
-		game.getPlayer().move(direction, relief);
+		game.getPlayer().move(new Destination(direction, relief));
 		
 		return new Response(
 			Message.PLAYER_MOVED,

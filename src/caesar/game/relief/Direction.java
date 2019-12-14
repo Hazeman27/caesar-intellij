@@ -28,7 +28,8 @@ public enum Direction {
 		
 		return Arrays.stream(values())
 		             .filter(direction -> direction.x == x && direction.y == y)
-		             .findFirst().orElse(null);
+		             .findFirst()
+		             .orElse(null);
 	}
 	
 	public int getX() {

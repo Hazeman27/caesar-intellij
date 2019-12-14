@@ -12,6 +12,7 @@ import java.util.Map;
 public class Enemy extends Entity {
 	
 	private final Player player;
+	private Destination currentDestination;
 	
 	public Enemy(
 		Player player,
@@ -22,8 +23,8 @@ public class Enemy extends Entity {
 	) {
 		
 		super(reliefMap, actionPointsAmount, x, y);
-		this.army = new GaulArmy(troopsAmount);
 		
+		this.army = new GaulArmy(troopsAmount);
 		this.player = player;
 		this.foodResource = new Status(
 			StatusType.FOOD_RESOURCE,
@@ -31,28 +32,29 @@ public class Enemy extends Entity {
 		);
 	}
 	
-	@Override
-	public void move(Direction direction, Relief relief) {
+	private void move() {
 		
 		int actionValue = Action.NORTH.getValue();
 		
-		if (this.actionPoints.get() < actionValue)
+		if (this.actionPoints.get() < actionValue ||
+			this.currentDestination == null)
 			return;
 		
-		super.move(direction, relief);
 		this.actionPoints.remove(actionValue);
+		super.move(this.currentDestination);
 	}
 	
-	private void moveTowardsPlayer() {
+	private Destination getDestinationToPlayer() {
 		
-		Vector vector = this.location.calcVector(this.player.location);
-		Direction direction = vector.getDirection();
+		Direction direction = this.location.getDirection(
+			this.player.location
+		);
 		
-		if (direction != null) {
-			
-			Relief relief = this.getDirectionRelief(direction);
-			this.move(direction, relief);
-		}
+		if (direction == null)
+			return null;
+		
+		Relief relief = this.getDirectionRelief(direction);
+		return new Destination(direction, relief);
 	}
 	
 	@Override
@@ -71,17 +73,13 @@ public class Enemy extends Entity {
 		
 		ReliefAnalyzer reliefAnalyzer = new ReliefAnalyzer(this);
 		
-		Map.Entry<Direction, Relief> resourceRichRelief =
+		Destination resourceRich =
 			reliefAnalyzer.findResourceRich();
 		
-		if (resourceRichRelief == null)
+		if (resourceRich == null)
 			return null;
 		
-		this.move(
-			resourceRichRelief.getKey(),
-			resourceRichRelief.getValue()
-		);
-		
+		this.currentDestination = resourceRich;
 		return null;
 	}
 	
@@ -90,11 +88,12 @@ public class Enemy extends Entity {
 		while (!this.actionPoints.atMinimum() && !this.atPlayer()) {
 			
 			int soldiersCount = Troop.getSoldiersCount(this.army);
+			this.currentDestination = this.getDestinationToPlayer();
 			
-			if (this.foodResource.getCurrentState() <= soldiersCount * 2)
+			if (this.foodResource.getCurrentState() <= soldiersCount * 5)
 				this.gatherResources();
 			
-			this.moveTowardsPlayer();
+			this.move();
 		}
 	}
 	

@@ -92,8 +92,8 @@ public class Game {
 			this.reliefMap,
 			getRandomInt(ENEMY_ARMY_SIZE),
 			getRandomInt(ENEMY_AP),
-			4,
-			6
+			getRandomInt(this.reliefMap.getSize()),
+			getRandomInt(this.reliefMap.getSize())
 		);
 		
 		this.enemy.getLocation().setRelief(
@@ -149,7 +149,7 @@ public class Game {
 	}
 	
 	public Log getLog() {
-		return log;
+		return this.log;
 	}
 	
 	public String getLogLastItem() {
@@ -157,7 +157,7 @@ public class Game {
 	}
 	
 	public Calendar getCalendar() {
-		return calendar;
+		return this.calendar;
 	}
 	
 	public Weather getWeather() {

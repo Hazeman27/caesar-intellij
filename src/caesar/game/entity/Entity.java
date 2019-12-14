@@ -1,16 +1,14 @@
 package caesar.game.entity;
 
 import caesar.game.Game;
-import caesar.game.relief.Direction;
-import caesar.game.relief.Location;
-import caesar.game.relief.Relief;
-import caesar.game.relief.ReliefMap;
+import caesar.game.relief.*;
 import caesar.game.response.Response;
 import caesar.game.response.ResponseType;
 import caesar.game.status.Status;
 import caesar.game.status.StatusType;
 import caesar.military.troop.Troop;
 import caesar.ui.Message;
+import sun.security.krb5.internal.crypto.Des;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,17 +74,17 @@ public abstract class Entity {
 		);
 	}
 	
-	public void move(Direction direction, Relief relief) {
+	public void move(Destination destination) {
 		
-		if (direction == null)
+		if (destination == null)
 			return;
 		
 		this.location.change(
-			direction.getX(),
-			direction.getY()
+			destination.getDirection().getX(),
+			destination.getDirection().getY()
 		);
 		
-		this.location.setRelief(relief);
+		this.location.setRelief(destination.getRelief());
 	}
 	
 	public void leaveCamp() {
