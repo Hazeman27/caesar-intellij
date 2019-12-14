@@ -135,4 +135,9 @@ public class Enemy extends Entity {
 			this.moveTowardsPlayer();
 		}
 	}
+	
+	public boolean isAtPlayer() {
+		return this.location.getX() == this.player.getLocation().getX() &&
+			this.location.getY() == this.player.getLocation().getY();
+	}
 }
